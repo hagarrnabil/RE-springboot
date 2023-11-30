@@ -1,8 +1,10 @@
 package com.example.respringboot.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -12,8 +14,14 @@ public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Length(max = 8)
     private String unitKey;
-    private Integer oldNumber;
+    @Column(length = 8, columnDefinition = "char(8)")
+    @Length(max = 8)
+    private String oldNumber;
+    @NotNull
     private String description;
     private LocalDate blockingDate;
     private String blockingReason;
@@ -25,12 +33,29 @@ public class Unit {
     private Integer noOfRooms;
     private Integer price;
     private LocalDate validFrom;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "building_code", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     private Building building;
+    @ManyToOne
+    private UsageType usageType;
+    @ManyToOne
+    private UnitOrientation unitOrientation;
+    @ManyToOne
+    private UnitFixture unitFixture;
+    @ManyToOne
+    private UnitStatus unitStatus;
+    @ManyToOne
+    private UnitView unitView;
+    @ManyToOne
+    private UnitType unitType;
+    @ManyToOne
+    private UnitFloor unitFloor;
+    @ManyToOne
+    private UnitAreaDetails unitAreaDetails;
+    @ManyToOne
+    private UnitPaymentDetails unitPaymentDetails;
 
-    public Unit(Long id, String unitKey, Integer oldNumber, String description, LocalDate blockingDate, String blockingReason, String salesPhase, LocalDate constructionDate, LocalDate unitDeliveryDate, String area, Integer areaValue, Integer noOfRooms, Integer price, LocalDate validFrom) {
+
+    public Unit(Long id, String unitKey, String oldNumber, String description, LocalDate blockingDate, String blockingReason, String salesPhase, LocalDate constructionDate, LocalDate unitDeliveryDate, String area, Integer areaValue, Integer noOfRooms, Integer price, LocalDate validFrom) {
         this.id = id;
         this.unitKey = unitKey;
         this.oldNumber = oldNumber;
@@ -47,7 +72,7 @@ public class Unit {
         this.validFrom = validFrom;
     }
 
-    public Unit(Long id, String unitKey, Integer oldNumber, String description, LocalDate blockingDate, String blockingReason, String salesPhase, LocalDate constructionDate, LocalDate unitDeliveryDate, String area, Integer areaValue, Integer noOfRooms, Integer price, LocalDate validFrom, Building building) {
+    public Unit(Long id, String unitKey, String oldNumber, String description, LocalDate blockingDate, String blockingReason, String salesPhase, LocalDate constructionDate, LocalDate unitDeliveryDate, String area, Integer areaValue, Integer noOfRooms, Integer price, LocalDate validFrom, Building building) {
         this.id = id;
         this.unitKey = unitKey;
         this.oldNumber = oldNumber;
@@ -92,11 +117,11 @@ public class Unit {
         this.unitKey = unitKey;
     }
 
-    public Integer getOldNumber() {
+    public String getOldNumber() {
         return oldNumber;
     }
 
-    public void setOldNumber(Integer oldNumber) {
+    public void setOldNumber(String oldNumber) {
         this.oldNumber = oldNumber;
     }
 
@@ -206,7 +231,7 @@ public class Unit {
         return "Unit{" +
                 "id=" + id +
                 ", unitKey='" + unitKey + '\'' +
-                ", oldNumber=" + oldNumber +
+                ", oldNumber='" + oldNumber + '\'' +
                 ", description='" + description + '\'' +
                 ", blockingDate=" + blockingDate +
                 ", blockingReason='" + blockingReason + '\'' +
@@ -218,6 +243,7 @@ public class Unit {
                 ", noOfRooms=" + noOfRooms +
                 ", price=" + price +
                 ", validFrom=" + validFrom +
+                ", building=" + building +
                 '}';
     }
 }

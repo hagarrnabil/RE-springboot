@@ -1,9 +1,9 @@
 package com.example.respringboot.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class UnitAreaDetails {
@@ -11,4 +11,6 @@ public class UnitAreaDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String areaID;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitAreaDetails")
+    private Set<Unit> units = new HashSet<>();
 }

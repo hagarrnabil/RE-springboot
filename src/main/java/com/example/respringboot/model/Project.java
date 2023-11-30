@@ -1,8 +1,10 @@
 package com.example.respringboot.model;
 
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -14,16 +16,24 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Length(max = 8)
     private String projectID;
+    @NotNull
     private String projectDescription;
     private LocalDate validFrom;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "company_code", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     private Company company;
-    @OneToMany(mappedBy = "project")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Set<Building> buildings = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    private Set<Profit> profits = new HashSet<>();
+
+    @OneToOne
+    private Location location;
 
     public Project() {
     }

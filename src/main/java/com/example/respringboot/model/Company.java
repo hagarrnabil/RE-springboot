@@ -1,6 +1,8 @@
 package com.example.respringboot.model;
 
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -11,10 +13,14 @@ public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Length(max = 8)
     private String companyCodeID;
+    @NotNull
     private String companyCodeDescription;
 
-    @OneToMany(mappedBy = "company")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "company")
     private Set<Project> projects = new HashSet<>();
 
     public Company() {

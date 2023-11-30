@@ -1,19 +1,26 @@
 package com.example.respringboot.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Currency {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Length(max = 8)
     private String currencyID;
+    @NotNull
     private String currencyDescr;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "currency")
+    private Set<UnitPaymentDetails> unitPaymentDetailsSet = new HashSet<>();
 
     public Currency() {
     }
