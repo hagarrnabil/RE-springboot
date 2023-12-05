@@ -10,24 +10,23 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "unit_status")
-public class UnitStatus {
+@EqualsAndHashCode(exclude = {"units"})
+@Table(name = "unit_subtypes")
+public class UnitSubtype {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
     @Length(max = 8)
-    private String uStatusId;
+    private String uSubtypeId;
     @NotNull
-    private String uStatusDescr;
+    private String uSubtypeDescr;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitStatus")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitSubtype")
     private Set<Unit> units = new HashSet<>();
-
 }

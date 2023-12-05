@@ -2,6 +2,7 @@ package com.example.respringboot.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.HashSet;
@@ -9,71 +10,26 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode(exclude = {"buildings"})
+@Table(name = "building_types")
 public class BuildingType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
     @Length(max = 8)
-    private String bTypeID;
+    private String buildingTypeI;
     @NotNull
-    private String bTypeDescr;
+    private String buildingTypeDescr;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "buildingType")
     private Set<Building> buildings = new HashSet<>();
 
-    public BuildingType() {
-    }
-
-    public BuildingType(Long id, String bTypeID, String bTypeDescr) {
-        this.id = id;
-        this.bTypeID = bTypeID;
-        this.bTypeDescr = bTypeDescr;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getbTypeID() {
-        return bTypeID;
-    }
-
-    public void setbTypeID(String bTypeID) {
-        this.bTypeID = bTypeID;
-    }
-
-    public String getbTypeDescr() {
-        return bTypeDescr;
-    }
-
-    public void setbTypeDescr(String bTypeDescr) {
-        this.bTypeDescr = bTypeDescr;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BuildingType that = (BuildingType) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "BuildingType{" +
-                "id=" + id +
-                ", bTypeID='" + bTypeID + '\'' +
-                ", bTypeDescr='" + bTypeDescr + '\'' +
-                '}';
-    }
 }

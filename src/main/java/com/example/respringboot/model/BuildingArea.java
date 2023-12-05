@@ -6,28 +6,27 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "unit_status")
-public class UnitStatus {
+@Table(name = "building_area")
+public class BuildingArea {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
     @Length(max = 8)
-    private String uStatusId;
+    private String buildingArea;
     @NotNull
-    private String uStatusDescr;
+    private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitStatus")
-    private Set<Unit> units = new HashSet<>();
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "buildingArea")
+    private Set<AreaMasterDetail> areaMasterDetails = new HashSet<>();
 }
