@@ -1,9 +1,5 @@
 package com.example.respringboot.commands;
 
-import com.example.respringboot.model.BuildingType;
-import com.example.respringboot.model.ProfitCenter;
-import com.example.respringboot.model.Project;
-import com.example.respringboot.model.Unit;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,9 +18,9 @@ public class BuildingCommand {
     private LocalDate validFrom;
     private Integer numberOfFloors;
     private String profit;
-    private ProjectCommand projectCommand;
+//    private ProjectCommand projectCommand;
     private Set<UnitCommand> unitCommands = new HashSet<>();
-    private BuildingTypeCommand buildingTypeCommand;
-    private ProfitCenterCommand profitCenterCommand;
+//    private BuildingTypeCommand buildingTypeCommand;
+//    private ProfitCenterCommand profitCenterCommand;
 
 }

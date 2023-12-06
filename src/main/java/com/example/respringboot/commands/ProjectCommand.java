@@ -1,9 +1,5 @@
 package com.example.respringboot.commands;
 
-import com.example.respringboot.model.Building;
-import com.example.respringboot.model.Company;
-import com.example.respringboot.model.Location;
-import com.example.respringboot.model.ProfitCenter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,8 +16,8 @@ public class ProjectCommand {
     private String projectDescription;
     private LocalDate validFrom;
     private String profit;
-    private CompanyCommand companyCommand;
+//    private CompanyCommand companyCommand;
     private Set<BuildingCommand> buildingCommands = new HashSet<>();
-    private ProfitCenterCommand profitCenterCommand;
+//    private ProfitCenterCommand profitCenterCommand;
     private LocationCommand locationCommand;
 }

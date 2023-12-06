@@ -25,6 +25,7 @@ public class ProjectCommandToProject implements Converter<ProjectCommand, Projec
         project.setProjectId(source.getProjectId());
         project.setProjectDescription(source.getProjectDescription());
         project.setValidFrom(source.getValidFrom());
+//        project.setLocation();
         return project;
     }
 }
