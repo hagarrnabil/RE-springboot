@@ -32,9 +32,8 @@ public class CompanyCommandToCompany implements Converter<CompanyCommand, Compan
         company.setCompanyCodeDescription(source.getCompanyCodeDescription());
         if (source.getProjectCommands() != null && source.getProjectCommands().size() > 0){
             source.getProjectCommands()
-                    .forEach( projectCommand -> company.getProjects().add(companyConverter.convert(projectCommand)));
+                    .forEach( projectCommand -> company.getProjects().add(projectConverter.convert(projectCommand)));
         }
-
         return company;
     }
 

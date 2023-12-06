@@ -9,6 +9,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CompanyToCompanyCommand implements Converter<Company, CompanyCommand> {
+    private final ProjectToProjectCommand projectConverter;
+
+    public CompanyToCompanyCommand(ProjectToProjectCommand projectConverter) {
+        this.projectConverter = projectConverter;
+    }
 
     @Synchronized
     @Nullable
@@ -22,6 +27,10 @@ public class CompanyToCompanyCommand implements Converter<Company, CompanyComman
         companyCommand.setId(source.getId());
         companyCommand.setCompanyCodeId(source.getCompanyCodeId());
         companyCommand.setCompanyCodeDescription(source.getCompanyCodeDescription());
+        if (source.getProjects() != null && source.getProjects().size() > 0){
+            source.getProjects()
+                    .forEach(company -> companyCommand.getProjectCommands().add(projectConverter.convert(company)));
+        }
         return companyCommand;
     }
 

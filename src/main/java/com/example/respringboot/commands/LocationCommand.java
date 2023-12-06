@@ -11,4 +11,5 @@ public class LocationCommand {
     private Long id;
     private String locationId;
     private String regionalLocation;
+    private ProjectCommand projectCommand;
 }

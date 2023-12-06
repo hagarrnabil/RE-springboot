@@ -15,7 +15,7 @@ public class AreaMasterDetailCommand {
     private String buildingFlag;
     private String unitFlag;
     private UnitOfMeasurementCommand unitOfMeasurementCommand;
-//    private ProjectAreaCommand projectAreaCommand;
-//    private BuildingAreaCommand buildingAreaCommand;
-//    private UnitAreaCommand unitAreaCommand;
+    private ProjectAreaCommand projectAreaCommand;
+    private BuildingAreaCommand buildingAreaCommand;
+    private UnitAreaCommand unitAreaCommand;
 }

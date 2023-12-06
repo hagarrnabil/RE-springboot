@@ -11,4 +11,5 @@ public class UnitOfMeasurementCommand {
     private Long id;
     private String uomID;
     private String uomDescr;
+    private AreaMasterDetailCommand areaMasterDetailCommand;
 }

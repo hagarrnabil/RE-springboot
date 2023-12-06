@@ -26,14 +26,14 @@ public class UnitCommand {
     private LocalDate validFrom;
     private Integer fromFloor;
     private Integer toFloor;
-//    private BuildingCommand buildingCommand;
-//    private UsageTypeCommand usageTypeCommand;
-//    private UnitOrientationCommand unitOrientationCommand;
-//    private UnitFixtureCommand unitFixtureCommand;
-//    private UnitStatusCommand unitStatusCommand;
-//    private UnitViewCommand unitViewCommand;
-//    private UnitSubtypeCommand unitSubtypeCommand;
-//    private UnitFloorCommand unitFloorCommand;
-//    private AreaMasterDetailCommand areaMasterDetailCommand;
+    private BuildingCommand buildingCommand;
+    private UsageTypeCommand usageTypeCommand;
+    private UnitOrientationCommand unitOrientationCommand;
+    private UnitFixtureCommand unitFixtureCommand;
+    private UnitStatusCommand unitStatusCommand;
+    private UnitViewCommand unitViewCommand;
+    private UnitSubtypeCommand unitSubtypeCommand;
+    private UnitFloorCommand unitFloorCommand;
+    private AreaMasterDetailCommand areaMasterDetailCommand;
 
 }
