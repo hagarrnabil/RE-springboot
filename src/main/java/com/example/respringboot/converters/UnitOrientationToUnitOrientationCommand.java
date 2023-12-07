@@ -1,0 +1,38 @@
+package com.example.respringboot.converters;
+
+import com.example.respringboot.commands.UnitOrientationCommand;
+import com.example.respringboot.model.UnitOrientation;
+import io.micrometer.common.lang.Nullable;
+import lombok.Synchronized;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+@Component
+public class UnitOrientationToUnitOrientationCommand implements Converter<UnitOrientation, UnitOrientationCommand> {
+    private final UnitToUnitCommand unitConverter;
+
+    public UnitOrientationToUnitOrientationCommand(UnitToUnitCommand unitConverter) {
+        this.unitConverter = unitConverter;
+    }
+
+    @Synchronized
+    @Nullable
+    @Override
+    public UnitOrientationCommand convert(UnitOrientation source) {
+
+        if (source == null) {
+            return null;
+        }
+
+        final UnitOrientationCommand unitOrientationCommand = new UnitOrientationCommand();
+        unitOrientationCommand.setId(source.getId());
+        unitOrientationCommand.setUOrientationId(source.getUOrientationId());
+        unitOrientationCommand.setUOrientationDescr(source.getUOrientationDescr());
+        if (source.getUnits() != null && source.getUnits().size() > 0){
+            source.getUnits()
+                    .forEach(unit -> unitOrientationCommand.getUnitCommands().add(unitConverter.convert(unit)));
+        }
+        return unitOrientationCommand;
+    }
+
+}

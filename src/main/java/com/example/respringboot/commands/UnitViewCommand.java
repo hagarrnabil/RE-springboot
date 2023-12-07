@@ -1,6 +1,5 @@
 package com.example.respringboot.commands;
 
-import com.example.respringboot.model.Unit;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

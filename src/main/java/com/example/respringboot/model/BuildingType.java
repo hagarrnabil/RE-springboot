@@ -25,7 +25,7 @@ public class BuildingType {
 
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
     @Length(max = 8)
-    private String buildingTypeI;
+    private String buildingTypeId;
     @NotNull
     private String buildingTypeDescr;
 

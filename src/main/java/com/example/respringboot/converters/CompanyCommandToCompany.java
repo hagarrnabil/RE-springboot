@@ -9,12 +9,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CompanyCommandToCompany implements Converter<CompanyCommand, Company> {
-    private final CompanyCommandToCompany companyConverter;
 
     private final ProjectCommandToProject projectConverter;
 
-    public CompanyCommandToCompany(CompanyCommandToCompany companyConverter, ProjectCommandToProject projectConverter) {
-        this.companyConverter = companyConverter;
+    public CompanyCommandToCompany( ProjectCommandToProject projectConverter) {
         this.projectConverter = projectConverter;
     }
 

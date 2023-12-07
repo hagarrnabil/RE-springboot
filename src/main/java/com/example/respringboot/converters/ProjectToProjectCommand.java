@@ -9,12 +9,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProjectToProjectCommand implements Converter<Project, ProjectCommand> {
+    private final BuildingToBuildingCommand buildingConverter;
+
+    public ProjectToProjectCommand(BuildingToBuildingCommand buildingConverter) {
+        this.buildingConverter = buildingConverter;
+    }
 
 
     @Synchronized
     @Nullable
     @Override
     public ProjectCommand convert(Project source) {
+
         if (source == null) {
             return null;
         }
@@ -23,6 +29,12 @@ public class ProjectToProjectCommand implements Converter<Project, ProjectComman
         projectCommand.setId(source.getId());
         projectCommand.setProjectId(source.getProjectId());
         projectCommand.setProjectDescription(source.getProjectDescription());
+        projectCommand.setValidFrom(source.getValidFrom());
+        projectCommand.setProfit(source.getProfit());
+        if (source.getBuildings() != null && source.getBuildings().size() > 0){
+            source.getBuildings()
+                    .forEach(building -> projectCommand.getBuildingCommands().add(buildingConverter.convert(building)));
+        }
         return projectCommand;
 
     }

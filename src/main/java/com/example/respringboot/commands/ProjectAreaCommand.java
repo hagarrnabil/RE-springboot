@@ -1,6 +1,5 @@
 package com.example.respringboot.commands;
 
-import com.example.respringboot.model.AreaMasterDetail;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

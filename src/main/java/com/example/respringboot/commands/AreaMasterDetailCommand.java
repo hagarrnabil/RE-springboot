@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,4 +21,5 @@ public class AreaMasterDetailCommand {
     private ProjectAreaCommand projectAreaCommand;
     private BuildingAreaCommand buildingAreaCommand;
     private UnitAreaCommand unitAreaCommand;
+    private Set<UnitCommand> unitCommands = new HashSet<>();
 }

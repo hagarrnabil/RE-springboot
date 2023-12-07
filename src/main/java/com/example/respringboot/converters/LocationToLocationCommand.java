@@ -18,16 +18,16 @@ public class LocationToLocationCommand implements Converter<Location, LocationCo
     @Synchronized
     @Nullable
     @Override
-    public LocationCommand convert(Location location) {
-        if (location == null) {
+    public LocationCommand convert(Location source) {
+        if (source == null) {
             return null;
         }
 
-        LocationCommand locationCommand = new LocationCommand();
-        locationCommand.setId(location.getId());
-        locationCommand.setLocationId(location.getLocationId());
-        locationCommand.setRegionalLocation(location.getRegionalLocation());
-        locationCommand.setProjectCommand(projectConverter.convert(location.getProject()));
+        final LocationCommand locationCommand = new LocationCommand();
+        locationCommand.setId(source.getId());
+        locationCommand.setLocationId(source.getLocationId());
+        locationCommand.setRegionalLocation(source.getRegionalLocation());
+        locationCommand.setProjectCommand(projectConverter.convert(source.getProject()));
         return locationCommand;
 
     }
