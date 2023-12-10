@@ -16,4 +16,8 @@ public class CompanyCommand {
     private String companyCodeId;
     private String companyCodeDescription;
     private Set<ProjectCommand> projectCommands = new HashSet<>();
+
+    public Object[] toArray() {
+        return new Object[0];
+    }
 }
