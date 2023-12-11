@@ -9,9 +9,10 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
@@ -28,11 +29,12 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Set<Company> getCompanies() {
-        log.debug("I'm in the service");
-        Set<Company> companies = new HashSet<>();
-        companyRepository.findAll().iterator().forEachRemaining(companies::add);
-        return companies;
+    @Transactional
+    public Set<CompanyCommand> getCompanyCommands() {
+        return StreamSupport.stream(companyRepository.findAll()
+                        .spliterator(), false)
+                .map(companyToCompanyCommand::convert)
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -57,11 +59,12 @@ public class CompanyServiceImpl implements CompanyService {
 
         Company detachedCompany = companyCommandToCompany.convert(command);
         Company savedCompany = companyRepository.save(detachedCompany);
-        log.debug("Saved Company Id:" + savedCompany.getId());
+        log.debug("Saved Company Id:" + savedCompany.getCompanyCode());
         return companyToCompanyCommand.convert(savedCompany);
     }
 
     @Override
+    @Transactional
     public CompanyCommand findCompanyCommandById(Long l) {
         return companyToCompanyCommand.convert(findById(l));
     }

@@ -23,7 +23,7 @@ import java.util.Set;
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long projectCode;
 
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
     @Length(max = 8)
@@ -43,5 +43,18 @@ public class Project {
 
     @OneToOne
     private Location location;
+
+    public void setLocation(Location location) {
+        if (location != null) {
+            this.location = location;
+            location.setProject(this);
+        }
+    }
+
+    public Project addBuilding(Building building) {
+        building.setProject(this);
+        this.buildings.add(building);
+        return this;
+    }
 
 }

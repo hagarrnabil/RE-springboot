@@ -26,7 +26,7 @@ public class ProjectToProjectCommand implements Converter<Project, ProjectComman
         }
 
         final ProjectCommand projectCommand = new ProjectCommand();
-        projectCommand.setId(source.getId());
+        projectCommand.setId(source.getProjectCode());
         projectCommand.setProjectId(source.getProjectId());
         projectCommand.setProjectDescription(source.getProjectDescription());
         projectCommand.setValidFrom(source.getValidFrom());

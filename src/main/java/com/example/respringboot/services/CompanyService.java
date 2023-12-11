@@ -7,7 +7,7 @@ import com.example.respringboot.model.Company;
 import java.util.Set;
 
 public interface CompanyService {
-    Set<Company> getCompanies();
+    Set<CompanyCommand> getCompanyCommands();
 
     Company findById(Long l);
 

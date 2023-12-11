@@ -20,7 +20,7 @@ import java.util.Set;
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long companyCode;
 
 
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
@@ -31,5 +31,12 @@ public class Company {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "company")
     private Set<Project> projects = new HashSet<>();
+
+
+    public Company addProject(Project project){
+        project.setCompany(this);
+        this.projects.add(project);
+        return this;
+    }
 
 }
