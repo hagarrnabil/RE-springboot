@@ -1,28 +1,33 @@
 package com.example.respringboot.controllers;
 
 import com.example.respringboot.commands.CompanyCommand;
+import com.example.respringboot.converters.CompanyToCompanyCommand;
 import com.example.respringboot.repositories.CompanyRepository;
 import com.example.respringboot.services.CompanyService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @RestController
 public class CompanyController {
     CompanyRepository companyRepository;
     private final CompanyService companyService;
+    private final CompanyToCompanyCommand companyToCompanyCommand;
 
-    public CompanyController(CompanyRepository companyRepository, CompanyService companyService) {
+    public CompanyController(CompanyRepository companyRepository, CompanyService companyService, CompanyToCompanyCommand companyToCompanyCommand) {
         this.companyRepository = companyRepository;
         this.companyService = companyService;
+        this.companyToCompanyCommand = companyToCompanyCommand;
     }
 
     @GetMapping("/companies")
-    Set<CompanyCommand> all() {
-        return companyService.getCompanies();
+    List<CompanyCommand> all() {
+        return companyService.getCompanies().stream().map(company -> companyToCompanyCommand.convert(company))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/companies/{id}")

@@ -28,16 +28,11 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Set<CompanyCommand> getCompanies() {
+    public Set<Company> getCompanies() {
         log.debug("I'm in the service");
         Set<Company> companies = new HashSet<>();
         companyRepository.findAll().iterator().forEachRemaining(companies::add);
-        CompanyCommand command = new CompanyCommand();
-        Object[] companyCommandsArrays = command.toArray();
-        for (int i = 0; i < companyCommandsArrays.length; i++) {
-            companyToCompanyCommand.convert((Company) getCompanies());
-        }
-        return (Set<CompanyCommand>) command;
+        return companies;
     }
 
     @Override
@@ -71,8 +66,4 @@ public class CompanyServiceImpl implements CompanyService {
         return companyToCompanyCommand.convert(findById(l));
     }
 
-//    @Override
-//    public CompanyCommand findAllCompanyCommand() {
-//
-//    }
 }
