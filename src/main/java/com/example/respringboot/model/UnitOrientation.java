@@ -9,16 +9,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 @Table(name = "unit_orientation")
 public class UnitOrientation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long unitOrientationCode;
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
     @Length(max = 8)
     private String uOrientationId;
@@ -27,5 +23,11 @@ public class UnitOrientation {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitOrientation")
     private Set<Unit> units = new HashSet<>();
+
+    public UnitOrientation addUnit(Unit unit) {
+        unit.setUnitOrientation(this);
+        this.units.add(unit);
+        return this;
+    }
 
 }

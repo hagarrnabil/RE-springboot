@@ -23,14 +23,12 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectToProjectCommand projectToProjectCommand;
     private final ProjectCommandToProject projectCommandToProject;
     private final ProjectRepository projectRepository;
-    private final CompanyRepository companyRepository;
 
     public ProjectServiceImpl(ProjectToProjectCommand projectToProjectCommand, ProjectCommandToProject projectCommandToProject,
-                              ProjectRepository projectRepository, CompanyRepository companyRepository) {
+                              ProjectRepository projectRepository) {
         this.projectToProjectCommand = projectToProjectCommand;
         this.projectCommandToProject = projectCommandToProject;
         this.projectRepository = projectRepository;
-        this.companyRepository = companyRepository;
     }
 
 

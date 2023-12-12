@@ -11,16 +11,12 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 @Table(name = "unit")
 public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long unitCode;
 
 
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)

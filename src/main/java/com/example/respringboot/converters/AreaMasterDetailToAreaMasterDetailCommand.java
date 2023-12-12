@@ -26,7 +26,16 @@ public class AreaMasterDetailToAreaMasterDetailCommand implements Converter<Area
         }
 
         final AreaMasterDetailCommand areaMasterDetailCommand = new AreaMasterDetailCommand();
-        areaMasterDetailCommand.setId(source.getId());
+        areaMasterDetailCommand.setId(source.getAreaCode());
+        if (source.getProjectArea() != null) {
+            areaMasterDetailCommand.setProjectAreaCode(source.getProjectArea().getProjectAreaCode());
+        }
+        if (source.getBuildingArea() != null) {
+            areaMasterDetailCommand.setBuildingAreaCode(source.getBuildingArea().getBuildingAreaCode());
+        }
+        if (source.getUnitArea() != null) {
+            areaMasterDetailCommand.setUnitAreaCode(source.getUnitArea().getUnitAreaCode());
+        }
         areaMasterDetailCommand.setAreaMaster(source.getAreaMaster());
         areaMasterDetailCommand.setDescription(source.getDescription());
         areaMasterDetailCommand.setProjectFlag(source.getProjectFlag());

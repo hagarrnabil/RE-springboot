@@ -1,6 +1,8 @@
 package com.example.respringboot.converters;
 
 import com.example.respringboot.commands.ProjectCommand;
+import com.example.respringboot.model.Company;
+import com.example.respringboot.model.ProfitCenter;
 import com.example.respringboot.model.Project;
 import io.micrometer.common.lang.Nullable;
 import lombok.Synchronized;
@@ -26,6 +28,18 @@ public class ProjectCommandToProject implements Converter<ProjectCommand, Projec
 
         final Project project = new Project();
         project.setProjectCode(source.getId());
+        if (source.getCompanyCode() != null) {
+            Company company = new Company();
+            company.setCompanyCode(source.getCompanyCode());
+            project.setCompany(company);
+            company.addProject(project);
+        }
+        if (source.getProfitCode() != null) {
+            ProfitCenter profitCenter = new ProfitCenter();
+            profitCenter.setProfitCode(source.getProfitCode());
+            project.setProfitCenter(profitCenter);
+            profitCenter.addProject(project);
+        }
         project.setProjectId(source.getProjectId());
         project.setProjectDescription(source.getProjectDescription());
         project.setValidFrom(source.getValidFrom());

@@ -10,17 +10,12 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 @Table(name = "unit_status")
 public class UnitStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long unitStatusCode;
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
     @Length(max = 8)
     private String uStatusId;
@@ -29,5 +24,11 @@ public class UnitStatus {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitStatus")
     private Set<Unit> units = new HashSet<>();
+
+    public UnitStatus addUnit(Unit unit) {
+        unit.setUnitStatus(this);
+        this.units.add(unit);
+        return this;
+    }
 
 }

@@ -54,10 +54,10 @@ public class CompanyController {
         return savedCommand;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/companies/search")
-    @ResponseBody
-    public List<CompanyCommand> Search(@RequestParam String keyword) {
-
-        return companyRepository.search(keyword);
-    }
+//    @RequestMapping(method = RequestMethod.GET, value = "/companies/search")
+//    @ResponseBody
+//    public List<CompanyCommand> Search(@RequestParam String keyword) {
+//
+//        return companyRepository.search(keyword);
+//    }
 }

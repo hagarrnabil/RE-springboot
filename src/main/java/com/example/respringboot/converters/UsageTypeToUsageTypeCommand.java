@@ -25,7 +25,7 @@ public class UsageTypeToUsageTypeCommand implements Converter<UsageType, UsageTy
         }
 
         final UsageTypeCommand usageTypeCommand = new UsageTypeCommand();
-        usageTypeCommand.setId(source.getId());
+        usageTypeCommand.setId(source.getUsageTypeCode());
         usageTypeCommand.setUsageId(source.getUsageId());
         usageTypeCommand.setUsageDescr(source.getUsageDescr());
         if (source.getUnits() != null && source.getUnits().size() > 0){

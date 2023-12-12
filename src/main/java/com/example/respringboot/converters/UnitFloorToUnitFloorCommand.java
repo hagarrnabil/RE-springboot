@@ -25,7 +25,7 @@ public class UnitFloorToUnitFloorCommand implements Converter<UnitFloor, UnitFlo
         }
 
         final UnitFloorCommand unitFloorCommand = new UnitFloorCommand();
-        unitFloorCommand.setId(source.getId());
+        unitFloorCommand.setId(source.getUnitFloorCode());
         unitFloorCommand.setUFloorId(source.getUFloorId());
         unitFloorCommand.setUFloorDescr(source.getUFloorDescr());
         if (source.getUnits() != null && source.getUnits().size() > 0){

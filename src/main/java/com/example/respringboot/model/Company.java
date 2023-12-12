@@ -10,11 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 @EqualsAndHashCode(exclude = {"projects"})
 @Table(name = "company")
 public class Company {

@@ -1,7 +1,7 @@
 package com.example.respringboot.converters;
 
 import com.example.respringboot.commands.AreaMasterDetailCommand;
-import com.example.respringboot.model.AreaMasterDetail;
+import com.example.respringboot.model.*;
 import io.micrometer.common.lang.Nullable;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
@@ -26,7 +26,25 @@ public class AreaMasterDetailCommandToAreaMasterDetail implements Converter<Area
         }
 
         final AreaMasterDetail areaMasterDetail = new AreaMasterDetail();
-        areaMasterDetail.setId(source.getId());
+        areaMasterDetail.setAreaCode(source.getId());
+        if (source.getProjectAreaCode() != null) {
+            ProjectArea projectArea = new ProjectArea();
+            projectArea.setProjectAreaCode(source.getProjectAreaCode());
+            areaMasterDetail.setProjectArea(projectArea);
+            projectArea.addAMD(areaMasterDetail);
+        }
+        if (source.getBuildingAreaCode() != null) {
+            BuildingArea buildingArea = new BuildingArea();
+            buildingArea.setBuildingAreaCode(source.getBuildingAreaCode());
+            areaMasterDetail.setBuildingArea(buildingArea);
+            buildingArea.addAMD(areaMasterDetail);
+        }
+        if (source.getUnitAreaCode() != null) {
+            UnitArea unitArea = new UnitArea();
+            unitArea.setUnitAreaCode(source.getUnitAreaCode());
+            areaMasterDetail.setUnitArea(unitArea);
+            unitArea.addAMD(areaMasterDetail);
+        }
         areaMasterDetail.setAreaMaster(source.getAreaMaster());
         areaMasterDetail.setDescription(source.getDescription());
         areaMasterDetail.setProjectFlag(source.getProjectFlag());

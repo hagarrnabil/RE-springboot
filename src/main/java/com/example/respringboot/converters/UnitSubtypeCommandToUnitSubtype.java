@@ -24,7 +24,7 @@ public class UnitSubtypeCommandToUnitSubtype implements Converter<UnitSubtypeCom
         }
 
         final UnitSubtype unitSubtype = new UnitSubtype();
-        unitSubtype.setId(source.getId());
+        unitSubtype.setUnitSubtypeCode(source.getId());
         unitSubtype.setUSubtypeId(source.getUSubtypeId());
         unitSubtype.setUSubtypeDescr(source.getUSubtypeDescr());
         if (source.getUnitCommands() != null && source.getUnitCommands().size() > 0){

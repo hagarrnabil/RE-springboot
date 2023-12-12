@@ -8,16 +8,12 @@ import org.hibernate.validator.constraints.Length;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 @Table(name = "location")
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long locationCode;
 
 
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
@@ -28,5 +24,12 @@ public class Location {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Project project;
+
+    public void setProject(Project project) {
+        if (project != null) {
+            this.project = project;
+            project.setLocation(this);
+        }
+    }
 
 }

@@ -61,6 +61,7 @@ public class CompanyServiceImpl implements CompanyService {
         Company savedCompany = companyRepository.save(detachedCompany);
         log.debug("Saved Company Id:" + savedCompany.getCompanyCode());
         return companyToCompanyCommand.convert(savedCompany);
+
     }
 
     @Override

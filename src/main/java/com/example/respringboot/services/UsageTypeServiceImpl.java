@@ -58,7 +58,7 @@ public class UsageTypeServiceImpl implements UsageTypeSevice{
     public UsageTypeCommand saveUsageTypeCommand(UsageTypeCommand command) {
         UsageType detachedUsageType = usageTypeCommandToUsageType.convert(command);
         UsageType savedUsageType = usageTypeRepository.save(detachedUsageType);
-        log.debug("Saved Usage Type Id:" + savedUsageType.getId());
+        log.debug("Saved Usage Type Id:" + savedUsageType.getUsageTypeCode());
         return usageTypeToUsageTypeCommand.convert(savedUsageType);
     }
 

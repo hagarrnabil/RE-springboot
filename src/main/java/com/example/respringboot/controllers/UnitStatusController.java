@@ -1,25 +1,53 @@
 package com.example.respringboot.controllers;
 
-import com.example.respringboot.repositories.UnitStatusRepository;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.example.respringboot.commands.UnitStatusCommand;
+import com.example.respringboot.services.UnitStatusService;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.Optional;
+import java.util.Set;
+
+
+@RestController
 public class UnitStatusController {
-    private UnitStatusRepository statusRepository;
+    private final UnitStatusService unitStatusService;
 
-    public UnitStatusController(UnitStatusRepository statusRepository) {
-        this.statusRepository = statusRepository;
+    public UnitStatusController(UnitStatusService unitStatusService) {
+        this.unitStatusService = unitStatusService;
     }
 
-    @RequestMapping("/statuses")
-    public String getStatuses(Model model) {
+    @GetMapping("/unitstatuses")
+    Set<UnitStatusCommand> all() {
+        return unitStatusService.getUnitStatusCommands();
+    }
 
-        model.addAttribute("statuses", statusRepository.findAll());
+    @GetMapping("/unitstatuses/{unitStatusCode}")
+    public Optional<UnitStatusCommand> findByIds(@PathVariable @NotNull Long unitStatusCode) {
 
-        return "statuses";
+        return Optional.ofNullable(unitStatusService.findUnitStatusCommandById(unitStatusCode));
+    }
 
+    @PostMapping("/unitstatuses")
+    UnitStatusCommand newUnitStatusCommand(@RequestBody UnitStatusCommand newUnitStatusCommand) {
+
+        UnitStatusCommand savedCommand = unitStatusService.saveUnitStatusCommand(newUnitStatusCommand);
+        return savedCommand;
+
+    }
+
+    @DeleteMapping("/unitstatuses/{unitStatusCode}")
+    void deleteUnitStatusCommand(@PathVariable Long unitStatusCode) {
+        unitStatusService.deleteById(unitStatusCode);
+    }
+
+    @PutMapping
+    @RequestMapping("/unitstatuses/{unitStatusCode}")
+    UnitStatusCommand updateUnitStatusCommand(@RequestBody UnitStatusCommand newUnitStatusCommand, @PathVariable Long unitStatusCode) {
+
+        unitStatusService.findUnitStatusCommandById(unitStatusCode);
+        UnitStatusCommand savedCommand = unitStatusService.saveUnitStatusCommand(newUnitStatusCommand);
+        return savedCommand;
     }
 
 }

@@ -1,24 +1,55 @@
 package com.example.respringboot.controllers;
 
+import com.example.respringboot.commands.LocationCommand;
 import com.example.respringboot.repositories.LocationRepository;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.example.respringboot.services.LocationService;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.Optional;
+import java.util.Set;
+
+
+@RestController
 public class LocationController {
-    private LocationRepository locationRepository;
+    LocationRepository locationRepository;
+    private final LocationService locationService;
 
-    public LocationController(LocationRepository locationRepository) {
+    public LocationController(LocationRepository locationRepository, LocationService locationService) {
         this.locationRepository = locationRepository;
+        this.locationService = locationService;
     }
 
-    @RequestMapping("/locations")
-    public String getLocations(Model model) {
+    @GetMapping("/locations")
+    Set<LocationCommand> all() {
+        return locationService.getLocationCommands();
+    }
 
-        model.addAttribute("locations", locationRepository.findAll());
+    @GetMapping("/locations/{locationCode}")
+    public Optional<LocationCommand> findByIds(@PathVariable @NotNull Long locationCode) {
 
-        return "locations";
+        return Optional.ofNullable(locationService.findLocationCommandById(locationCode));
+    }
 
+    @PostMapping("/locations")
+    LocationCommand newLocationCommand(@RequestBody LocationCommand newLocationCommand) {
+
+        LocationCommand savedCommand = locationService.saveLocationCommand(newLocationCommand);
+        return savedCommand;
+
+    }
+
+    @DeleteMapping("/locations/{locationCode}")
+    void deleteLocationCommand(@PathVariable Long locationCode) {
+        locationService.deleteById(locationCode);
+    }
+
+    @PutMapping
+    @RequestMapping("/locations/{locationCode}")
+    LocationCommand updateLocationCommand(@RequestBody LocationCommand newLocationCommand, @PathVariable Long locationCode) {
+
+        locationService.findLocationCommandById(locationCode);
+        LocationCommand savedCommand = locationService.saveLocationCommand(newLocationCommand);
+        return savedCommand;
     }
 }

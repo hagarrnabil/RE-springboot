@@ -19,7 +19,7 @@ public class UnitOfMeasurementToUnitOfMeasurementCommand implements Converter<Un
         }
 
         final UnitOfMeasurementCommand measurementCommand = new UnitOfMeasurementCommand();
-        measurementCommand.setId(source.getId());
+        measurementCommand.setId(source.getMeasurementCode());
         measurementCommand.setUomID(source.getUomID());
         measurementCommand.setUomDescr(source.getUomDescr());
         return measurementCommand;

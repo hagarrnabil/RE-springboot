@@ -24,7 +24,17 @@ public class BuildingToBuildingCommand implements Converter<Building, BuildingCo
         }
 
         final BuildingCommand buildingCommand = new BuildingCommand();
-        buildingCommand.setId(source.getId());
+        buildingCommand.setId(source.getBuildingCode());
+        if (source.getProject() != null) {
+            buildingCommand.setProjectCode(source.getProject().getProjectCode());
+        }
+        if (source.getProfitCenter() != null) {
+            buildingCommand.setProfitCode(source.getProfitCenter().getProfitCode());
+        }
+        if (source.getBuildingType() != null) {
+            buildingCommand.setBuildingTypeCode(source.getBuildingType().getBuildingTypeCode());
+        }
+        buildingCommand.setId(source.getBuildingCode());
         buildingCommand.setBuildingId(source.getBuildingId());
         buildingCommand.setBuildingDescription(source.getBuildingDescription());
         buildingCommand.setOldNumber(source.getOldNumber());

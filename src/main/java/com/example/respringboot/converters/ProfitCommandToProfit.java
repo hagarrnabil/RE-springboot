@@ -26,7 +26,7 @@ public class ProfitCommandToProfit implements Converter<ProfitCenterCommand, Pro
         }
 
         final ProfitCenter profitCenter = new ProfitCenter();
-        profitCenter.setId(source.getId());
+        profitCenter.setProfitCode(source.getId());
         profitCenter.setProfitId(source.getProfitId());
         profitCenter.setProfitDescr(source.getProfitDescr());
         if (source.getProjectCommands() != null && source.getProjectCommands().size() > 0){

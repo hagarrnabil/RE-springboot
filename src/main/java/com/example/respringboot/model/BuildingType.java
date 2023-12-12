@@ -20,7 +20,7 @@ import java.util.Set;
 public class BuildingType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long buildingTypeCode;
 
 
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
@@ -31,5 +31,11 @@ public class BuildingType {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "buildingType")
     private Set<Building> buildings = new HashSet<>();
+
+    public BuildingType addBuilding(Building building) {
+        building.setBuildingType(this);
+        this.buildings.add(building);
+        return this;
+    }
 
 }

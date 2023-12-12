@@ -1,7 +1,7 @@
 package com.example.respringboot.converters;
 
 import com.example.respringboot.commands.UnitCommand;
-import com.example.respringboot.model.Unit;
+import com.example.respringboot.model.*;
 import io.micrometer.common.lang.Nullable;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
@@ -19,7 +19,61 @@ public class UnitCommandToUnit implements Converter<UnitCommand, Unit> {
         }
 
         final Unit unit = new Unit();
-        unit.setId(source.getId());
+        unit.setUnitCode(source.getId());
+        if (source.getBuildingCode() != null) {
+            Building building = new Building();
+            building.setBuildingCode(source.getBuildingCode());
+            unit.setBuilding(building);
+            building.addUnit(unit);
+        }
+        if (source.getUnitOrientationCode() != null) {
+            UnitOrientation unitOrientation = new UnitOrientation();
+            unitOrientation.setUnitOrientationCode(source.getUnitOrientationCode());
+            unit.setUnitOrientation(unitOrientation);
+            unitOrientation.addUnit(unit);
+        }
+        if (source.getUnitStatusCode() != null) {
+            UnitStatus unitStatus = new UnitStatus();
+            unitStatus.setUnitStatusCode(source.getUnitStatusCode());
+            unit.setUnitStatus(unitStatus);
+            unitStatus.addUnit(unit);
+        }
+        if (source.getUnitFloorCode() != null) {
+            UnitFloor unitFloor = new UnitFloor();
+            unitFloor.setUnitFloorCode(source.getUnitFloorCode());
+            unit.setUnitFloor(unitFloor);
+            unitFloor.addUnit(unit);
+        }
+        if (source.getUsageTypeCode() != null) {
+            UsageType usageType = new UsageType();
+            usageType.setUsageTypeCode(source.getUsageTypeCode());
+            unit.setUsageType(usageType);
+            usageType.addUnit(unit);
+        }
+        if (source.getUnitSubtypeCode() != null) {
+            UnitSubtype unitSubtype = new UnitSubtype();
+            unitSubtype.setUnitSubtypeCode(source.getUnitSubtypeCode());
+            unit.setUnitSubtype(unitSubtype);
+            unitSubtype.addUnit(unit);
+        }
+        if (source.getUnitFixtureCode() != null) {
+            UnitFixture unitFixture = new UnitFixture();
+            unitFixture.setUnitFixtureCode(source.getUnitFixtureCode());
+            unit.setUnitFixture(unitFixture);
+            unitFixture.addUnit(unit);
+        }
+        if (source.getUnitViewCode() != null) {
+            UnitView unitView = new UnitView();
+            unitView.setUnitViewCode(source.getUnitViewCode());
+            unit.setUnitView(unitView);
+            unitView.addUnit(unit);
+        }
+        if (source.getAreaCode() != null) {
+            AreaMasterDetail areaMasterDetail = new AreaMasterDetail();
+            areaMasterDetail.setAreaCode(source.getAreaCode());
+            unit.setAreaMasterDetail(areaMasterDetail);
+            areaMasterDetail.addUnit(unit);
+        }
         unit.setUnitKey(source.getUnitKey());
         unit.setOldNumber(source.getOldNumber());
         unit.setDescription(source.getDescription());

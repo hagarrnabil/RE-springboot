@@ -11,6 +11,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UnitCommand {
     private Long id;
+    private Long buildingCode;
+    private Long areaCode;
+    private Long unitFixtureCode;
+    private Long unitFloorCode;
+    private Long unitOrientationCode;
+    private Long unitStatusCode;
+    private Long unitSubtypeCode;
+    private Long unitViewCode;
+    private Long usageTypeCode;
     private String unitKey;
     private String oldNumber;
     private String description;

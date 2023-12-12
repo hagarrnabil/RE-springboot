@@ -1,25 +1,53 @@
 package com.example.respringboot.controllers;
 
-import com.example.respringboot.repositories.UnitFloorRepository;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.example.respringboot.commands.UnitFloorCommand;
+import com.example.respringboot.services.UnitFloorService;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.Optional;
+import java.util.Set;
+
+
+@RestController
 public class UnitFloorController {
-    private UnitFloorRepository unitFloorRepository;
+    private final UnitFloorService unitFloorService;
 
-    public UnitFloorController(UnitFloorRepository unitFloorRepository) {
-        this.unitFloorRepository = unitFloorRepository;
+    public UnitFloorController(UnitFloorService unitFloorService) {
+        this.unitFloorService = unitFloorService;
     }
 
-    @RequestMapping("/floors")
-    public String getFloors(Model model) {
+    @GetMapping("/unitfloors")
+    Set<UnitFloorCommand> all() {
+        return unitFloorService.getUnitFloorCommands();
+    }
 
-        model.addAttribute("floors", unitFloorRepository.findAll());
+    @GetMapping("/unitfloors/{unitFloorCode}")
+    public Optional<UnitFloorCommand> findByIds(@PathVariable @NotNull Long unitFloorCode) {
 
-        return "floors";
+        return Optional.ofNullable(unitFloorService.findUnitFloorCommandById(unitFloorCode));
+    }
 
+    @PostMapping("/unitfloors")
+    UnitFloorCommand newUnitFloorCommand(@RequestBody UnitFloorCommand newUnitFloorCommand) {
+
+        UnitFloorCommand savedCommand = unitFloorService.saveUnitFloorCommand(newUnitFloorCommand);
+        return savedCommand;
+
+    }
+
+    @DeleteMapping("/unitfloors/{unitFloorCode}")
+    void deleteUnitFloorCommand(@PathVariable Long unitFloorCode) {
+        unitFloorService.deleteById(unitFloorCode);
+    }
+
+    @PutMapping
+    @RequestMapping("/unitfloors/{unitFloorCode}")
+    UnitFloorCommand updateUnitFloorCommand(@RequestBody UnitFloorCommand newUnitFloorCommand, @PathVariable Long unitFloorCode) {
+
+        unitFloorService.findUnitFloorCommandById(unitFloorCode);
+        UnitFloorCommand savedCommand = unitFloorService.saveUnitFloorCommand(newUnitFloorCommand);
+        return savedCommand;
     }
 
 }

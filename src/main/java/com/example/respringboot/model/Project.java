@@ -12,13 +12,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Data
+@EqualsAndHashCode(exclude = {"company","profitCenter","buildings"})
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode(exclude = {"buildings"})
 @Table(name = "project")
 public class Project {
     @Id
@@ -44,11 +40,26 @@ public class Project {
     @OneToOne
     private Location location;
 
-    public void setLocation(Location location) {
-        if (location != null) {
-            this.location = location;
-            location.setProject(this);
-        }
+    public Project() {
+    }
+
+    public Project(String projectId, String projectDescription, LocalDate validFrom, String profit, Company company) {
+        this.projectId = projectId;
+        this.projectDescription = projectDescription;
+        this.validFrom = validFrom;
+        this.profit = profit;
+        this.company = company;
+    }
+
+    public Project(String projectId, String projectDescription, LocalDate validFrom, String profit, Company company, Set<Building> buildings, ProfitCenter profitCenter, Location location) {
+        this.projectId = projectId;
+        this.projectDescription = projectDescription;
+        this.validFrom = validFrom;
+        this.profit = profit;
+        this.company = company;
+        this.buildings = buildings;
+        this.profitCenter = profitCenter;
+        this.location = location;
     }
 
     public Project addBuilding(Building building) {

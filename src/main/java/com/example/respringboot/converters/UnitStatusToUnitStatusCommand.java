@@ -24,7 +24,7 @@ public class UnitStatusToUnitStatusCommand implements Converter<UnitStatus, Unit
         }
 
         final UnitStatusCommand unitStatusCommand = new UnitStatusCommand();
-        unitStatusCommand.setId(source.getId());
+        unitStatusCommand.setId(source.getUnitStatusCode());
         unitStatusCommand.setUStatusId(source.getUStatusId());
         unitStatusCommand.setUStatusDescr(source.getUStatusDescr());
         if (source.getUnits() != null && source.getUnits().size() > 0){

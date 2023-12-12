@@ -12,12 +12,14 @@ import java.util.Set;
 @NoArgsConstructor
 public class ProjectCommand {
     private Long id;
+    private Long companyCode;
+    private Long profitCode;
     private String projectId;
     private String projectDescription;
     private LocalDate validFrom;
     private String profit;
-    private CompanyCommand companyCommand;
+//    private CompanyCommand companyCommand;
     private Set<BuildingCommand> buildingCommands = new HashSet<>();
-    private ProfitCenterCommand profitCenterCommand;
-    private LocationCommand locationCommand;
+//    private ProfitCenterCommand profitCenterCommand;
+//    private LocationCommand locationCommand;
 }

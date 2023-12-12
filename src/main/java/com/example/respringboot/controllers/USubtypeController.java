@@ -1,24 +1,53 @@
 package com.example.respringboot.controllers;
 
-import com.example.respringboot.repositories.UnitSubtypeRepository;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.example.respringboot.commands.UnitSubtypeCommand;
+import com.example.respringboot.services.UnitSubtypeService;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.Optional;
+import java.util.Set;
+
+
+@RestController
 public class USubtypeController {
-    private UnitSubtypeRepository subtypeRepository;
+    private final UnitSubtypeService unitSubtypeService;
 
-    public USubtypeController(UnitSubtypeRepository subtypeRepository) {
-        this.subtypeRepository = subtypeRepository;
+    public USubtypeController(UnitSubtypeService unitSubtypeService) {
+        this.unitSubtypeService = unitSubtypeService;
     }
 
-    @RequestMapping("/types")
-    public String getTypes(Model model) {
+    @GetMapping("/unitsubtypes")
+    Set<UnitSubtypeCommand> all() {
+        return unitSubtypeService.getUnitSubtypeCommands();
+    }
 
-        model.addAttribute("types", subtypeRepository.findAll());
+    @GetMapping("/unitsubtypes/{unitSubtypeCode}")
+    public Optional<UnitSubtypeCommand> findByIds(@PathVariable @NotNull Long unitSubtypeCode) {
 
-        return "types";
+        return Optional.ofNullable(unitSubtypeService.findUnitSubtypeCommandById(unitSubtypeCode));
+    }
+
+    @PostMapping("/unitsubtypes")
+    UnitSubtypeCommand newUnitSubtypeCommand(@RequestBody UnitSubtypeCommand newUnitSubtypeCommand) {
+
+        UnitSubtypeCommand savedCommand = unitSubtypeService.saveUnitSubtypeCommand(newUnitSubtypeCommand);
+        return savedCommand;
 
     }
+
+    @DeleteMapping("/unitsubtypes/{unitSubtypeCode}")
+    void deleteUnitSubtypeCommand(@PathVariable Long unitSubtypeCode) {
+        unitSubtypeService.deleteById(unitSubtypeCode);
+    }
+
+    @PutMapping
+    @RequestMapping("/unitsubtypes/{unitSubtypeCode}")
+    UnitSubtypeCommand updateUnitSubtypeCommand(@RequestBody UnitSubtypeCommand newUnitSubtypeCommand, @PathVariable Long unitSubtypeCode) {
+
+        unitSubtypeService.findUnitSubtypeCommandById(unitSubtypeCode);
+        UnitSubtypeCommand savedCommand = unitSubtypeService.saveUnitSubtypeCommand(newUnitSubtypeCommand);
+        return savedCommand;
+    }
+
 }

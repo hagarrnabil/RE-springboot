@@ -18,7 +18,7 @@ import java.util.Set;
 public class ProjectArea {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long projectAreaCode;
 
 
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
@@ -29,4 +29,10 @@ public class ProjectArea {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectArea")
     private Set<AreaMasterDetail> areaMasterDetails = new HashSet<>();
+
+    public ProjectArea addAMD(AreaMasterDetail areaMasterDetail) {
+        areaMasterDetail.setProjectArea(this);
+        this.areaMasterDetails.add(areaMasterDetail);
+        return this;
+    }
 }

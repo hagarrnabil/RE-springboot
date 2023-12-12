@@ -1,25 +1,55 @@
 package com.example.respringboot.controllers;
 
+import com.example.respringboot.commands.ProfitCenterCommand;
 import com.example.respringboot.repositories.ProfitCenterRepository;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.example.respringboot.services.ProfitService;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.Optional;
+import java.util.Set;
+
+
+@RestController
 public class ProfitCenterController {
-    private ProfitCenterRepository profitCenterRepository;
+    ProfitCenterRepository profitCenterRepository;
+    private final ProfitService profitService;
 
-    public ProfitCenterController(ProfitCenterRepository profitCenterRepository) {
+    public ProfitCenterController(ProfitCenterRepository profitCenterRepository, ProfitService profitService) {
         this.profitCenterRepository = profitCenterRepository;
+        this.profitService = profitService;
     }
 
-    @RequestMapping("/profits")
-    public String getProfits(Model model) {
+    @GetMapping("/profits")
+    Set<ProfitCenterCommand> all() {
+        return profitService.getProfitCommands();
+    }
 
-        model.addAttribute("profits", profitCenterRepository.findAll());
+    @GetMapping("/profits/{profitCode}")
+    public Optional<ProfitCenterCommand> findByIds(@PathVariable @NotNull Long profitCode) {
 
-        return "profits";
+        return Optional.ofNullable(profitService.findProfitCommandById(profitCode));
+    }
+
+    @PostMapping("/profits")
+    ProfitCenterCommand newProfitCommand(@RequestBody ProfitCenterCommand newProfitCommand) {
+
+        ProfitCenterCommand savedCommand = profitService.saveProfitCommand(newProfitCommand);
+        return savedCommand;
 
     }
 
+    @DeleteMapping("/profits/{profitCode}")
+    void deleteProfitCommand(@PathVariable Long profitCode) {
+        profitService.deleteById(profitCode);
+    }
+
+    @PutMapping
+    @RequestMapping("/profits/{profitCode}")
+    ProfitCenterCommand updateProfitCommand(@RequestBody ProfitCenterCommand newProfitCommand, @PathVariable Long profitCode) {
+
+        profitService.findProfitCommandById(profitCode);
+        ProfitCenterCommand savedCommand = profitService.saveProfitCommand(newProfitCommand);
+        return savedCommand;
+    }
 }

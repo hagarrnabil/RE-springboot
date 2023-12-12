@@ -23,7 +23,7 @@ import java.util.Set;
 public class Building {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long buildingCode;
 
 
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
@@ -46,4 +46,10 @@ public class Building {
     private BuildingType buildingType;
     @ManyToOne
     private ProfitCenter profitCenter;
+
+    public Building addUnit(Unit unit) {
+        unit.setBuilding(this);
+        this.units.add(unit);
+        return this;
+    }
 }

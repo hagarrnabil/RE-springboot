@@ -9,16 +9,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 @Table(name = "unit_area")
 public class UnitArea {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long unitAreaCode;
 
 
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
@@ -29,4 +25,10 @@ public class UnitArea {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitArea")
     private Set<AreaMasterDetail> areaMasterDetails = new HashSet<>();
+
+    public UnitArea addAMD(AreaMasterDetail areaMasterDetail) {
+        areaMasterDetail.setUnitArea(this);
+        this.areaMasterDetails.add(areaMasterDetail);
+        return this;
+    }
 }

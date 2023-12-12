@@ -18,7 +18,7 @@ import java.util.Set;
 public class AreaMasterDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long areaCode;
 
 
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
@@ -40,4 +40,16 @@ public class AreaMasterDetail {
     private BuildingArea buildingArea;
     @ManyToOne
     private UnitArea unitArea;
+
+    public void setUoM(UnitOfMeasurement unitOfMeasurement) {
+        if (unitOfMeasurement != null) {
+            this.unitOfMeasurement = unitOfMeasurement;
+            unitOfMeasurement.setAreaMasterDetail(this);
+        }
+    }
+    public AreaMasterDetail addUnit(Unit unit) {
+        unit.setAreaMasterDetail(this);
+        this.units.add(unit);
+        return this;
+    }
 }

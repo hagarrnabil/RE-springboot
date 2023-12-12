@@ -24,7 +24,7 @@ public class UnitAreaToUnitAreaCommand implements Converter<UnitArea, UnitAreaCo
         }
 
         final UnitAreaCommand unitAreaCommand = new UnitAreaCommand();
-        unitAreaCommand.setId(source.getId());
+        unitAreaCommand.setId(source.getUnitAreaCode());
         unitAreaCommand.setUnitArea(source.getUnitArea());
         unitAreaCommand.setDescription(source.getDescription());
         if (source.getAreaMasterDetails() != null && source.getAreaMasterDetails().size() > 0){

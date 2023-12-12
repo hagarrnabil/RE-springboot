@@ -27,10 +27,10 @@ public class UsageTypeController {
         return usageTypeSevice.getUsageTypeCommands();
     }
 
-    @GetMapping("/usagetype/{id}")
-    public Optional<UsageTypeCommand> findByIds(@PathVariable @NotNull Long id) {
+    @GetMapping("/usagetype/{usageTypeCode}")
+    public Optional<UsageTypeCommand> findByIds(@PathVariable @NotNull Long usageTypeCode) {
 
-        return Optional.ofNullable(usageTypeSevice.findUsageTypeCommandById(id));
+        return Optional.ofNullable(usageTypeSevice.findUsageTypeCommandById(usageTypeCode));
     }
 
     @PostMapping("/usagetype")
@@ -41,16 +41,16 @@ public class UsageTypeController {
 
     }
 
-    @DeleteMapping("/usagetype/{id}")
-    void deleteUsageTypeCommand(@PathVariable Long id) {
-        usageTypeSevice.deleteById(id);
+    @DeleteMapping("/usagetype/{usageTypeCode}")
+    void deleteUsageTypeCommand(@PathVariable Long usageTypeCode) {
+        usageTypeSevice.deleteById(usageTypeCode);
     }
 
     @PutMapping
-    @RequestMapping("/usagetype/{id}")
-    UsageTypeCommand updateUsageTypeCommand(@RequestBody UsageTypeCommand newUsageTypeCommand, @PathVariable Long id) {
+    @RequestMapping("/usagetype/{usageTypeCode}")
+    UsageTypeCommand updateUsageTypeCommand(@RequestBody UsageTypeCommand newUsageTypeCommand, @PathVariable Long usageTypeCode) {
 
-        usageTypeSevice.findUsageTypeCommandById(id);
+        usageTypeSevice.findUsageTypeCommandById(usageTypeCode);
         UsageTypeCommand savedCommand = usageTypeSevice.saveUsageTypeCommand(newUsageTypeCommand);
         return savedCommand;
     }

@@ -10,16 +10,12 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 @Table(name = "usage_type")
 public class UsageType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long usageTypeCode;
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
     @Length(max = 8)
     private String usageId;
@@ -27,5 +23,11 @@ public class UsageType {
     private String usageDescr;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usageType")
     private Set<Unit> units = new HashSet<>();
+
+    public UsageType addUnit(Unit unit) {
+        unit.setUsageType(this);
+        this.units.add(unit);
+        return this;
+    }
 
 }

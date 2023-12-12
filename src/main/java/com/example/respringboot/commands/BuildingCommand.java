@@ -12,6 +12,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class BuildingCommand {
     private Long id;
+    private Long profitCode;
+    private Long projectCode;
+    private Long buildingTypeCode;
     private String buildingId;
     private String buildingDescription;
     private String oldNumber;

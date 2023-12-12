@@ -12,6 +12,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class AreaMasterDetailCommand {
     private Long id;
+    private Long projectAreaCode;
+    private Long buildingAreaCode;
+    private Long unitAreaCode;
     private String areaMaster;
     private String description;
     private String projectFlag;

@@ -10,16 +10,12 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 @Table(name = "profit_center")
 public class ProfitCenter {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long profitCode;
 
 
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
@@ -32,5 +28,17 @@ public class ProfitCenter {
     private Set<Project> projects = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "profitCenter")
     private Set<Building> buildings = new HashSet<>();
+
+    public ProfitCenter addProject(Project project) {
+        project.setProfitCenter(this);
+        this.projects.add(project);
+        return this;
+    }
+
+    public ProfitCenter addBuilding(Building building) {
+        building.setProfitCenter(this);
+        this.buildings.add(building);
+        return this;
+    }
 
 }
