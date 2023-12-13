@@ -11,9 +11,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProjectCommandToProject implements Converter<ProjectCommand, Project> {
+    private final LocationCommandToLocation locationConverter;
     private final BuildingCommandToBuilding buildingConverter;
 
-    public ProjectCommandToProject(BuildingCommandToBuilding buildingConverter) {
+    public ProjectCommandToProject(LocationCommandToLocation locationConverter, BuildingCommandToBuilding buildingConverter) {
+        this.locationConverter = locationConverter;
         this.buildingConverter = buildingConverter;
     }
 
@@ -44,6 +46,7 @@ public class ProjectCommandToProject implements Converter<ProjectCommand, Projec
         project.setProjectDescription(source.getProjectDescription());
         project.setValidFrom(source.getValidFrom());
         project.setProfit(source.getProfit());
+        project.setLocation(locationConverter.convert(source.getLocationCommand()));
         if (source.getBuildingCommands() != null && source.getBuildingCommands().size() > 0) {
             source.getBuildingCommands()
                     .forEach(buildingCommand -> project.getBuildings().add(buildingConverter.convert(buildingCommand)));

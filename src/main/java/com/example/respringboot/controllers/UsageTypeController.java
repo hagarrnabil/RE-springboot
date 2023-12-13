@@ -1,7 +1,6 @@
 package com.example.respringboot.controllers;
 
 import com.example.respringboot.commands.UsageTypeCommand;
-import com.example.respringboot.model.UsageType;
 import com.example.respringboot.repositories.UsageTypeRepository;
 import com.example.respringboot.services.UsageTypeSevice;
 import jakarta.validation.constraints.NotNull;

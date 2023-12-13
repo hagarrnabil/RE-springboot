@@ -3,7 +3,6 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.UnitFixtureCommand;
 import com.example.respringboot.converters.UnitFixtureCommandToUnitFixture;
 import com.example.respringboot.converters.UnitFixtureToUnitFixtureCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.UnitFixture;
 import com.example.respringboot.repositories.UnitFixtureRepository;
 import jakarta.transaction.Transactional;
@@ -17,7 +16,7 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
-public class UnitFixtureServiceImpl implements UnitFixtureService{
+public class UnitFixtureServiceImpl implements UnitFixtureService {
     private final UnitFixtureToUnitFixtureCommand unitFixtureToUnitFixtureCommand;
     private final UnitFixtureCommandToUnitFixture unitFixtureCommandToUnitFixture;
     private final UnitFixtureRepository unitFixtureRepository;
@@ -57,15 +56,13 @@ public class UnitFixtureServiceImpl implements UnitFixtureService{
     }
 
     @Override
-    @Transactional
     public UnitFixtureCommand saveUnitFixtureCommand(UnitFixtureCommand command) {
-
         UnitFixture detachedUnitFixture = unitFixtureCommandToUnitFixture.convert(command);
         UnitFixture savedUnitFixture = unitFixtureRepository.save(detachedUnitFixture);
         log.debug("Saved Unit Fixture Id:" + savedUnitFixture.getUnitFixtureCode());
         return unitFixtureToUnitFixtureCommand.convert(savedUnitFixture);
-
     }
+
 
     @Override
     @Transactional

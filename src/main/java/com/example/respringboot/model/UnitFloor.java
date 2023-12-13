@@ -11,11 +11,14 @@ import java.util.Set;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = {"units"})
 @Table(name = "unit_floor")
 public class UnitFloor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long unitFloorCode;
+
+
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
     @Length(max = 8)
     private String uFloorId;

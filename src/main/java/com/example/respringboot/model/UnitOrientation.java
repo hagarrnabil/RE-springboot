@@ -10,6 +10,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = {"units"})
 @Table(name = "unit_orientation")
 public class UnitOrientation {
     @Id

@@ -9,11 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 @Table(name = "project_area")
 public class ProjectArea {
     @Id

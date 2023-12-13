@@ -9,11 +9,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LocationToLocationCommand implements Converter<Location, LocationCommand> {
-    private final ProjectToProjectCommand projectConverter;
-
-    public LocationToLocationCommand(ProjectToProjectCommand projectConverter) {
-        this.projectConverter = projectConverter;
-    }
 
     @Synchronized
     @Nullable
@@ -27,7 +22,6 @@ public class LocationToLocationCommand implements Converter<Location, LocationCo
         locationCommand.setId(source.getLocationCode());
         locationCommand.setLocationId(source.getLocationId());
         locationCommand.setRegionalLocation(source.getRegionalLocation());
-        locationCommand.setProjectCommand(projectConverter.convert(source.getProject()));
         return locationCommand;
 
     }

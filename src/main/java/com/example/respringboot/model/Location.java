@@ -22,14 +22,28 @@ public class Location {
     @NotNull
     private String regionalLocation;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Project project;
 
-    public void setProject(Project project) {
-        if (project != null) {
-            this.project = project;
-            project.setLocation(this);
-        }
+    public Location() {
     }
+
+    public Location(String locationId, String regionalLocation) {
+        this.locationId = locationId;
+        this.regionalLocation = regionalLocation;
+    }
+
+    public Location(String locationId, String regionalLocation, Project project) {
+        this.locationId = locationId;
+        this.regionalLocation = regionalLocation;
+        this.project = project;
+    }
+
+//    public void setProject(Project project) {
+//        if (project != null) {
+//            this.project = project;
+//            project.setLocation(this);
+//        }
+//    }
 
 }

@@ -11,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = {"units"})
 @Table(name = "unit_status")
 public class UnitStatus {
     @Id

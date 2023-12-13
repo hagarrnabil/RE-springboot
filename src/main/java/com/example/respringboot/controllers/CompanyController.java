@@ -1,8 +1,13 @@
 package com.example.respringboot.controllers;
 
+import com.example.respringboot.commands.BuildingCommand;
 import com.example.respringboot.commands.CompanyCommand;
+import com.example.respringboot.converters.CompanyCommandToCompany;
+import com.example.respringboot.converters.CompanyToCompanyCommand;
+import com.example.respringboot.model.Company;
 import com.example.respringboot.repositories.CompanyRepository;
 import com.example.respringboot.services.CompanyService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +19,17 @@ import java.util.Set;
 @RestController
 public class CompanyController {
     CompanyRepository companyRepository;
+    private final CompanyToCompanyCommand companyToCompanyCommand;
+    private final CompanyCommandToCompany companyCommandToCompany;
     private final CompanyService companyService;
 
-    public CompanyController(CompanyRepository companyRepository, CompanyService companyService) {
+    public CompanyController(CompanyRepository companyRepository, CompanyToCompanyCommand companyToCompanyCommand,
+                             CompanyCommandToCompany companyCommandToCompany,
+                             CompanyService companyService)
+    {
         this.companyRepository = companyRepository;
+        this.companyToCompanyCommand = companyToCompanyCommand;
+        this.companyCommandToCompany = companyCommandToCompany;
         this.companyService = companyService;
     }
 
@@ -47,8 +59,13 @@ public class CompanyController {
 
     @PutMapping
     @RequestMapping("/companies/{companyCode}")
+    @Transactional
     CompanyCommand updateCompanyCommand(@RequestBody CompanyCommand newCompanyCommand, @PathVariable Long companyCode) {
 
+//        Company companyRequest = companyCommandToCompany.convert(newCompanyCommand);
+//        Company company = companyService.updateCompanyCommand(companyRequest, companyCode);
+//        CompanyCommand companyResponse = companyToCompanyCommand.convert(company);
+//        return companyResponse;
         companyService.findCompanyCommandById(companyCode);
         CompanyCommand savedCommand = companyService.saveCompanyCommand(newCompanyCommand);
         return savedCommand;

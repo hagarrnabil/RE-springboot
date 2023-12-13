@@ -65,6 +65,20 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public Company updateCompanyCommand(Company company, Long l) {
+        return companyRepository.findById(l).map(company1 -> {
+            company1.setCompanyCode(company.getCompanyCode());
+            company1.setCompanyCodeId(company.getCompanyCodeId());
+            company1.setCompanyCodeDescription(company.getCompanyCodeDescription());
+            return companyRepository.save(company);
+        }).orElseGet(() -> {
+            company.setCompanyCode(l);
+            return companyRepository.save(company);
+        });
+    }
+
+
+    @Override
     @Transactional
     public CompanyCommand findCompanyCommandById(Long l) {
         return companyToCompanyCommand.convert(findById(l));

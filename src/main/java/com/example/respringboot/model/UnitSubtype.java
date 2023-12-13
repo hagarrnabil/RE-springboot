@@ -17,6 +17,8 @@ public class UnitSubtype {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long unitSubtypeCode;
+
+
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
     @Length(max = 8)
     private String uSubtypeId;

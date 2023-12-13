@@ -3,7 +3,6 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.UsageTypeCommand;
 import com.example.respringboot.converters.UsageTypeCommandToUsageType;
 import com.example.respringboot.converters.UsageTypeToUsageTypeCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.UsageType;
 import com.example.respringboot.repositories.UsageTypeRepository;
 import jakarta.transaction.Transactional;

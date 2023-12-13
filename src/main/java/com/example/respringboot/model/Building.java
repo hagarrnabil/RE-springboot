@@ -13,12 +13,8 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode(exclude = {"units"})
+@Data
+@EqualsAndHashCode(exclude = {"units", "project", "buildingType", "profitCenter"})
 @Table(name = "building")
 public class Building {
     @Id
@@ -46,6 +42,32 @@ public class Building {
     private BuildingType buildingType;
     @ManyToOne
     private ProfitCenter profitCenter;
+
+    public Building() {
+    }
+
+    public Building(String buildingId, String buildingDescription, String oldNumber, LocalDate validFrom, Integer numberOfFloors, String profit, Project project) {
+        this.buildingId = buildingId;
+        this.buildingDescription = buildingDescription;
+        this.oldNumber = oldNumber;
+        this.validFrom = validFrom;
+        this.numberOfFloors = numberOfFloors;
+        this.profit = profit;
+        this.project = project;
+    }
+
+    public Building(String buildingId, String buildingDescription, String oldNumber, LocalDate validFrom, Integer numberOfFloors, String profit, Project project, Set<Unit> units, BuildingType buildingType, ProfitCenter profitCenter) {
+        this.buildingId = buildingId;
+        this.buildingDescription = buildingDescription;
+        this.oldNumber = oldNumber;
+        this.validFrom = validFrom;
+        this.numberOfFloors = numberOfFloors;
+        this.profit = profit;
+        this.project = project;
+        this.units = units;
+        this.buildingType = buildingType;
+        this.profitCenter = profitCenter;
+    }
 
     public Building addUnit(Unit unit) {
         unit.setBuilding(this);

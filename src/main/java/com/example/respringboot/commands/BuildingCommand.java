@@ -21,9 +21,9 @@ public class BuildingCommand {
     private LocalDate validFrom;
     private Integer numberOfFloors;
     private String profit;
-    private ProjectCommand projectCommand;
+//    private ProjectCommand projectCommand;
     private Set<UnitCommand> unitCommands = new HashSet<>();
-    private BuildingTypeCommand buildingTypeCommand;
-    private ProfitCenterCommand profitCenterCommand;
+//    private BuildingTypeCommand buildingTypeCommand;
+//    private ProfitCenterCommand profitCenterCommand;
 
 }

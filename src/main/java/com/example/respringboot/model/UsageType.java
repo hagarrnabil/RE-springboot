@@ -16,6 +16,8 @@ public class UsageType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long usageTypeCode;
+
+
     @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
     @Length(max = 8)
     private String usageId;
