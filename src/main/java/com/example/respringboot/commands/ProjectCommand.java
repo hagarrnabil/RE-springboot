@@ -21,5 +21,5 @@ public class ProjectCommand {
 //    private CompanyCommand companyCommand;
     private Set<BuildingCommand> buildingCommands = new HashSet<>();
 //    private ProfitCenterCommand profitCenterCommand;
-    private LocationCommand locationCommand;
+    private LocationCommand location;
 }

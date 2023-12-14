@@ -3,12 +3,12 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.UnitViewCommand;
 import com.example.respringboot.converters.UnitViewCommandToUnitView;
 import com.example.respringboot.converters.UnitViewToUnitViewCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.UnitView;
+import com.example.respringboot.model.UsageType;
 import com.example.respringboot.repositories.UnitViewRepository;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.Set;
@@ -59,13 +59,24 @@ public class UnitViewServiceImpl implements UnitViewService{
     @Override
     @Transactional
     public UnitViewCommand saveUnitViewCommand(UnitViewCommand command) {
-
         UnitView detachedUnitView = unitViewCommandToUnitView.convert(command);
         UnitView savedUnitView = unitViewRepository.save(detachedUnitView);
         log.debug("Saved Unit View Id:" + savedUnitView.getUnitViewCode());
         return unitViewToUnitViewCommand.convert(savedUnitView);
-
     }
+
+    @Override
+    @Transactional
+    public UnitView updateUnitView(UnitView unitView, Long l) {
+        return unitViewRepository.findById(l).map(unitView1 -> {
+            unitView1.setUnitViewCode(unitView.getUnitViewCode());
+            unitView1.setUViewId(unitView.getUViewId());
+            unitView1.setUViewDescr(unitView.getUViewDescr());
+            return unitViewRepository.save(unitView);
+        }).orElseGet(() -> {
+            unitView.setUnitViewCode(l);
+            return unitViewRepository.save(unitView);
+        });    }
 
     @Override
     @Transactional

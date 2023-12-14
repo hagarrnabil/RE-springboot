@@ -1,8 +1,13 @@
 package com.example.respringboot.controllers;
 
 import com.example.respringboot.commands.BuildingAreaCommand;
+import com.example.respringboot.commands.CompanyCommand;
+import com.example.respringboot.converters.BuildingAreaToBuildingAreaCommand;
+import com.example.respringboot.model.BuildingArea;
+import com.example.respringboot.model.Company;
 import com.example.respringboot.services.BuildingAreaService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -11,9 +16,11 @@ import java.util.Set;
 @RestController
 public class BuildingAreaController {
     private final BuildingAreaService buildingAreaService;
+    private final BuildingAreaToBuildingAreaCommand buildingAreaToBuildingAreaCommand;
 
-    public BuildingAreaController(BuildingAreaService buildingAreaService) {
+    public BuildingAreaController(BuildingAreaService buildingAreaService, BuildingAreaToBuildingAreaCommand buildingAreaToBuildingAreaCommand) {
         this.buildingAreaService = buildingAreaService;
+        this.buildingAreaToBuildingAreaCommand = buildingAreaToBuildingAreaCommand;
     }
 
     @GetMapping("/buildingareas")
@@ -42,10 +49,11 @@ public class BuildingAreaController {
 
     @PutMapping
     @RequestMapping("/buildingareas/{buildingAreaCode}")
-    BuildingAreaCommand updateBuildingAreaCommand(@RequestBody BuildingAreaCommand newBuildingAreaCommand, @PathVariable Long buildingAreaCode) {
+    @Transactional
+    BuildingAreaCommand updateBuildingAreaCommand(@RequestBody BuildingArea newBuildingArea, @PathVariable Long buildingAreaCode) {
 
-        buildingAreaService.findBuildingAreaCommandById(buildingAreaCode);
-        BuildingAreaCommand savedCommand = buildingAreaService.saveBuildingAreaCommand(newBuildingAreaCommand);
-        return savedCommand;
+        BuildingArea buildingArea = buildingAreaService.updateBuildingArea(newBuildingArea, buildingAreaCode);
+        BuildingAreaCommand buildingAreaCommand = buildingAreaToBuildingAreaCommand.convert(buildingArea);
+        return buildingAreaCommand;
     }
 }

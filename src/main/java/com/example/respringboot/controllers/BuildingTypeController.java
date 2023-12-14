@@ -1,9 +1,14 @@
 package com.example.respringboot.controllers;
 
 import com.example.respringboot.commands.BuildingTypeCommand;
+import com.example.respringboot.commands.CompanyCommand;
+import com.example.respringboot.converters.BuildingTypeToBuildingTypeCommand;
+import com.example.respringboot.model.BuildingType;
+import com.example.respringboot.model.Company;
 import com.example.respringboot.repositories.BuildingTypeRepository;
 import com.example.respringboot.services.BuildingTypeService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -14,10 +19,13 @@ import java.util.Set;
 public class BuildingTypeController {
     BuildingTypeRepository buildingTypeRepository;
     private final BuildingTypeService buildingTypeService;
+    private final BuildingTypeToBuildingTypeCommand buildingTypeToBuildingTypeCommand;
 
-    public BuildingTypeController(BuildingTypeRepository buildingTypeRepository, BuildingTypeService buildingTypeService) {
+    public BuildingTypeController(BuildingTypeRepository buildingTypeRepository, BuildingTypeService buildingTypeService,
+                                  BuildingTypeToBuildingTypeCommand buildingTypeToBuildingTypeCommand) {
         this.buildingTypeRepository = buildingTypeRepository;
         this.buildingTypeService = buildingTypeService;
+        this.buildingTypeToBuildingTypeCommand = buildingTypeToBuildingTypeCommand;
     }
 
     @GetMapping("/buildingtypes")
@@ -46,11 +54,12 @@ public class BuildingTypeController {
 
     @PutMapping
     @RequestMapping("/buildingtypes/{buildingTypeCode}")
-    BuildingTypeCommand updateBuildingTypeCommand(@RequestBody BuildingTypeCommand newBuildingTypeCommand, @PathVariable Long buildingTypeCode) {
+    @Transactional
+    BuildingTypeCommand updateBuildingTypeCommand(@RequestBody BuildingType newBuildingType, @PathVariable Long buildingTypeCode) {
 
-        buildingTypeService.findBuildingTypeCommandById(buildingTypeCode);
-        BuildingTypeCommand savedCommand = buildingTypeService.saveBuildingTypeCommand(newBuildingTypeCommand);
-        return savedCommand;
+        BuildingType buildingType = buildingTypeService.updateBuildingType(newBuildingType, buildingTypeCode);
+        BuildingTypeCommand command = buildingTypeToBuildingTypeCommand.convert(buildingType);
+        return command;
     }
 }
 

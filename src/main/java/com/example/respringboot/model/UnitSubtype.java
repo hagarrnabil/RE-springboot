@@ -19,10 +19,10 @@ public class UnitSubtype {
     private Long unitSubtypeCode;
 
 
-    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Column(unique = true, length = 8, columnDefinition = "char(8)")
     @Length(max = 8)
     private String uSubtypeId;
-    @NotNull
+//    @NotNull
     private String uSubtypeDescr;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitSubtype")

@@ -19,10 +19,10 @@ public class UnitFloor {
     private Long unitFloorCode;
 
 
-    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Column(unique = true, length = 8, columnDefinition = "char(8)")
     @Length(max = 8)
     private String uFloorId;
-    @NotNull
+//    @NotNull
     private String uFloorDescr;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitFloor")

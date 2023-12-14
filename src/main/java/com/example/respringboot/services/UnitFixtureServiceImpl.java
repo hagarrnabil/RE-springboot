@@ -5,7 +5,7 @@ import com.example.respringboot.converters.UnitFixtureCommandToUnitFixture;
 import com.example.respringboot.converters.UnitFixtureToUnitFixtureCommand;
 import com.example.respringboot.model.UnitFixture;
 import com.example.respringboot.repositories.UnitFixtureRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,8 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
-public class UnitFixtureServiceImpl implements UnitFixtureService {
+public class
+UnitFixtureServiceImpl implements UnitFixtureService {
     private final UnitFixtureToUnitFixtureCommand unitFixtureToUnitFixtureCommand;
     private final UnitFixtureCommandToUnitFixture unitFixtureCommandToUnitFixture;
     private final UnitFixtureRepository unitFixtureRepository;
@@ -61,6 +62,20 @@ public class UnitFixtureServiceImpl implements UnitFixtureService {
         UnitFixture savedUnitFixture = unitFixtureRepository.save(detachedUnitFixture);
         log.debug("Saved Unit Fixture Id:" + savedUnitFixture.getUnitFixtureCode());
         return unitFixtureToUnitFixtureCommand.convert(savedUnitFixture);
+    }
+
+    @Override
+    @Transactional
+    public UnitFixture updateUnitFixture(UnitFixture unitFixture, Long l) {
+        return unitFixtureRepository.findById(l).map(unitFixture1 -> {
+            unitFixture1.setUnitFixtureCode(unitFixture.getUnitFixtureCode());
+            unitFixture1.setUFixtureId(unitFixture.getUFixtureId());
+            unitFixture1.setUFixtureDescr(unitFixture.getUFixtureDescr());
+            return unitFixtureRepository.save(unitFixture);
+        }).orElseGet(() -> {
+            unitFixture.setUnitFixtureCode(l);
+            return unitFixtureRepository.save(unitFixture);
+        });
     }
 
 

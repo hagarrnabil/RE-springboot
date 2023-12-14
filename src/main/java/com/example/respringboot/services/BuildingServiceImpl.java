@@ -5,7 +5,7 @@ import com.example.respringboot.converters.BuildingCommandToBuilding;
 import com.example.respringboot.converters.BuildingToBuildingCommand;
 import com.example.respringboot.model.Building;
 import com.example.respringboot.repositories.BuildingRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +62,24 @@ public class BuildingServiceImpl implements BuildingService{
         log.debug("Saved Building Id:" + savedBuilding.getBuildingCode());
         return buildingToBuildingCommand.convert(savedBuilding);
 
+    }
+
+    @Override
+    @Transactional
+    public Building updateBuilding(Building building, Long l) {
+        return buildingRepository.findById(l).map(building1 -> {
+            building1.setBuildingCode(building.getBuildingCode());
+            building1.setBuildingId(building.getBuildingId());
+            building1.setBuildingDescription(building.getBuildingDescription());
+            building1.setProfit(building.getProfit());
+            building1.setNumberOfFloors(building.getNumberOfFloors());
+            building1.setOldNumber(building.getOldNumber());
+            building1.setValidFrom(building.getValidFrom());
+            return buildingRepository.save(building);
+        }).orElseGet(() -> {
+            building.setBuildingCode(l);
+            return buildingRepository.save(building);
+        });
     }
 
     @Override

@@ -1,8 +1,13 @@
 package com.example.respringboot.controllers;
 ;
+import com.example.respringboot.commands.CompanyCommand;
 import com.example.respringboot.commands.UnitAreaCommand;
+import com.example.respringboot.converters.UnitAreaToUnitAreaCommand;
+import com.example.respringboot.model.Company;
+import com.example.respringboot.model.UnitArea;
 import com.example.respringboot.services.UnitAreaService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -11,9 +16,12 @@ import java.util.Set;
 @RestController
 public class UnitAreaController {
     private final UnitAreaService unitAreaService;
+    private final UnitAreaToUnitAreaCommand unitAreaToUnitAreaCommand;
 
-    public UnitAreaController(UnitAreaService unitAreaService) {
+    public UnitAreaController(UnitAreaService unitAreaService,
+                              UnitAreaToUnitAreaCommand unitAreaToUnitAreaCommand) {
         this.unitAreaService = unitAreaService;
+        this.unitAreaToUnitAreaCommand = unitAreaToUnitAreaCommand;
     }
 
     @GetMapping("/unitareas")
@@ -42,10 +50,11 @@ public class UnitAreaController {
 
     @PutMapping
     @RequestMapping("/unitareas/{unitAreaCode}")
-    UnitAreaCommand updateUnitAreaCommand(@RequestBody UnitAreaCommand newUnitAreaCommand, @PathVariable Long unitAreaCode) {
+    @Transactional
+    UnitAreaCommand updateUnitAreaCommand(@RequestBody UnitArea newUnitArea, @PathVariable Long unitAreaCode) {
 
-        unitAreaService.findUnitAreaCommandById(unitAreaCode);
-        UnitAreaCommand savedCommand = unitAreaService.saveUnitAreaCommand(newUnitAreaCommand);
-        return savedCommand;
+        UnitArea unitArea = unitAreaService.updateUnitArea(newUnitArea, unitAreaCode);
+        UnitAreaCommand command = unitAreaToUnitAreaCommand.convert(unitArea);
+        return command;
     }
 }

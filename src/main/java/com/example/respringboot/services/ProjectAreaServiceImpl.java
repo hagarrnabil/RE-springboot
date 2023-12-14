@@ -3,10 +3,9 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.ProjectAreaCommand;
 import com.example.respringboot.converters.ProjectAreaCommandToProjectArea;
 import com.example.respringboot.converters.ProjectAreaToProjectAreaCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.ProjectArea;
 import com.example.respringboot.repositories.ProjectAreaRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +64,20 @@ public class ProjectAreaServiceImpl implements ProjectAreaService{
         log.debug("Saved Project Area Id:" + savedProjectArea.getProjectAreaCode());
         return projectAreaToProjectAreaCommand.convert(savedProjectArea);
 
+    }
+
+    @Override
+    @Transactional
+    public ProjectArea updateProjectArea(ProjectArea projectArea, Long l) {
+        return projectAreaRepository.findById(l).map(projectArea1 -> {
+            projectArea1.setProjectAreaCode(projectArea.getProjectAreaCode());
+            projectArea1.setProjectArea(projectArea.getProjectArea());
+            projectArea1.setDescription(projectArea.getDescription());
+            return projectAreaRepository.save(projectArea);
+        }).orElseGet(() -> {
+            projectArea.setProjectAreaCode(l);
+            return projectAreaRepository.save(projectArea);
+        });
     }
 
     @Override

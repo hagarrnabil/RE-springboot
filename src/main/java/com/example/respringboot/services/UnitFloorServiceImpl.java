@@ -3,10 +3,9 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.UnitFloorCommand;
 import com.example.respringboot.converters.UnitFloorCommandToUnitFloor;
 import com.example.respringboot.converters.UnitFloorToUnitFloorCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.UnitFloor;
 import com.example.respringboot.repositories.UnitFloorRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +64,20 @@ public class UnitFloorServiceImpl implements UnitFloorService{
         log.debug("Saved Unit Floor Id:" + savedUnitFloor.getUnitFloorCode());
         return unitFloorToUnitFloorCommand.convert(savedUnitFloor);
 
+    }
+
+    @Override
+    @Transactional
+    public UnitFloor updateUnitFloor(UnitFloor unitFloor, Long l) {
+        return unitFloorRepository.findById(l).map(unitFloor1 -> {
+            unitFloor1.setUnitFloorCode(unitFloor.getUnitFloorCode());
+            unitFloor1.setUFloorId(unitFloor.getUFloorId());
+            unitFloor1.setUFloorDescr(unitFloor.getUFloorDescr());
+            return unitFloorRepository.save(unitFloor);
+        }).orElseGet(() -> {
+            unitFloor.setUnitFloorCode(l);
+            return unitFloorRepository.save(unitFloor);
+        });
     }
 
     @Override

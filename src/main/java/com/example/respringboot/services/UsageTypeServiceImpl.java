@@ -5,7 +5,7 @@ import com.example.respringboot.converters.UsageTypeCommandToUsageType;
 import com.example.respringboot.converters.UsageTypeToUsageTypeCommand;
 import com.example.respringboot.model.UsageType;
 import com.example.respringboot.repositories.UsageTypeRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +59,20 @@ public class UsageTypeServiceImpl implements UsageTypeSevice{
         UsageType savedUsageType = usageTypeRepository.save(detachedUsageType);
         log.debug("Saved Usage Type Id:" + savedUsageType.getUsageTypeCode());
         return usageTypeToUsageTypeCommand.convert(savedUsageType);
+    }
+
+    @Override
+    @Transactional
+    public UsageType updateUsageType(UsageType usageType, Long l) {
+        return usageTypeRepository.findById(l).map(usageType1 -> {
+            usageType1.setUsageTypeCode(usageType.getUsageTypeCode());
+            usageType1.setUsageId(usageType.getUsageId());
+            usageType1.setUsageDescr(usageType.getUsageDescr());
+            return usageTypeRepository.save(usageType);
+        }).orElseGet(() -> {
+            usageType.setUsageTypeCode(l);
+            return usageTypeRepository.save(usageType);
+        });
     }
 
     @Override

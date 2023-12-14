@@ -1,8 +1,13 @@
 package com.example.respringboot.controllers;
 
 import com.example.respringboot.commands.AreaMasterDetailCommand;
+import com.example.respringboot.commands.CompanyCommand;
+import com.example.respringboot.converters.AreaMasterDetailToAreaMasterDetailCommand;
+import com.example.respringboot.model.AreaMasterDetail;
+import com.example.respringboot.model.Company;
 import com.example.respringboot.services.AreaMasterDetailService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -11,9 +16,12 @@ import java.util.Set;
 @RestController
 public class AreaDetailController {
     private final AreaMasterDetailService areaMasterDetailService;
+    private final AreaMasterDetailToAreaMasterDetailCommand areaMasterDetailToAreaMasterDetailCommand;
 
-    public AreaDetailController(AreaMasterDetailService areaMasterDetailService) {
+    public AreaDetailController(AreaMasterDetailService areaMasterDetailService,
+                                AreaMasterDetailToAreaMasterDetailCommand areaMasterDetailToAreaMasterDetailCommand) {
         this.areaMasterDetailService = areaMasterDetailService;
+        this.areaMasterDetailToAreaMasterDetailCommand = areaMasterDetailToAreaMasterDetailCommand;
     }
 
     @GetMapping("/areas")
@@ -42,10 +50,11 @@ public class AreaDetailController {
 
     @PutMapping
     @RequestMapping("/areas/{areaCode}")
-    AreaMasterDetailCommand updateAreaDetailCommand(@RequestBody AreaMasterDetailCommand newAreaDetailCommand, @PathVariable Long areaCode) {
+    @Transactional
+    AreaMasterDetailCommand updateAreaDetailCommand(@RequestBody AreaMasterDetail newAreaDetail, @PathVariable Long areaCode) {
 
-        areaMasterDetailService.findAreaCommandById(areaCode);
-        AreaMasterDetailCommand savedCommand = areaMasterDetailService.saveAreaCommand(newAreaDetailCommand);
-        return savedCommand;
+        AreaMasterDetail area = areaMasterDetailService.updateArea(newAreaDetail, areaCode);
+        AreaMasterDetailCommand command = areaMasterDetailToAreaMasterDetailCommand.convert(area);
+        return command;
     }
 }

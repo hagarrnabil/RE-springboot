@@ -3,10 +3,9 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.UnitStatusCommand;
 import com.example.respringboot.converters.UnitStatusCommandToUnitStatus;
 import com.example.respringboot.converters.UnitStatusToUnitStatusCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.UnitStatus;
 import com.example.respringboot.repositories.UnitStatusRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +64,20 @@ public class UnitStatusServiceImpl implements UnitStatusService{
         log.debug("Saved Unit Status Id:" + savedUnitStatus.getUnitStatusCode());
         return unitStatusToUnitStatusCommand.convert(savedUnitStatus);
 
+    }
+
+    @Override
+    @Transactional
+    public UnitStatus updateUnitStatus(UnitStatus unitStatus, Long l) {
+        return unitStatusRepository.findById(l).map(unitStatus1 ->{
+            unitStatus1.setUnitStatusCode(unitStatus.getUnitStatusCode());
+            unitStatus1.setUStatusId(unitStatus.getUStatusId());
+            unitStatus1.setUStatusDescr(unitStatus.getUStatusDescr());
+            return unitStatusRepository.save(unitStatus);
+        }).orElseGet(() -> {
+            unitStatus.setUnitStatusCode(l);
+            return unitStatusRepository.save(unitStatus);
+        });
     }
 
     @Override

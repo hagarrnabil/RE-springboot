@@ -1,9 +1,14 @@
 package com.example.respringboot.controllers;
 
+import com.example.respringboot.commands.CompanyCommand;
 import com.example.respringboot.commands.UnitFixtureCommand;
+import com.example.respringboot.converters.UnitFixtureToUnitFixtureCommand;
+import com.example.respringboot.model.Company;
+import com.example.respringboot.model.UnitFixture;
 import com.example.respringboot.repositories.UnitFixtureRepository;
 import com.example.respringboot.services.UnitFixtureService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -13,10 +18,13 @@ import java.util.Set;
 public class UnitFixtureController {
     UnitFixtureRepository unitFixtureRepository;
     private final UnitFixtureService unitFixtureService;
+    private final UnitFixtureToUnitFixtureCommand unitFixtureToUnitFixtureCommand;
 
-    public UnitFixtureController(UnitFixtureRepository unitFixtureRepository, UnitFixtureService unitFixtureService) {
+    public UnitFixtureController(UnitFixtureRepository unitFixtureRepository, UnitFixtureService unitFixtureService,
+                                 UnitFixtureToUnitFixtureCommand unitFixtureToUnitFixtureCommand) {
         this.unitFixtureRepository = unitFixtureRepository;
         this.unitFixtureService = unitFixtureService;
+        this.unitFixtureToUnitFixtureCommand = unitFixtureToUnitFixtureCommand;
     }
 
     @GetMapping("/unitfixture")
@@ -44,11 +52,12 @@ public class UnitFixtureController {
 
     @PutMapping
     @RequestMapping("/unitfixture/{unitFixtureCode}")
-    UnitFixtureCommand updateUnitFixtureCommand(@RequestBody UnitFixtureCommand newUnitFixtureCommand, @PathVariable Long unitFixtureCode) {
+    @Transactional
+    UnitFixtureCommand updateUnitFixtureCommand(@RequestBody UnitFixture newUnitFixture, @PathVariable Long unitFixtureCode) {
 
-        unitFixtureService.findUnitFixtureCommandById(unitFixtureCode);
-        UnitFixtureCommand savedCommand = unitFixtureService.saveUnitFixtureCommand(newUnitFixtureCommand);
-        return savedCommand;
+        UnitFixture unitFixture = unitFixtureService.updateUnitFixture(newUnitFixture, unitFixtureCode);
+        UnitFixtureCommand command = unitFixtureToUnitFixtureCommand.convert(unitFixture);
+        return command;
     }
 
 }

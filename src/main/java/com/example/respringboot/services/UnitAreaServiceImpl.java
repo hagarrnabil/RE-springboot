@@ -3,10 +3,9 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.UnitAreaCommand;
 import com.example.respringboot.converters.UnitAreaCommandToUnitArea;
 import com.example.respringboot.converters.UnitAreaToUnitAreaCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.UnitArea;
 import com.example.respringboot.repositories.UnitAreaRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +64,20 @@ public class UnitAreaServiceImpl implements UnitAreaService{
         log.debug("Saved Unit Area Id:" + savedUnitArea.getUnitAreaCode());
         return unitAreaToUnitAreaCommand.convert(savedUnitArea);
 
+    }
+
+    @Override
+    @Transactional
+    public UnitArea updateUnitArea(UnitArea unitArea, Long l) {
+        return unitAreaRepository.findById(l).map(unitArea1 -> {
+            unitArea1.setUnitAreaCode(unitArea.getUnitAreaCode());
+            unitArea1.setUnitArea(unitArea.getUnitArea());
+            unitArea1.setDescription(unitArea.getDescription());
+            return unitAreaRepository.save(unitArea);
+        }).orElseGet(() -> {
+            unitArea.setUnitAreaCode(l);
+            return unitAreaRepository.save(unitArea);
+        });
     }
 
     @Override

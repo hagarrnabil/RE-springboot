@@ -3,10 +3,9 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.UnitOrientationCommand;
 import com.example.respringboot.converters.UnitOrientationCommandToUnitOrientation;
 import com.example.respringboot.converters.UnitOrientationToUnitOrientationCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.UnitOrientation;
 import com.example.respringboot.repositories.UnitOrientationRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +64,20 @@ public class UnitOrientationServiceImpl implements UnitOrientationService{
         log.debug("Saved Unit Orientation Id:" + savedUnitOrientation.getUnitOrientationCode());
         return unitOrientationToUnitOrientationCommand.convert(savedUnitOrientation);
 
+    }
+
+    @Override
+    @Transactional
+    public UnitOrientation updateUnitOrientation(UnitOrientation unitOrientation, Long l) {
+        return unitOrientationRepository.findById(l).map(unitOrientation1 -> {
+            unitOrientation1.setUnitOrientationCode(unitOrientation.getUnitOrientationCode());
+            unitOrientation1.setUOrientationId(unitOrientation.getUOrientationId());
+            unitOrientation1.setUOrientationDescr(unitOrientation.getUOrientationDescr());
+            return unitOrientationRepository.save(unitOrientation);
+        }).orElseGet(() -> {
+            unitOrientation.setUnitOrientationCode(l);
+            return unitOrientationRepository.save(unitOrientation);
+        });
     }
 
     @Override

@@ -2,9 +2,13 @@ package com.example.respringboot.controllers;
 
 import com.example.respringboot.commands.BuildingCommand;
 import com.example.respringboot.commands.CompanyCommand;
+import com.example.respringboot.converters.BuildingToBuildingCommand;
+import com.example.respringboot.model.Building;
+import com.example.respringboot.model.Company;
 import com.example.respringboot.repositories.BuildingRepository;
 import com.example.respringboot.services.BuildingService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,10 +20,12 @@ import java.util.Set;
 public class BuildingController {
     BuildingRepository buildingRepository;
     private final BuildingService buildingService;
+    private final BuildingToBuildingCommand buildingToBuildingCommand;
 
-    public BuildingController(BuildingRepository buildingRepository, BuildingService buildingService) {
+    public BuildingController(BuildingRepository buildingRepository, BuildingService buildingService, BuildingToBuildingCommand buildingToBuildingCommand) {
         this.buildingRepository = buildingRepository;
         this.buildingService = buildingService;
+        this.buildingToBuildingCommand = buildingToBuildingCommand;
     }
 
     @GetMapping("/buildings")
@@ -48,17 +54,11 @@ public class BuildingController {
 
     @PutMapping
     @RequestMapping("/buildings/{buildingCode}")
-    BuildingCommand updateBuildingCommand(@RequestBody BuildingCommand newBuildingCommand, @PathVariable Long buildingCode) {
+    @Transactional
+    BuildingCommand updateBuildingCommand(@RequestBody Building newBuilding, @PathVariable Long buildingCode) {
 
-        buildingService.findBuildingCommandById(buildingCode);
-        BuildingCommand savedCommand = buildingService.saveBuildingCommand(newBuildingCommand);
-        return savedCommand;
+        Building building = buildingService.updateBuilding(newBuilding, buildingCode);
+        BuildingCommand buildingCommand = buildingToBuildingCommand.convert(building);
+        return buildingCommand;
     }
-
-//    @RequestMapping(method = RequestMethod.GET, value = "/buildings/search")
-//    @ResponseBody
-//    public List<CompanyCommand> Search(@RequestParam String keyword) {
-//
-//        return companyRepository.search(keyword);
-//    }
 }

@@ -3,10 +3,9 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.LocationCommand;
 import com.example.respringboot.converters.LocationCommandToLocation;
 import com.example.respringboot.converters.LocationToLocationCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.Location;
 import com.example.respringboot.repositories.LocationRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +60,20 @@ public class LocationServiceImpl implements LocationService{
         Location savedLocation = locationRepository.save(detachedLocation);
         log.debug("Saved Location Id:" + savedLocation.getLocationCode());
         return locationToLocationCommand.convert(savedLocation);
+    }
+
+    @Override
+    @Transactional
+    public Location updateLocation(Location location, Long l) {
+        return locationRepository.findById(l).map(location1 -> {
+            location1.setLocationCode(location.getLocationCode());
+            location1.setLocationId(location.getLocationId());
+            location1.setRegionalLocation(location.getRegionalLocation());
+            return locationRepository.save(location);
+        }).orElseGet(() -> {
+            location.setLocationCode(l);
+            return locationRepository.save(location);
+        });
     }
 
     @Override

@@ -19,6 +19,7 @@ public class UnitViewToUnitViewCommand implements Converter<UnitView, UnitViewCo
     @Nullable
     @Override
     public UnitViewCommand convert(UnitView source) {
+
         if (source == null) {
             return null;
         }

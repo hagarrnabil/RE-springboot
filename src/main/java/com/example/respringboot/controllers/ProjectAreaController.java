@@ -1,8 +1,13 @@
 package com.example.respringboot.controllers;
 
+import com.example.respringboot.commands.CompanyCommand;
 import com.example.respringboot.commands.ProjectAreaCommand;
+import com.example.respringboot.converters.ProjectAreaToProjectAreaCommand;
+import com.example.respringboot.model.Company;
+import com.example.respringboot.model.ProjectArea;
 import com.example.respringboot.services.ProjectAreaService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -11,9 +16,12 @@ import java.util.Set;
 @RestController
 public class ProjectAreaController {
     private final ProjectAreaService projectAreaService;
+    private final ProjectAreaToProjectAreaCommand projectAreaToProjectAreaCommand;
 
-    public ProjectAreaController(ProjectAreaService projectAreaService) {
+    public ProjectAreaController(ProjectAreaService projectAreaService,
+                                 ProjectAreaToProjectAreaCommand projectAreaToProjectAreaCommand) {
         this.projectAreaService = projectAreaService;
+        this.projectAreaToProjectAreaCommand = projectAreaToProjectAreaCommand;
     }
 
     @GetMapping("/projectareas")
@@ -42,10 +50,11 @@ public class ProjectAreaController {
 
     @PutMapping
     @RequestMapping("/projectareas/{projectAreaCode}")
-    ProjectAreaCommand updateProjectAreaCommand(@RequestBody ProjectAreaCommand newProjectAreaCommand, @PathVariable Long projectAreaCode) {
+    @Transactional
+    ProjectAreaCommand updateProjectAreaCommand(@RequestBody ProjectArea newProjectArea, @PathVariable Long projectAreaCode) {
 
-        projectAreaService.findProjectAreaCommandById(projectAreaCode);
-        ProjectAreaCommand savedCommand = projectAreaService.saveProjectAreaCommand(newProjectAreaCommand);
-        return savedCommand;
+        ProjectArea projectArea = projectAreaService.updateProjectArea(newProjectArea, projectAreaCode);
+        ProjectAreaCommand command = projectAreaToProjectAreaCommand.convert(projectArea);
+        return command;
     }
 }

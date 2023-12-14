@@ -1,8 +1,13 @@
 package com.example.respringboot.controllers;
 
+import com.example.respringboot.commands.CompanyCommand;
 import com.example.respringboot.commands.UnitOrientationCommand;
+import com.example.respringboot.converters.UnitOrientationToUnitOrientationCommand;
+import com.example.respringboot.model.Company;
+import com.example.respringboot.model.UnitOrientation;
 import com.example.respringboot.services.UnitOrientationService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -12,9 +17,12 @@ import java.util.Set;
 @RestController
 public class UnitOrientationController {
     private final UnitOrientationService unitOrientationService;
+    private final UnitOrientationToUnitOrientationCommand unitOrientationToUnitOrientationCommand;
 
-    public UnitOrientationController(UnitOrientationService unitOrientationService) {
+    public UnitOrientationController(UnitOrientationService unitOrientationService,
+                                     UnitOrientationToUnitOrientationCommand unitOrientationToUnitOrientationCommand) {
         this.unitOrientationService = unitOrientationService;
+        this.unitOrientationToUnitOrientationCommand = unitOrientationToUnitOrientationCommand;
     }
 
     @GetMapping("/unitorientations")
@@ -43,11 +51,12 @@ public class UnitOrientationController {
 
     @PutMapping
     @RequestMapping("/unitorientations/{unitOrientationCode}")
-    UnitOrientationCommand updateUnitOrientationCommand(@RequestBody UnitOrientationCommand newUnitOrientationCommand, @PathVariable Long unitOrientationCode) {
+    @Transactional
+    UnitOrientationCommand updateUnitOrientationCommand(@RequestBody UnitOrientation newUnitOrientation, @PathVariable Long unitOrientationCode) {
 
-        unitOrientationService.findUnitOrientationCommandById(unitOrientationCode);
-        UnitOrientationCommand savedCommand = unitOrientationService.saveUnitOrientationCommand(newUnitOrientationCommand);
-        return savedCommand;
+        UnitOrientation unitOrientation = unitOrientationService.updateUnitOrientation(newUnitOrientation, unitOrientationCode);
+        UnitOrientationCommand command = unitOrientationToUnitOrientationCommand.convert(unitOrientation);
+        return command;
     }
 
 }

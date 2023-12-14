@@ -1,8 +1,13 @@
 package com.example.respringboot.controllers;
 
+import com.example.respringboot.commands.CompanyCommand;
 import com.example.respringboot.commands.UnitSubtypeCommand;
+import com.example.respringboot.converters.UnitSubtypeToUnitSubtypeCommand;
+import com.example.respringboot.model.Company;
+import com.example.respringboot.model.UnitSubtype;
 import com.example.respringboot.services.UnitSubtypeService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -12,9 +17,12 @@ import java.util.Set;
 @RestController
 public class USubtypeController {
     private final UnitSubtypeService unitSubtypeService;
+    private final UnitSubtypeToUnitSubtypeCommand unitSubtypeToUnitSubtypeCommand;
 
-    public USubtypeController(UnitSubtypeService unitSubtypeService) {
+    public USubtypeController(UnitSubtypeService unitSubtypeService,
+                              UnitSubtypeToUnitSubtypeCommand unitSubtypeToUnitSubtypeCommand) {
         this.unitSubtypeService = unitSubtypeService;
+        this.unitSubtypeToUnitSubtypeCommand = unitSubtypeToUnitSubtypeCommand;
     }
 
     @GetMapping("/unitsubtypes")
@@ -43,11 +51,12 @@ public class USubtypeController {
 
     @PutMapping
     @RequestMapping("/unitsubtypes/{unitSubtypeCode}")
-    UnitSubtypeCommand updateUnitSubtypeCommand(@RequestBody UnitSubtypeCommand newUnitSubtypeCommand, @PathVariable Long unitSubtypeCode) {
+    @Transactional
+    UnitSubtypeCommand updateUnitSubtypeCommand(@RequestBody UnitSubtype newUnitSubtype, @PathVariable Long unitSubtypeCode) {
 
-        unitSubtypeService.findUnitSubtypeCommandById(unitSubtypeCode);
-        UnitSubtypeCommand savedCommand = unitSubtypeService.saveUnitSubtypeCommand(newUnitSubtypeCommand);
-        return savedCommand;
+        UnitSubtype unitSubtype = unitSubtypeService.updateUnitSubtype(newUnitSubtype, unitSubtypeCode);
+        UnitSubtypeCommand command = unitSubtypeToUnitSubtypeCommand.convert(unitSubtype);
+        return command;
     }
 
 }

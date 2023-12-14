@@ -2,6 +2,7 @@ package com.example.respringboot.services;
 
 
 import com.example.respringboot.commands.UnitCommand;
+import com.example.respringboot.model.Company;
 import com.example.respringboot.model.Unit;
 
 import java.util.Set;
@@ -14,6 +15,7 @@ public interface UnitService {
     void deleteById(Long idToDelete);
 
     UnitCommand saveUnitCommand(UnitCommand command);
+    Unit updateUnit(Unit unit, Long l);
 
     UnitCommand findUnitCommandById(Long l);
 }

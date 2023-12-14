@@ -17,10 +17,10 @@ public class UnitStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long unitStatusCode;
-    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Column(unique = true, length = 8, columnDefinition = "char(8)")
     @Length(max = 8)
     private String uStatusId;
-    @NotNull
+//    @NotNull
     private String uStatusDescr;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitStatus")

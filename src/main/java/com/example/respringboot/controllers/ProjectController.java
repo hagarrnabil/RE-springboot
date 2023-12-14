@@ -1,9 +1,14 @@
 package com.example.respringboot.controllers;
 
+import com.example.respringboot.commands.CompanyCommand;
 import com.example.respringboot.commands.ProjectCommand;
+import com.example.respringboot.converters.ProjectToProjectCommand;
+import com.example.respringboot.model.Company;
+import com.example.respringboot.model.Project;
 import com.example.respringboot.repositories.ProjectRepository;
 import com.example.respringboot.services.ProjectService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,10 +19,13 @@ import java.util.Set;
 public class ProjectController {
     ProjectRepository projectRepository;
     private final ProjectService projectService;
+    private final ProjectToProjectCommand projectToProjectCommand;
 
-    public ProjectController(ProjectRepository projectRepository, ProjectService projectService) {
+    public ProjectController(ProjectRepository projectRepository, ProjectService projectService,
+                             ProjectToProjectCommand projectToProjectCommand) {
         this.projectRepository = projectRepository;
         this.projectService = projectService;
+        this.projectToProjectCommand = projectToProjectCommand;
     }
 
     @GetMapping("/projects")
@@ -47,17 +55,10 @@ public class ProjectController {
 
     @PutMapping
     @RequestMapping("/projects/{projectCode}")
+    @Transactional
     ProjectCommand updateProjectCommand(@RequestBody ProjectCommand newProjectCommand, @PathVariable Long projectCode) {
 
-        projectService.findProjectCommandById(projectCode);
-        ProjectCommand savedCommand = projectService.saveProjectCommand(newProjectCommand);
-        return savedCommand;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/projects/search")
-    @ResponseBody
-    public List<ProjectCommand> Search(@RequestParam String keyword) {
-
-        return projectRepository.search(keyword);
+        ProjectCommand command = projectService.updateProject(newProjectCommand, projectCode);
+        return command;
     }
 }

@@ -3,6 +3,7 @@ package com.example.respringboot.services;
 
 import com.example.respringboot.commands.BuildingCommand;
 import com.example.respringboot.model.Building;
+import com.example.respringboot.model.Company;
 
 import java.util.Set;
 
@@ -14,6 +15,7 @@ public interface BuildingService {
     void deleteById(Long idToDelete);
 
     BuildingCommand saveBuildingCommand(BuildingCommand command);
+    Building updateBuilding(Building building, Long l);
 
     BuildingCommand findBuildingCommandById(Long l);
 }

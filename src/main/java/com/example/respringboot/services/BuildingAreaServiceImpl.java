@@ -4,9 +4,8 @@ import com.example.respringboot.commands.BuildingAreaCommand;
 import com.example.respringboot.converters.BuildingAreaCommandToBuildingArea;
 import com.example.respringboot.converters.BuildingAreaToBuildingAreaCommand;
 import com.example.respringboot.model.BuildingArea;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.repositories.BuildingAreaRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +64,20 @@ public class BuildingAreaServiceImpl implements BuildingAreaService{
         log.debug("Saved Building Area Id:" + savedBuildingArea.getBuildingAreaCode());
         return buildingAreaToBuildingAreaCommand.convert(savedBuildingArea);
 
+    }
+
+    @Override
+    @Transactional
+    public BuildingArea updateBuildingArea(BuildingArea buildingArea, Long l) {
+        return buildingAreaRepository.findById(l).map(buildingArea1 -> {
+            buildingArea1.setBuildingAreaCode(buildingArea.getBuildingAreaCode());
+            buildingArea1.setBuildingArea(buildingArea.getBuildingArea());
+            buildingArea1.setDescription(buildingArea.getDescription());
+            return buildingAreaRepository.save(buildingArea);
+        }).orElseGet(() -> {
+            buildingArea.setBuildingAreaCode(l);
+            return buildingAreaRepository.save(buildingArea);
+        });
     }
 
     @Override

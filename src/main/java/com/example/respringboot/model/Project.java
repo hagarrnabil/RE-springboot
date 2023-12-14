@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(exclude = {"company","profitCenter","buildings"})
+//@EqualsAndHashCode(exclude = {"company","profitCenter","buildings"})
 @Entity
 @Table(name = "project")
 public class Project {
@@ -37,7 +37,7 @@ public class Project {
     @ManyToOne
     private ProfitCenter profitCenter;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Location location;
 
     public Project() {

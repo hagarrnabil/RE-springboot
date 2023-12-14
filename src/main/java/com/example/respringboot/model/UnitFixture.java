@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = {"units"})
+//@EqualsAndHashCode(exclude = {"units"})
 @Table(name = "unit_fixture")
 public class UnitFixture {
     @Id

@@ -1,9 +1,14 @@
 package com.example.respringboot.controllers;
 
+import com.example.respringboot.commands.CompanyCommand;
 import com.example.respringboot.commands.UnitCommand;
+import com.example.respringboot.converters.UnitToUnitCommand;
+import com.example.respringboot.model.Company;
+import com.example.respringboot.model.Unit;
 import com.example.respringboot.repositories.UnitRepository;
 import com.example.respringboot.services.UnitService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,10 +20,13 @@ import java.util.Set;
 public class UnitController {
     UnitRepository unitRepository;
     private final UnitService unitService;
+    private final UnitToUnitCommand unitToUnitCommand;
 
-    public UnitController(UnitRepository unitRepository, UnitService unitService) {
+    public UnitController(UnitRepository unitRepository, UnitService unitService,
+                          UnitToUnitCommand unitToUnitCommand) {
         this.unitRepository = unitRepository;
         this.unitService = unitService;
+        this.unitToUnitCommand = unitToUnitCommand;
     }
 
     @GetMapping("/units")
@@ -47,17 +55,11 @@ public class UnitController {
 
     @PutMapping
     @RequestMapping("/units/{unitCode}")
-    UnitCommand updateUnitCommand(@RequestBody UnitCommand newUnitCommand, @PathVariable Long unitCode) {
+    @Transactional
+    UnitCommand updateUnitCommand(@RequestBody Unit newUnit, @PathVariable Long unitCode) {
 
-        unitService.findUnitCommandById(unitCode);
-        UnitCommand savedCommand = unitService.saveUnitCommand(newUnitCommand);
-        return savedCommand;
+        Unit unit = unitService.updateUnit(newUnit, unitCode);
+        UnitCommand command = unitToUnitCommand.convert(unit);
+        return command;
     }
-
-//    @RequestMapping(method = RequestMethod.GET, value = "/units/search")
-//    @ResponseBody
-//    public List<CompanyCommand> Search(@RequestParam String keyword) {
-//
-//        return companyRepository.search(keyword);
-//    }
 }

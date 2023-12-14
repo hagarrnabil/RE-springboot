@@ -16,10 +16,10 @@ public class UnitOrientation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long unitOrientationCode;
-    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Column(unique = true, length = 8, columnDefinition = "char(8)")
     @Length(max = 8)
     private String uOrientationId;
-    @NotNull
+//    @NotNull
     private String uOrientationDescr;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitOrientation")

@@ -13,10 +13,10 @@ import java.util.Objects;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = {"building","usageType","unitOrientation","unitFixture","unitStatus",
-        "unitView","unitSubtype","unitFloor","areaMasterDetail"})
+//@EqualsAndHashCode(exclude = {"building","usageType","unitOrientation","unitFixture","unitStatus",
+//        "unitView","unitSubtype","unitFloor","areaMasterDetail"})
 @Table(name = "unit")
-public class Unit implements Serializable {
+public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long unitCode;

@@ -4,9 +4,8 @@ import com.example.respringboot.commands.AreaMasterDetailCommand;
 import com.example.respringboot.converters.AreaMasterDetailCommandToAreaMasterDetail;
 import com.example.respringboot.converters.AreaMasterDetailToAreaMasterDetailCommand;
 import com.example.respringboot.model.AreaMasterDetail;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.repositories.AreaMasterDetailRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +64,23 @@ public class AreaServiceImpl implements AreaMasterDetailService{
         log.debug("Saved Area Id:" + savedArea.getAreaCode());
         return areaMasterDetailToAreaMasterDetailCommand.convert(savedArea);
 
+    }
+
+    @Override
+    @Transactional
+    public AreaMasterDetail updateArea(AreaMasterDetail area, Long l) {
+        return areaMasterDetailRepository.findById(l).map(area1 -> {
+            area1.setAreaCode(area.getAreaCode());
+            area1.setAreaMaster(area.getAreaMaster());
+            area1.setDescription(area.getDescription());
+            area1.setBuildingFlag(area.getBuildingFlag());
+            area1.setProjectFlag(area.getProjectFlag());
+            area1.setUnitFlag(area.getUnitFlag());
+            return areaMasterDetailRepository.save(area);
+        }).orElseGet(() -> {
+            area.setAreaCode(l);
+            return areaMasterDetailRepository.save(area);
+        });
     }
 
     @Override

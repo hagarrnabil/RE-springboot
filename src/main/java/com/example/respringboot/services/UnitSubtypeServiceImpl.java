@@ -5,7 +5,7 @@ import com.example.respringboot.converters.UnitSubtypeCommandToUnitSubtype;
 import com.example.respringboot.converters.UnitSubtypeToUnitSubtypeCommand;
 import com.example.respringboot.model.UnitSubtype;
 import com.example.respringboot.repositories.UnitSubtypeRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +64,20 @@ public class UnitSubtypeServiceImpl implements UnitSubtypeService{
         log.debug("Saved Unit Subtype Id:" + savedUnitSubtype.getUnitSubtypeCode());
         return unitSubtypeToUnitSubtypeCommand.convert(savedUnitSubtype);
 
+    }
+
+    @Override
+    @Transactional
+    public UnitSubtype updateUnitSubtype(UnitSubtype unitSubtype, Long l) {
+        return unitSubtypeRepository.findById(l).map(unitSubtype1 -> {
+            unitSubtype1.setUnitSubtypeCode(unitSubtype.getUnitSubtypeCode());
+            unitSubtype1.setUSubtypeId(unitSubtype.getUSubtypeId());
+            unitSubtype1.setUSubtypeDescr(unitSubtype.getUSubtypeDescr());
+            return unitSubtypeRepository.save(unitSubtype);
+        }).orElseGet(() -> {
+            unitSubtype.setUnitSubtypeCode(l);
+            return unitSubtypeRepository.save(unitSubtype);
+        });
     }
 
     @Override

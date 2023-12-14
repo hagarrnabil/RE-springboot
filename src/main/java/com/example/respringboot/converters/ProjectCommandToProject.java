@@ -46,7 +46,7 @@ public class ProjectCommandToProject implements Converter<ProjectCommand, Projec
         project.setProjectDescription(source.getProjectDescription());
         project.setValidFrom(source.getValidFrom());
         project.setProfit(source.getProfit());
-        project.setLocation(locationConverter.convert(source.getLocationCommand()));
+        project.setLocation(locationConverter.convert(source.getLocation()));
         if (source.getBuildingCommands() != null && source.getBuildingCommands().size() > 0) {
             source.getBuildingCommands()
                     .forEach(buildingCommand -> project.getBuildings().add(buildingConverter.convert(buildingCommand)));

@@ -33,5 +33,4 @@ public class UnitViewCommandToUnitView implements Converter<UnitViewCommand, Uni
         }
         return unitView;
     }
-
 }

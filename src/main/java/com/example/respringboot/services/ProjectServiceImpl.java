@@ -3,12 +3,9 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.ProjectCommand;
 import com.example.respringboot.converters.ProjectCommandToProject;
 import com.example.respringboot.converters.ProjectToProjectCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.Project;
-import com.example.respringboot.repositories.CompanyRepository;
-import com.example.respringboot.repositories.LocationRepository;
 import com.example.respringboot.repositories.ProjectRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +64,19 @@ public class ProjectServiceImpl implements ProjectService {
         log.debug("Saved Company Id:" + savedProject.getProjectCode());
         return projectToProjectCommand.convert(savedProject);
 
+    }
+
+    @Override
+    @Transactional
+    public ProjectCommand updateProject(ProjectCommand command, Long l) {
+        return projectRepository.findById(l).map(project1 -> {
+            project1 = projectCommandToProject.convert(command);
+            project1 = projectRepository.save(project1);
+            return projectToProjectCommand.convert(project1);
+        }).orElseGet(() -> {
+            command.setId(l);
+            return command;
+        });
     }
 
     @Override

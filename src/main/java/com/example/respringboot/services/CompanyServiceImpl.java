@@ -5,7 +5,7 @@ import com.example.respringboot.converters.CompanyCommandToCompany;
 import com.example.respringboot.converters.CompanyToCompanyCommand;
 import com.example.respringboot.model.Company;
 import com.example.respringboot.repositories.CompanyRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -65,7 +65,8 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company updateCompanyCommand(Company company, Long l) {
+    @Transactional
+    public Company updateCompany(Company company, Long l) {
         return companyRepository.findById(l).map(company1 -> {
             company1.setCompanyCode(company.getCompanyCode());
             company1.setCompanyCodeId(company.getCompanyCodeId());

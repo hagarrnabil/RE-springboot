@@ -1,8 +1,13 @@
 package com.example.respringboot.controllers;
 
+import com.example.respringboot.commands.CompanyCommand;
 import com.example.respringboot.commands.UnitStatusCommand;
+import com.example.respringboot.converters.UnitStatusToUnitStatusCommand;
+import com.example.respringboot.model.Company;
+import com.example.respringboot.model.UnitStatus;
 import com.example.respringboot.services.UnitStatusService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -12,9 +17,12 @@ import java.util.Set;
 @RestController
 public class UnitStatusController {
     private final UnitStatusService unitStatusService;
+    private final UnitStatusToUnitStatusCommand unitStatusToUnitStatusCommand;
 
-    public UnitStatusController(UnitStatusService unitStatusService) {
+    public UnitStatusController(UnitStatusService unitStatusService,
+                                UnitStatusToUnitStatusCommand unitStatusToUnitStatusCommand) {
         this.unitStatusService = unitStatusService;
+        this.unitStatusToUnitStatusCommand = unitStatusToUnitStatusCommand;
     }
 
     @GetMapping("/unitstatuses")
@@ -43,11 +51,12 @@ public class UnitStatusController {
 
     @PutMapping
     @RequestMapping("/unitstatuses/{unitStatusCode}")
-    UnitStatusCommand updateUnitStatusCommand(@RequestBody UnitStatusCommand newUnitStatusCommand, @PathVariable Long unitStatusCode) {
+    @Transactional
+    UnitStatusCommand updateUnitStatusCommand(@RequestBody UnitStatus newUnitStatus, @PathVariable Long unitStatusCode) {
 
-        unitStatusService.findUnitStatusCommandById(unitStatusCode);
-        UnitStatusCommand savedCommand = unitStatusService.saveUnitStatusCommand(newUnitStatusCommand);
-        return savedCommand;
+        UnitStatus unitStatus = unitStatusService.updateUnitStatus(newUnitStatus, unitStatusCode);
+        UnitStatusCommand command = unitStatusToUnitStatusCommand.convert(unitStatus);
+        return command;
     }
 
 }

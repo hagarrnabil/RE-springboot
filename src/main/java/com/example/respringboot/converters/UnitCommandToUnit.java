@@ -32,17 +32,17 @@ public class UnitCommandToUnit implements Converter<UnitCommand, Unit> {
             unit.setUnitOrientation(unitOrientation);
             unitOrientation.addUnit(unit);
         }
+        if (source.getUnitFixtureCode() != null) {
+            UnitFixture unitFixture = new UnitFixture();
+            unitFixture.setUnitFixtureCode(source.getUnitFixtureCode());
+            unit.setUnitFixture(unitFixture);
+            unitFixture.addUnit(unit);
+        }
         if (source.getUnitStatusCode() != null) {
             UnitStatus unitStatus = new UnitStatus();
             unitStatus.setUnitStatusCode(source.getUnitStatusCode());
             unit.setUnitStatus(unitStatus);
             unitStatus.addUnit(unit);
-        }
-        if (source.getUnitFloorCode() != null) {
-            UnitFloor unitFloor = new UnitFloor();
-            unitFloor.setUnitFloorCode(source.getUnitFloorCode());
-            unit.setUnitFloor(unitFloor);
-            unitFloor.addUnit(unit);
         }
         if (source.getUsageTypeCode() != null) {
             UsageType usageType = new UsageType();
@@ -50,23 +50,23 @@ public class UnitCommandToUnit implements Converter<UnitCommand, Unit> {
             unit.setUsageType(usageType);
             usageType.addUnit(unit);
         }
+        if (source.getUnitViewCode() != null) {
+            UnitView unitView = new UnitView();
+            unitView.setUnitViewCode(source.getUnitViewCode());
+            unit.setUnitView(unitView);
+            unitView.addUnit(unit);
+        }
         if (source.getUnitSubtypeCode() != null) {
             UnitSubtype unitSubtype = new UnitSubtype();
             unitSubtype.setUnitSubtypeCode(source.getUnitSubtypeCode());
             unit.setUnitSubtype(unitSubtype);
             unitSubtype.addUnit(unit);
         }
-        if (source.getUnitFixtureCode() != null) {
-            UnitFixture unitFixture = new UnitFixture();
-            unitFixture.setUnitFixtureCode(source.getUnitFixtureCode());
-            unit.setUnitFixture(unitFixture);
-            unitFixture.addUnit(unit);
-        }
-        if (source.getUnitViewCode() != null) {
-            UnitView unitView = new UnitView();
-            unitView.setUnitViewCode(source.getUnitViewCode());
-            unit.setUnitView(unitView);
-            unitView.addUnit(unit);
+        if (source.getUnitFloorCode() != null) {
+            UnitFloor unitFloor = new UnitFloor();
+            unitFloor.setUnitFloorCode(source.getUnitFloorCode());
+            unit.setUnitFloor(unitFloor);
+            unitFloor.addUnit(unit);
         }
         if (source.getAreaCode() != null) {
             AreaMasterDetail areaMasterDetail = new AreaMasterDetail();

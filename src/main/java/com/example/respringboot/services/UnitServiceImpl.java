@@ -3,10 +3,9 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.UnitCommand;
 import com.example.respringboot.converters.UnitCommandToUnit;
 import com.example.respringboot.converters.UnitToUnitCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.Unit;
 import com.example.respringboot.repositories.UnitRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +61,33 @@ public class UnitServiceImpl implements UnitService{
         log.debug("Saved Unit Id:" + savedUnit.getUnitCode());
         return unitToUnitCommand.convert(savedUnit);
 
+    }
+
+    @Override
+    @Transactional
+    public Unit updateUnit(Unit unit, Long l) {
+        return unitRepository.findById(l).map(unit1 -> {
+            unit1.setUnitCode(unit.getUnitCode());
+            unit1.setUnitKey(unit.getUnitKey());
+            unit1.setDescription(unit.getDescription());
+            unit1.setOldNumber(unit.getOldNumber());
+            unit1.setBlockingDate(unit.getBlockingDate());
+            unit1.setBlockingReason(unit.getBlockingReason());
+            unit1.setSalesPhase(unit.getSalesPhase());
+            unit1.setConstructionDate(unit.getConstructionDate());
+            unit1.setUnitDeliveryDate(unit.getUnitDeliveryDate());
+            unit1.setArea(unit.getArea());
+            unit1.setAreaValue(unit.getAreaValue());
+            unit1.setPrice(unit.getPrice());
+            unit1.setNoOfRooms(unit.getNoOfRooms());
+            unit1.setValidFrom(unit.getValidFrom());
+            unit1.setFromFloor(unit.getFromFloor());
+            unit1.setToFloor(unit.getToFloor());
+            return unitRepository.save(unit);
+        }).orElseGet(() -> {
+            unit.setUnitCode(l);
+            return unitRepository.save(unit);
+        });
     }
 
     @Override

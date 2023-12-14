@@ -3,10 +3,9 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.ProfitCenterCommand;
 import com.example.respringboot.converters.ProfitCommandToProfit;
 import com.example.respringboot.converters.ProfitToProfitCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.ProfitCenter;
 import com.example.respringboot.repositories.ProfitCenterRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +61,20 @@ public class ProfitServiceImpl implements ProfitService{
         log.debug("Saved Profit Center Id:" + savedProfit.getProfitCode());
         return profitToProfitCommand.convert(savedProfit);
 
+    }
+
+    @Override
+    @Transactional
+    public ProfitCenter updateProfit(ProfitCenter profitCenter, Long l) {
+        return profitCenterRepository.findById(l).map(profitCenter1 -> {
+            profitCenter1.setProfitCode(profitCenter.getProfitCode());
+            profitCenter1.setProfitId(profitCenter.getProfitId());
+            profitCenter1.setProfitDescr(profitCenter.getProfitDescr());
+            return profitCenterRepository.save(profitCenter);
+        }).orElseGet(() -> {
+            profitCenter.setProfitCode(l);
+            return profitCenterRepository.save(profitCenter);
+        });
     }
 
     @Override
