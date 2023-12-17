@@ -1,9 +1,8 @@
 package com.example.respringboot.controllers;
 
-import com.example.respringboot.commands.CompanyCommand;
 import com.example.respringboot.commands.UnitFixtureCommand;
+import com.example.respringboot.commands.UsageTypeCommand;
 import com.example.respringboot.converters.UnitFixtureToUnitFixtureCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.UnitFixture;
 import com.example.respringboot.repositories.UnitFixtureRepository;
 import com.example.respringboot.services.UnitFixtureService;
@@ -16,7 +15,7 @@ import java.util.Set;
 
 @RestController
 public class UnitFixtureController {
-    UnitFixtureRepository unitFixtureRepository;
+    private final UnitFixtureRepository unitFixtureRepository;
     private final UnitFixtureService unitFixtureService;
     private final UnitFixtureToUnitFixtureCommand unitFixtureToUnitFixtureCommand;
 
@@ -39,11 +38,20 @@ public class UnitFixtureController {
     }
 
     @PostMapping("/unitfixture")
-    UnitFixtureCommand newUnitFixtureCommand(@RequestBody UnitFixtureCommand newUnitFixtureCommand) {
+    UnitFixtureCommand newUnitFixtureCommand(@RequestBody UnitFixture unitFixture) {
 
-        UnitFixtureCommand savedCommand = unitFixtureService.saveUnitFixtureCommand(newUnitFixtureCommand);
-        return savedCommand;
+        UnitFixture unitFixture1 = unitFixtureRepository.save(unitFixture);
+        UnitFixtureCommand command = unitFixtureService.saveUnitFixtureCommand(unitFixtureToUnitFixtureCommand.convert(unitFixture1));
+        return command;
     }
+
+//    @PostMapping("/unitfixture")
+//    UnitFixtureCommand newUnitFixtureCommand(@RequestBody UnitFixtureCommand newUnitFixtureCommand) {
+//
+//        UnitFixtureCommand savedCommand = unitFixtureService.saveUnitFixtureCommand(newUnitFixtureCommand);
+//        return savedCommand;
+//
+//    }
 
     @DeleteMapping("/unitfixture/{unitFixtureCode}")
     void deleteUnitFixtureCommand(@PathVariable Long unitFixtureCode) {

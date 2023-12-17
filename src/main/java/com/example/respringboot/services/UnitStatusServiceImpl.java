@@ -71,8 +71,8 @@ public class UnitStatusServiceImpl implements UnitStatusService{
     public UnitStatus updateUnitStatus(UnitStatus unitStatus, Long l) {
         return unitStatusRepository.findById(l).map(unitStatus1 ->{
             unitStatus1.setUnitStatusCode(unitStatus.getUnitStatusCode());
-            unitStatus1.setUStatusId(unitStatus.getUStatusId());
-            unitStatus1.setUStatusDescr(unitStatus.getUStatusDescr());
+            unitStatus1.setuStatusId(unitStatus.getuStatusId());
+            unitStatus1.setuStatusDescr(unitStatus.getuStatusDescr());
             return unitStatusRepository.save(unitStatus);
         }).orElseGet(() -> {
             unitStatus.setUnitStatusCode(l);

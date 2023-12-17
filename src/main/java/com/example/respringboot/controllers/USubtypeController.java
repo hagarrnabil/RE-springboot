@@ -5,6 +5,7 @@ import com.example.respringboot.commands.UnitSubtypeCommand;
 import com.example.respringboot.converters.UnitSubtypeToUnitSubtypeCommand;
 import com.example.respringboot.model.Company;
 import com.example.respringboot.model.UnitSubtype;
+import com.example.respringboot.repositories.UnitSubtypeRepository;
 import com.example.respringboot.services.UnitSubtypeService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +17,13 @@ import java.util.Set;
 
 @RestController
 public class USubtypeController {
+    private final UnitSubtypeRepository unitSubtypeRepository;
     private final UnitSubtypeService unitSubtypeService;
     private final UnitSubtypeToUnitSubtypeCommand unitSubtypeToUnitSubtypeCommand;
 
-    public USubtypeController(UnitSubtypeService unitSubtypeService,
+    public USubtypeController(UnitSubtypeRepository unitSubtypeRepository, UnitSubtypeService unitSubtypeService,
                               UnitSubtypeToUnitSubtypeCommand unitSubtypeToUnitSubtypeCommand) {
+        this.unitSubtypeRepository = unitSubtypeRepository;
         this.unitSubtypeService = unitSubtypeService;
         this.unitSubtypeToUnitSubtypeCommand = unitSubtypeToUnitSubtypeCommand;
     }
@@ -37,10 +40,12 @@ public class USubtypeController {
     }
 
     @PostMapping("/unitsubtypes")
-    UnitSubtypeCommand newUnitSubtypeCommand(@RequestBody UnitSubtypeCommand newUnitSubtypeCommand) {
+    @Transactional
+    UnitSubtypeCommand newUnitSubtypeCommand(@RequestBody UnitSubtype newUnitSubtype) {
 
-        UnitSubtypeCommand savedCommand = unitSubtypeService.saveUnitSubtypeCommand(newUnitSubtypeCommand);
-        return savedCommand;
+        UnitSubtype unitSubtype = unitSubtypeRepository.save(newUnitSubtype);
+        UnitSubtypeCommand command = unitSubtypeService.saveUnitSubtypeCommand(unitSubtypeToUnitSubtypeCommand.convert(unitSubtype));
+        return command;
 
     }
 

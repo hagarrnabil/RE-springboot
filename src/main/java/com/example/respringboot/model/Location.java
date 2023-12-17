@@ -22,21 +22,12 @@ public class Location {
     @NotNull
     private String regionalLocation;
 
-    @OneToOne
-    private Project project;
-
     public Location() {
     }
 
     public Location(String locationId, String regionalLocation) {
         this.locationId = locationId;
         this.regionalLocation = regionalLocation;
-    }
-
-    public Location(String locationId, String regionalLocation, Project project) {
-        this.locationId = locationId;
-        this.regionalLocation = regionalLocation;
-        this.project = project;
     }
 
 //    public void setProject(Project project) {

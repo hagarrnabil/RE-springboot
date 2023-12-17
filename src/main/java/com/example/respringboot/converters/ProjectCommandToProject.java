@@ -19,7 +19,7 @@ public class ProjectCommandToProject implements Converter<ProjectCommand, Projec
         this.buildingConverter = buildingConverter;
     }
 
-    @Synchronized
+//    @Synchronized
     @Nullable
     @Override
     public Project convert(ProjectCommand source) {

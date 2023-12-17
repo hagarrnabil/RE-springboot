@@ -5,6 +5,8 @@ import com.example.respringboot.commands.UnitFloorCommand;
 import com.example.respringboot.converters.UnitFloorToUnitFloorCommand;
 import com.example.respringboot.model.Company;
 import com.example.respringboot.model.UnitFloor;
+import com.example.respringboot.repositories.UnitFixtureRepository;
+import com.example.respringboot.repositories.UnitFloorRepository;
 import com.example.respringboot.services.UnitFloorService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +18,13 @@ import java.util.Set;
 
 @RestController
 public class UnitFloorController {
+    private final UnitFloorRepository unitFloorRepository;
     private final UnitFloorService unitFloorService;
     private final UnitFloorToUnitFloorCommand unitFloorToUnitFloorCommand;
 
-    public UnitFloorController(UnitFloorService unitFloorService,
+    public UnitFloorController(UnitFloorRepository unitFloorRepository, UnitFloorService unitFloorService,
                                UnitFloorToUnitFloorCommand unitFloorToUnitFloorCommand) {
+        this.unitFloorRepository = unitFloorRepository;
         this.unitFloorService = unitFloorService;
         this.unitFloorToUnitFloorCommand = unitFloorToUnitFloorCommand;
     }
@@ -37,10 +41,12 @@ public class UnitFloorController {
     }
 
     @PostMapping("/unitfloors")
-    UnitFloorCommand newUnitFloorCommand(@RequestBody UnitFloorCommand newUnitFloorCommand) {
+    @Transactional
+    UnitFloorCommand newUnitFloorCommand(@RequestBody UnitFloor newUnitFloor) {
 
-        UnitFloorCommand savedCommand = unitFloorService.saveUnitFloorCommand(newUnitFloorCommand);
-        return savedCommand;
+        UnitFloor unitFloor = unitFloorRepository.save(newUnitFloor);
+        UnitFloorCommand command = unitFloorService.saveUnitFloorCommand(unitFloorToUnitFloorCommand.convert(unitFloor));
+        return command;
 
     }
 

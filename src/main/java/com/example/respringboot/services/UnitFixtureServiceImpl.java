@@ -16,8 +16,7 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
-public class
-UnitFixtureServiceImpl implements UnitFixtureService {
+public class UnitFixtureServiceImpl implements UnitFixtureService {
     private final UnitFixtureToUnitFixtureCommand unitFixtureToUnitFixtureCommand;
     private final UnitFixtureCommandToUnitFixture unitFixtureCommandToUnitFixture;
     private final UnitFixtureRepository unitFixtureRepository;
@@ -57,6 +56,7 @@ UnitFixtureServiceImpl implements UnitFixtureService {
     }
 
     @Override
+    @Transactional
     public UnitFixtureCommand saveUnitFixtureCommand(UnitFixtureCommand command) {
         UnitFixture detachedUnitFixture = unitFixtureCommandToUnitFixture.convert(command);
         UnitFixture savedUnitFixture = unitFixtureRepository.save(detachedUnitFixture);
@@ -69,8 +69,8 @@ UnitFixtureServiceImpl implements UnitFixtureService {
     public UnitFixture updateUnitFixture(UnitFixture unitFixture, Long l) {
         return unitFixtureRepository.findById(l).map(unitFixture1 -> {
             unitFixture1.setUnitFixtureCode(unitFixture.getUnitFixtureCode());
-            unitFixture1.setUFixtureId(unitFixture.getUFixtureId());
-            unitFixture1.setUFixtureDescr(unitFixture.getUFixtureDescr());
+            unitFixture1.setuFixtureId(unitFixture.getuFixtureId());
+            unitFixture1.setuFixtureDescr(unitFixture.getuFixtureDescr());
             return unitFixtureRepository.save(unitFixture);
         }).orElseGet(() -> {
             unitFixture.setUnitFixtureCode(l);

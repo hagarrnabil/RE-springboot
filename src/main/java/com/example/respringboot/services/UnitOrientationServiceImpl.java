@@ -71,8 +71,8 @@ public class UnitOrientationServiceImpl implements UnitOrientationService{
     public UnitOrientation updateUnitOrientation(UnitOrientation unitOrientation, Long l) {
         return unitOrientationRepository.findById(l).map(unitOrientation1 -> {
             unitOrientation1.setUnitOrientationCode(unitOrientation.getUnitOrientationCode());
-            unitOrientation1.setUOrientationId(unitOrientation.getUOrientationId());
-            unitOrientation1.setUOrientationDescr(unitOrientation.getUOrientationDescr());
+            unitOrientation1.setuOrientationId(unitOrientation.getuOrientationId());
+            unitOrientation1.setuOrientationDescr(unitOrientation.getuOrientationDescr());
             return unitOrientationRepository.save(unitOrientation);
         }).orElseGet(() -> {
             unitOrientation.setUnitOrientationCode(l);

@@ -68,10 +68,10 @@ public class Project {
         return this;
     }
 
-    public void setLocation(Location location) {
-        if (location != null) {
-            this.location = location;
-            location.setProject(this);
-        }
-    }
+//    public void setLocation(Location location) {
+//        if (location != null) {
+//            this.location = location;
+//            location.setProject(this);
+//        }
+//    }
 }

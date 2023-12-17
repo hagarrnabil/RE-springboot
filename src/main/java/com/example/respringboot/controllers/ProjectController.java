@@ -1,17 +1,13 @@
 package com.example.respringboot.controllers;
 
-import com.example.respringboot.commands.CompanyCommand;
 import com.example.respringboot.commands.ProjectCommand;
 import com.example.respringboot.converters.ProjectToProjectCommand;
-import com.example.respringboot.model.Company;
-import com.example.respringboot.model.Project;
 import com.example.respringboot.repositories.ProjectRepository;
 import com.example.respringboot.services.ProjectService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -53,12 +49,13 @@ public class ProjectController {
         projectService.deleteById(projectCode);
     }
 
-    @PutMapping
-    @RequestMapping("/projects/{projectCode}")
-    @Transactional
-    ProjectCommand updateProjectCommand(@RequestBody ProjectCommand newProjectCommand, @PathVariable Long projectCode) {
-
-        ProjectCommand command = projectService.updateProject(newProjectCommand, projectCode);
-        return command;
-    }
+//    @PutMapping
+//    @RequestMapping("/projects/{projectCode}")
+//    @Transactional
+//    ProjectCommand updateProjectCommand(@RequestBody ProjectCommand newProjectCommand, @PathVariable Long projectCode){
+//
+////        ProjectCommand command =  projectService.findProjectCommandById(projectCode);
+//        ProjectCommand command =projectService.updateProject(newProjectCommand,projectCode);
+//        return command;
+//    }
 }

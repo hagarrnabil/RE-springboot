@@ -1,9 +1,13 @@
 package com.example.respringboot.services;
 
 import com.example.respringboot.commands.ProjectCommand;
+import com.example.respringboot.converters.LocationCommandToLocation;
 import com.example.respringboot.converters.ProjectCommandToProject;
 import com.example.respringboot.converters.ProjectToProjectCommand;
+import com.example.respringboot.model.Company;
 import com.example.respringboot.model.Project;
+import com.example.respringboot.repositories.CompanyRepository;
+import com.example.respringboot.repositories.LocationRepository;
 import com.example.respringboot.repositories.ProjectRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +23,19 @@ import java.util.stream.StreamSupport;
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectToProjectCommand projectToProjectCommand;
     private final ProjectCommandToProject projectCommandToProject;
+    private final LocationCommandToLocation locationConverter;
     private final ProjectRepository projectRepository;
+    private final CompanyRepository companyRepository;
+    private final LocationRepository locationRepository;
 
-    public ProjectServiceImpl(ProjectToProjectCommand projectToProjectCommand, ProjectCommandToProject projectCommandToProject,
-                              ProjectRepository projectRepository) {
+    public ProjectServiceImpl(ProjectToProjectCommand projectToProjectCommand, ProjectCommandToProject projectCommandToProject, LocationCommandToLocation locationConverter,
+                              ProjectRepository projectRepository, CompanyRepository companyRepository, LocationRepository locationRepository) {
         this.projectToProjectCommand = projectToProjectCommand;
         this.projectCommandToProject = projectCommandToProject;
+        this.locationConverter = locationConverter;
         this.projectRepository = projectRepository;
+        this.companyRepository = companyRepository;
+        this.locationRepository = locationRepository;
     }
 
 
@@ -66,18 +76,22 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
-    @Override
-    @Transactional
-    public ProjectCommand updateProject(ProjectCommand command, Long l) {
-        return projectRepository.findById(l).map(project1 -> {
-            project1 = projectCommandToProject.convert(command);
-            project1 = projectRepository.save(project1);
-            return projectToProjectCommand.convert(project1);
-        }).orElseGet(() -> {
-            command.setId(l);
-            return command;
-        });
-    }
+//    @Override
+//    @Transactional
+//    public Project updateProject(Project project, Long l) {
+//
+//        return projectRepository.findById(l).map(project1 -> {
+//            project1.setProjectId(project.getProjectId());
+//            project1.setProjectDescription(project.getProjectDescription());
+//            project1.setProfit(project.getProfit());
+//            project1.setValidFrom(project.getValidFrom());
+//            project1.setc
+//            return projectRepository.save(project);
+//        }).orElseGet(() -> {
+//            project.setOrientation_code(l);
+//            return projectRepository.save(project);
+//        });
+//    }
 
     @Override
     @Transactional

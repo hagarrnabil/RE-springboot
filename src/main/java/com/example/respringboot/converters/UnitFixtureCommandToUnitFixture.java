@@ -1,11 +1,14 @@
 package com.example.respringboot.converters;
 
 import com.example.respringboot.commands.UnitFixtureCommand;
+import com.example.respringboot.commands.UsageTypeCommand;
 import com.example.respringboot.model.UnitFixture;
+import com.example.respringboot.model.UsageType;
 import io.micrometer.common.lang.Nullable;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
+
 
 @Component
 public class UnitFixtureCommandToUnitFixture implements Converter<UnitFixtureCommand, UnitFixture> {
@@ -25,13 +28,12 @@ public class UnitFixtureCommandToUnitFixture implements Converter<UnitFixtureCom
 
         final UnitFixture unitFixture = new UnitFixture();
         unitFixture.setUnitFixtureCode(source.getId());
-        unitFixture.setUFixtureId(source.getUFixtureId());
-        unitFixture.setUFixtureDescr(source.getUFixtureDescr());
+        unitFixture.setuFixtureId(source.getUFixtureId());
+        unitFixture.setuFixtureDescr(source.getUFixtureDescr());
         if (source.getUnitCommands() != null && source.getUnitCommands().size() > 0){
             source.getUnitCommands()
                     .forEach( unitCommand -> unitFixture.getUnits().add(unitConverter.convert(unitCommand)));
         }
         return unitFixture;
     }
-
 }

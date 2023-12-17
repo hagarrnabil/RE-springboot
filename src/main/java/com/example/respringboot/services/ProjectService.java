@@ -2,9 +2,9 @@ package com.example.respringboot.services;
 
 
 import com.example.respringboot.commands.ProjectCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.Project;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface ProjectService {
@@ -15,7 +15,7 @@ public interface ProjectService {
     void deleteById(Long idToDelete);
 
     ProjectCommand saveProjectCommand(ProjectCommand command);
-    ProjectCommand updateProject(ProjectCommand command, Long l);
+//    Project updateProject(Project project, Long l);
 
     ProjectCommand findProjectCommandById(Long l);
 }

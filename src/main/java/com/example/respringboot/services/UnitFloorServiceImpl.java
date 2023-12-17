@@ -71,8 +71,8 @@ public class UnitFloorServiceImpl implements UnitFloorService{
     public UnitFloor updateUnitFloor(UnitFloor unitFloor, Long l) {
         return unitFloorRepository.findById(l).map(unitFloor1 -> {
             unitFloor1.setUnitFloorCode(unitFloor.getUnitFloorCode());
-            unitFloor1.setUFloorId(unitFloor.getUFloorId());
-            unitFloor1.setUFloorDescr(unitFloor.getUFloorDescr());
+            unitFloor1.setuFloorId(unitFloor.getuFloorId());
+            unitFloor1.setuFloorDescr(unitFloor.getuFloorDescr());
             return unitFloorRepository.save(unitFloor);
         }).orElseGet(() -> {
             unitFloor.setUnitFloorCode(l);

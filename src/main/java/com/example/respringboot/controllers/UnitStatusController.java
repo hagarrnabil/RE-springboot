@@ -5,6 +5,7 @@ import com.example.respringboot.commands.UnitStatusCommand;
 import com.example.respringboot.converters.UnitStatusToUnitStatusCommand;
 import com.example.respringboot.model.Company;
 import com.example.respringboot.model.UnitStatus;
+import com.example.respringboot.repositories.UnitStatusRepository;
 import com.example.respringboot.services.UnitStatusService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +17,13 @@ import java.util.Set;
 
 @RestController
 public class UnitStatusController {
+    private final UnitStatusRepository unitStatusRepository;
     private final UnitStatusService unitStatusService;
     private final UnitStatusToUnitStatusCommand unitStatusToUnitStatusCommand;
 
-    public UnitStatusController(UnitStatusService unitStatusService,
+    public UnitStatusController(UnitStatusRepository unitStatusRepository, UnitStatusService unitStatusService,
                                 UnitStatusToUnitStatusCommand unitStatusToUnitStatusCommand) {
+        this.unitStatusRepository = unitStatusRepository;
         this.unitStatusService = unitStatusService;
         this.unitStatusToUnitStatusCommand = unitStatusToUnitStatusCommand;
     }
@@ -37,10 +40,12 @@ public class UnitStatusController {
     }
 
     @PostMapping("/unitstatuses")
-    UnitStatusCommand newUnitStatusCommand(@RequestBody UnitStatusCommand newUnitStatusCommand) {
+    @Transactional
+    UnitStatusCommand newUnitStatusCommand(@RequestBody UnitStatus newUnitStatus) {
 
-        UnitStatusCommand savedCommand = unitStatusService.saveUnitStatusCommand(newUnitStatusCommand);
-        return savedCommand;
+        UnitStatus unitStatus = unitStatusRepository.save(newUnitStatus);
+        UnitStatusCommand command = unitStatusService.saveUnitStatusCommand(unitStatusToUnitStatusCommand.convert(unitStatus));
+        return command;
 
     }
 

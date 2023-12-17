@@ -18,7 +18,7 @@ import java.util.Set;
 
 @RestController
 public class UnitViewController {
-    UnitViewRepository unitViewRepository;
+    private final UnitViewRepository unitViewRepository;
     private final UnitViewService unitViewService;
     private final UnitViewToUnitViewCommand unitViewToUnitViewCommand;
 
@@ -41,10 +41,12 @@ public class UnitViewController {
     }
 
     @PostMapping("/unitviews")
-    UnitViewCommand newUnitViewCommand(@Valid  @RequestBody UnitViewCommand newUnitViewCommand) {
+    @Transactional
+    UnitViewCommand newUnitViewCommand(@Valid  @RequestBody UnitView newUnitView) {
 
-        UnitViewCommand savedCommand = unitViewService.saveUnitViewCommand(newUnitViewCommand);
-        return savedCommand;
+        UnitView unitView = unitViewRepository.save(newUnitView);
+        UnitViewCommand command = unitViewService.saveUnitViewCommand(unitViewToUnitViewCommand.convert(unitView));
+        return command;
 
     }
 
