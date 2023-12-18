@@ -52,8 +52,7 @@ public class BuildingAreaController {
     @Transactional
     BuildingAreaCommand updateBuildingAreaCommand(@RequestBody BuildingArea newBuildingArea, @PathVariable Long buildingAreaCode) {
 
-        BuildingArea buildingArea = buildingAreaService.updateBuildingArea(newBuildingArea, buildingAreaCode);
-        BuildingAreaCommand buildingAreaCommand = buildingAreaToBuildingAreaCommand.convert(buildingArea);
-        return buildingAreaCommand;
+        BuildingAreaCommand command = buildingAreaToBuildingAreaCommand.convert(buildingAreaService.updateBuildingArea(newBuildingArea, buildingAreaCode));
+        return command;
     }
 }

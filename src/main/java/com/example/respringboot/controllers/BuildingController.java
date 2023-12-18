@@ -18,7 +18,7 @@ import java.util.Set;
 
 @RestController
 public class BuildingController {
-    BuildingRepository buildingRepository;
+    private final BuildingRepository buildingRepository;
     private final BuildingService buildingService;
     private final BuildingToBuildingCommand buildingToBuildingCommand;
 
@@ -57,8 +57,7 @@ public class BuildingController {
     @Transactional
     BuildingCommand updateBuildingCommand(@RequestBody Building newBuilding, @PathVariable Long buildingCode) {
 
-        Building building = buildingService.updateBuilding(newBuilding, buildingCode);
-        BuildingCommand buildingCommand = buildingToBuildingCommand.convert(building);
-        return buildingCommand;
+        BuildingCommand command = buildingToBuildingCommand.convert(buildingService.updateBuilding(newBuilding, buildingCode));
+        return command;
     }
 }

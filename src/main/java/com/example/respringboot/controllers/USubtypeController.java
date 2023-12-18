@@ -59,8 +59,7 @@ public class USubtypeController {
     @Transactional
     UnitSubtypeCommand updateUnitSubtypeCommand(@RequestBody UnitSubtype newUnitSubtype, @PathVariable Long unitSubtypeCode) {
 
-        UnitSubtype unitSubtype = unitSubtypeService.updateUnitSubtype(newUnitSubtype, unitSubtypeCode);
-        UnitSubtypeCommand command = unitSubtypeToUnitSubtypeCommand.convert(unitSubtype);
+        UnitSubtypeCommand command = unitSubtypeToUnitSubtypeCommand.convert(unitSubtypeService.updateUnitSubtype(newUnitSubtype, unitSubtypeCode));
         return command;
     }
 

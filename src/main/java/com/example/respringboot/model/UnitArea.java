@@ -10,6 +10,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = {"areaMasterDetails"})
 @Table(name = "unit_area")
 public class UnitArea {
     @Id

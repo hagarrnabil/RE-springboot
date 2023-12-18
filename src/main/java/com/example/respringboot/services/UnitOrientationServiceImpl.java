@@ -67,7 +67,6 @@ public class UnitOrientationServiceImpl implements UnitOrientationService{
     }
 
     @Override
-    @Transactional
     public UnitOrientation updateUnitOrientation(UnitOrientation unitOrientation, Long l) {
         return unitOrientationRepository.findById(l).map(unitOrientation1 -> {
             unitOrientation1.setUnitOrientationCode(unitOrientation.getUnitOrientationCode());

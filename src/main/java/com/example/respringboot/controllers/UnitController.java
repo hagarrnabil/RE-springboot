@@ -18,7 +18,7 @@ import java.util.Set;
 
 @RestController
 public class UnitController {
-    UnitRepository unitRepository;
+    private final UnitRepository unitRepository;
     private final UnitService unitService;
     private final UnitToUnitCommand unitToUnitCommand;
 
@@ -58,8 +58,7 @@ public class UnitController {
     @Transactional
     UnitCommand updateUnitCommand(@RequestBody Unit newUnit, @PathVariable Long unitCode) {
 
-        Unit unit = unitService.updateUnit(newUnit, unitCode);
-        UnitCommand command = unitToUnitCommand.convert(unit);
+        UnitCommand command = unitToUnitCommand.convert(unitService.updateUnit(newUnit, unitCode));
         return command;
     }
 }

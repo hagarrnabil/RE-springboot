@@ -53,8 +53,7 @@ public class AreaDetailController {
     @Transactional
     AreaMasterDetailCommand updateAreaDetailCommand(@RequestBody AreaMasterDetail newAreaDetail, @PathVariable Long areaCode) {
 
-        AreaMasterDetail area = areaMasterDetailService.updateArea(newAreaDetail, areaCode);
-        AreaMasterDetailCommand command = areaMasterDetailToAreaMasterDetailCommand.convert(area);
+        AreaMasterDetailCommand command = areaMasterDetailToAreaMasterDetailCommand.convert(areaMasterDetailService.updateArea(newAreaDetail, areaCode));
         return command;
     }
 }

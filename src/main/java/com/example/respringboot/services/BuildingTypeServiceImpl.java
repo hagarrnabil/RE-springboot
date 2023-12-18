@@ -68,7 +68,6 @@ BuildingTypeServiceImpl implements BuildingTypeService{
     }
 
     @Override
-    @Transactional
     public BuildingType updateBuildingType(BuildingType buildingType, Long l) {
         return buildingTypeRepository.findById(l).map(buildingType1 -> {
             buildingType1.setBuildingTypeCode(buildingType.getBuildingTypeCode());

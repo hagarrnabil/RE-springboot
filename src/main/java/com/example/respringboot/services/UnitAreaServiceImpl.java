@@ -67,7 +67,6 @@ public class UnitAreaServiceImpl implements UnitAreaService{
     }
 
     @Override
-    @Transactional
     public UnitArea updateUnitArea(UnitArea unitArea, Long l) {
         return unitAreaRepository.findById(l).map(unitArea1 -> {
             unitArea1.setUnitAreaCode(unitArea.getUnitAreaCode());

@@ -16,7 +16,7 @@ import java.util.Set;
 
 @RestController
 public class CompanyController {
-    CompanyRepository companyRepository;
+    private final CompanyRepository companyRepository;
     private final CompanyToCompanyCommand companyToCompanyCommand;
     private final CompanyService companyService;
 
@@ -58,8 +58,7 @@ public class CompanyController {
     @Transactional
     CompanyCommand updateCompany(@RequestBody Company newCompany, @PathVariable Long companyCode) {
 
-        Company company = companyService.updateCompany(newCompany, companyCode);
-        CompanyCommand companyResponse = companyToCompanyCommand.convert(company);
-        return companyResponse;
+        CompanyCommand command = companyToCompanyCommand.convert(companyService.updateCompany(newCompany, companyCode));
+        return command;
     }
 }

@@ -60,8 +60,7 @@ public class UnitFloorController {
     @Transactional
     UnitFloorCommand updateUnitFloorCommand(@RequestBody UnitFloor newUnitFloor, @PathVariable Long unitFloorCode) {
 
-        UnitFloor unitFloor = unitFloorService.updateUnitFloor(newUnitFloor, unitFloorCode);
-        UnitFloorCommand command = unitFloorToUnitFloorCommand.convert(unitFloor);
+        UnitFloorCommand command = unitFloorToUnitFloorCommand.convert(unitFloorService.updateUnitFloor(newUnitFloor, unitFloorCode));
         return command;
     }
 

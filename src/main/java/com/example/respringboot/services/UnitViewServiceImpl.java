@@ -66,7 +66,6 @@ public class UnitViewServiceImpl implements UnitViewService{
     }
 
     @Override
-    @Transactional
     public UnitView updateUnitView(UnitView unitView, Long l) {
         return unitViewRepository.findById(l).map(unitView1 -> {
             unitView1.setUnitViewCode(unitView.getUnitViewCode());

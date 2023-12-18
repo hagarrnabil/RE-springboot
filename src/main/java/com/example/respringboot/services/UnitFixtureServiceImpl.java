@@ -65,7 +65,6 @@ public class UnitFixtureServiceImpl implements UnitFixtureService {
     }
 
     @Override
-    @Transactional
     public UnitFixture updateUnitFixture(UnitFixture unitFixture, Long l) {
         return unitFixtureRepository.findById(l).map(unitFixture1 -> {
             unitFixture1.setUnitFixtureCode(unitFixture.getUnitFixtureCode());

@@ -17,7 +17,7 @@ import java.util.Set;
 
 @RestController
 public class LocationController {
-    LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
     private final LocationService locationService;
     private final LocationToLocationCommand locationToLocationCommand;
 
@@ -57,8 +57,7 @@ public class LocationController {
     @Transactional
     LocationCommand updateLocationCommand(@RequestBody Location newLocation, @PathVariable Long locationCode) {
 
-        Location location = locationService.updateLocation(newLocation, locationCode);
-        LocationCommand command = locationToLocationCommand.convert(location);
+        LocationCommand command = locationToLocationCommand.convert(locationService.updateLocation(newLocation, locationCode));
         return command;
     }
 }

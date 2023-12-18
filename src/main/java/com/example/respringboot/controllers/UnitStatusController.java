@@ -59,8 +59,7 @@ public class UnitStatusController {
     @Transactional
     UnitStatusCommand updateUnitStatusCommand(@RequestBody UnitStatus newUnitStatus, @PathVariable Long unitStatusCode) {
 
-        UnitStatus unitStatus = unitStatusService.updateUnitStatus(newUnitStatus, unitStatusCode);
-        UnitStatusCommand command = unitStatusToUnitStatusCommand.convert(unitStatus);
+        UnitStatusCommand command = unitStatusToUnitStatusCommand.convert(unitStatusService.updateUnitStatus(newUnitStatus, unitStatusCode));
         return command;
     }
 

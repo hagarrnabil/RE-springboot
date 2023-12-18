@@ -60,8 +60,7 @@ public class UnitViewController {
     @Transactional
     UnitViewCommand updateUnitViewCommand(@RequestBody UnitView newUnitView, @PathVariable Long unitViewCode) {
 
-        UnitView unitView = unitViewService.updateUnitView(newUnitView, unitViewCode);
-        UnitViewCommand command = unitViewToUnitViewCommand.convert(unitView);
+        UnitViewCommand command = unitViewToUnitViewCommand.convert(unitViewService.updateUnitView(newUnitView, unitViewCode));
         return command;
     }
 }

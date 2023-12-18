@@ -67,7 +67,6 @@ public class UnitStatusServiceImpl implements UnitStatusService{
     }
 
     @Override
-    @Transactional
     public UnitStatus updateUnitStatus(UnitStatus unitStatus, Long l) {
         return unitStatusRepository.findById(l).map(unitStatus1 ->{
             unitStatus1.setUnitStatusCode(unitStatus.getUnitStatusCode());

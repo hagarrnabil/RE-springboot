@@ -17,7 +17,7 @@ import java.util.Set;
 
 @RestController
 public class ProfitCenterController {
-    ProfitCenterRepository profitCenterRepository;
+    private final ProfitCenterRepository profitCenterRepository;
     private final ProfitService profitService;
     private final ProfitToProfitCommand profitToProfitCommand;
 
@@ -57,8 +57,7 @@ public class ProfitCenterController {
     @Transactional
     ProfitCenterCommand updateProfitCommand(@RequestBody ProfitCenter newProfit, @PathVariable Long profitCode) {
 
-        ProfitCenter profitCenter = profitService.updateProfit(newProfit, profitCode);
-        ProfitCenterCommand command = profitToProfitCommand.convert(profitCenter);
+        ProfitCenterCommand command = profitToProfitCommand.convert(profitService.updateProfit(newProfit, profitCode));
         return command;
     }
 }

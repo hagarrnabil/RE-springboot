@@ -2,6 +2,7 @@ package com.example.respringboot.controllers;
 
 import com.example.respringboot.commands.ProjectCommand;
 import com.example.respringboot.converters.ProjectToProjectCommand;
+import com.example.respringboot.model.Project;
 import com.example.respringboot.repositories.ProjectRepository;
 import com.example.respringboot.services.ProjectService;
 import jakarta.validation.constraints.NotNull;
@@ -13,7 +14,7 @@ import java.util.Set;
 
 @RestController
 public class ProjectController {
-    ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
     private final ProjectService projectService;
     private final ProjectToProjectCommand projectToProjectCommand;
 
@@ -49,13 +50,12 @@ public class ProjectController {
         projectService.deleteById(projectCode);
     }
 
-//    @PutMapping
-//    @RequestMapping("/projects/{projectCode}")
-//    @Transactional
-//    ProjectCommand updateProjectCommand(@RequestBody ProjectCommand newProjectCommand, @PathVariable Long projectCode){
-//
-////        ProjectCommand command =  projectService.findProjectCommandById(projectCode);
-//        ProjectCommand command =projectService.updateProject(newProjectCommand,projectCode);
-//        return command;
-//    }
+    @PutMapping
+    @RequestMapping("/projects/{projectCode}")
+    @Transactional
+    ProjectCommand updateProjectCommand(@RequestBody Project newProject, @PathVariable Long projectCode){
+
+        ProjectCommand command = projectToProjectCommand.convert(projectService.updateProject(newProject,projectCode));
+        return command;
+    }
 }

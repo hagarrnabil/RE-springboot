@@ -53,8 +53,7 @@ public class UnitAreaController {
     @Transactional
     UnitAreaCommand updateUnitAreaCommand(@RequestBody UnitArea newUnitArea, @PathVariable Long unitAreaCode) {
 
-        UnitArea unitArea = unitAreaService.updateUnitArea(newUnitArea, unitAreaCode);
-        UnitAreaCommand command = unitAreaToUnitAreaCommand.convert(unitArea);
+        UnitAreaCommand command = unitAreaToUnitAreaCommand.convert(unitAreaService.updateUnitArea(newUnitArea, unitAreaCode));
         return command;
     }
 }

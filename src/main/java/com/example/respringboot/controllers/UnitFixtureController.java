@@ -45,14 +45,6 @@ public class UnitFixtureController {
         return command;
     }
 
-//    @PostMapping("/unitfixture")
-//    UnitFixtureCommand newUnitFixtureCommand(@RequestBody UnitFixtureCommand newUnitFixtureCommand) {
-//
-//        UnitFixtureCommand savedCommand = unitFixtureService.saveUnitFixtureCommand(newUnitFixtureCommand);
-//        return savedCommand;
-//
-//    }
-
     @DeleteMapping("/unitfixture/{unitFixtureCode}")
     void deleteUnitFixtureCommand(@PathVariable Long unitFixtureCode) {
         unitFixtureService.deleteById(unitFixtureCode);
@@ -63,8 +55,7 @@ public class UnitFixtureController {
     @Transactional
     UnitFixtureCommand updateUnitFixtureCommand(@RequestBody UnitFixture newUnitFixture, @PathVariable Long unitFixtureCode) {
 
-        UnitFixture unitFixture = unitFixtureService.updateUnitFixture(newUnitFixture, unitFixtureCode);
-        UnitFixtureCommand command = unitFixtureToUnitFixtureCommand.convert(unitFixture);
+        UnitFixtureCommand command = unitFixtureToUnitFixtureCommand.convert(unitFixtureService.updateUnitFixture(newUnitFixture, unitFixtureCode));
         return command;
     }
 

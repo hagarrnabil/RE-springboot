@@ -62,7 +62,6 @@ public class UsageTypeServiceImpl implements UsageTypeSevice{
     }
 
     @Override
-    @Transactional
     public UsageType updateUsageType(UsageType usageType, Long l) {
         return usageTypeRepository.findById(l).map(usageType1 -> {
             usageType1.setUsageTypeCode(usageType.getUsageTypeCode());

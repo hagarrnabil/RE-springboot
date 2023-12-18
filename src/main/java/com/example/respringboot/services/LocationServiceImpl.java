@@ -63,7 +63,6 @@ public class LocationServiceImpl implements LocationService{
     }
 
     @Override
-    @Transactional
     public Location updateLocation(Location location, Long l) {
         return locationRepository.findById(l).map(location1 -> {
             location1.setLocationCode(location.getLocationCode());

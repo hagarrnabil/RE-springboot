@@ -59,8 +59,7 @@ public class UnitOrientationController {
     @Transactional
     UnitOrientationCommand updateUnitOrientationCommand(@RequestBody UnitOrientation newUnitOrientation, @PathVariable Long unitOrientationCode) {
 
-        UnitOrientation unitOrientation = unitOrientationService.updateUnitOrientation(newUnitOrientation, unitOrientationCode);
-        UnitOrientationCommand command = unitOrientationToUnitOrientationCommand.convert(unitOrientation);
+        UnitOrientationCommand command = unitOrientationToUnitOrientationCommand.convert(unitOrientationService.updateUnitOrientation(newUnitOrientation, unitOrientationCode));
         return command;
     }
 

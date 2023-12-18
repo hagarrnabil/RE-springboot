@@ -64,7 +64,6 @@ public class ProfitServiceImpl implements ProfitService{
     }
 
     @Override
-    @Transactional
     public ProfitCenter updateProfit(ProfitCenter profitCenter, Long l) {
         return profitCenterRepository.findById(l).map(profitCenter1 -> {
             profitCenter1.setProfitCode(profitCenter.getProfitCode());

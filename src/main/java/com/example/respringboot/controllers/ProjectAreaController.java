@@ -53,8 +53,7 @@ public class ProjectAreaController {
     @Transactional
     ProjectAreaCommand updateProjectAreaCommand(@RequestBody ProjectArea newProjectArea, @PathVariable Long projectAreaCode) {
 
-        ProjectArea projectArea = projectAreaService.updateProjectArea(newProjectArea, projectAreaCode);
-        ProjectAreaCommand command = projectAreaToProjectAreaCommand.convert(projectArea);
+        ProjectAreaCommand command = projectAreaToProjectAreaCommand.convert(projectAreaService.updateProjectArea(newProjectArea, projectAreaCode));
         return command;
     }
 }

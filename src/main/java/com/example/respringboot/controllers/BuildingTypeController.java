@@ -17,7 +17,7 @@ import java.util.Set;
 
 @RestController
 public class BuildingTypeController {
-    BuildingTypeRepository buildingTypeRepository;
+    private final BuildingTypeRepository buildingTypeRepository;
     private final BuildingTypeService buildingTypeService;
     private final BuildingTypeToBuildingTypeCommand buildingTypeToBuildingTypeCommand;
 
@@ -57,8 +57,7 @@ public class BuildingTypeController {
     @Transactional
     BuildingTypeCommand updateBuildingTypeCommand(@RequestBody BuildingType newBuildingType, @PathVariable Long buildingTypeCode) {
 
-        BuildingType buildingType = buildingTypeService.updateBuildingType(newBuildingType, buildingTypeCode);
-        BuildingTypeCommand command = buildingTypeToBuildingTypeCommand.convert(buildingType);
+        BuildingTypeCommand command = buildingTypeToBuildingTypeCommand.convert(buildingTypeService.updateBuildingType(newBuildingType, buildingTypeCode));
         return command;
     }
 }

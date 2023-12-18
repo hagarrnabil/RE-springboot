@@ -1,9 +1,7 @@
 package com.example.respringboot.services;
 
 import com.example.respringboot.commands.ProjectCommand;
-import com.example.respringboot.converters.LocationCommandToLocation;
-import com.example.respringboot.converters.ProjectCommandToProject;
-import com.example.respringboot.converters.ProjectToProjectCommand;
+import com.example.respringboot.converters.*;
 import com.example.respringboot.model.Company;
 import com.example.respringboot.model.Project;
 import com.example.respringboot.repositories.CompanyRepository;
@@ -23,19 +21,13 @@ import java.util.stream.StreamSupport;
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectToProjectCommand projectToProjectCommand;
     private final ProjectCommandToProject projectCommandToProject;
-    private final LocationCommandToLocation locationConverter;
     private final ProjectRepository projectRepository;
-    private final CompanyRepository companyRepository;
-    private final LocationRepository locationRepository;
 
-    public ProjectServiceImpl(ProjectToProjectCommand projectToProjectCommand, ProjectCommandToProject projectCommandToProject, LocationCommandToLocation locationConverter,
-                              ProjectRepository projectRepository, CompanyRepository companyRepository, LocationRepository locationRepository) {
+    public ProjectServiceImpl(ProjectToProjectCommand projectToProjectCommand, ProjectCommandToProject projectCommandToProject,
+                              ProjectRepository projectRepository) {
         this.projectToProjectCommand = projectToProjectCommand;
         this.projectCommandToProject = projectCommandToProject;
-        this.locationConverter = locationConverter;
         this.projectRepository = projectRepository;
-        this.companyRepository = companyRepository;
-        this.locationRepository = locationRepository;
     }
 
 
@@ -76,22 +68,23 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
-//    @Override
-//    @Transactional
-//    public Project updateProject(Project project, Long l) {
-//
-//        return projectRepository.findById(l).map(project1 -> {
-//            project1.setProjectId(project.getProjectId());
-//            project1.setProjectDescription(project.getProjectDescription());
-//            project1.setProfit(project.getProfit());
-//            project1.setValidFrom(project.getValidFrom());
-//            project1.setc
-//            return projectRepository.save(project);
-//        }).orElseGet(() -> {
-//            project.setOrientation_code(l);
-//            return projectRepository.save(project);
-//        });
-//    }
+    @Override
+    public Project updateProject(Project project, Long l) {
+
+        return projectRepository.findById(l).map(project1 -> {
+                    project1.setProjectId(project.getProjectId());
+                    project1.setProjectDescription(project.getProjectDescription());
+                    project1.setProfit(project.getProfit());
+                    project1.setValidFrom(project.getValidFrom());
+                    project1.getProfitCenter().addProject(project);
+//                    project1.getLocation().
+                    project1.getCompany().addProject(project);
+                    return projectRepository.save(project);
+        }).orElseGet(() -> {
+            project.setProjectCode(l);
+            return projectRepository.save(project);
+        });
+    }
 
     @Override
     @Transactional

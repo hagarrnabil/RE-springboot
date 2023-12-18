@@ -64,7 +64,6 @@ public class UnitServiceImpl implements UnitService{
     }
 
     @Override
-    @Transactional
     public Unit updateUnit(Unit unit, Long l) {
         return unitRepository.findById(l).map(unit1 -> {
             unit1.setUnitCode(unit.getUnitCode());
@@ -83,6 +82,15 @@ public class UnitServiceImpl implements UnitService{
             unit1.setValidFrom(unit.getValidFrom());
             unit1.setFromFloor(unit.getFromFloor());
             unit1.setToFloor(unit.getToFloor());
+            unit1.getBuilding().addUnit(unit);
+            unit1.getUnitFloor().addUnit(unit);
+            unit1.getUnitOrientation().addUnit(unit);
+            unit1.getUnitFixture().addUnit(unit);
+            unit1.getUnitStatus().addUnit(unit);
+            unit1.getUnitView().addUnit(unit);
+            unit1.getUnitSubtype().addUnit(unit);
+            unit1.getUsageType().addUnit(unit);
+            unit1.getAreaMasterDetail().addUnit(unit);
             return unitRepository.save(unit);
         }).orElseGet(() -> {
             unit.setUnitCode(l);

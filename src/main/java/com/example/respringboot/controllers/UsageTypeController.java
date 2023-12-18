@@ -18,7 +18,7 @@ import java.util.Set;
 
 @RestController
 public class UsageTypeController {
-    UsageTypeRepository usageTypeRepository;
+    private final UsageTypeRepository usageTypeRepository;
     private final UsageTypeSevice usageTypeSevice;
     private final UsageTypeToUsageTypeCommand usageTypeToUsageTypeCommand;
 
@@ -58,8 +58,7 @@ public class UsageTypeController {
     @Transactional
     UsageTypeCommand updateUsageTypeCommand(@RequestBody UsageType newUsageType, @PathVariable Long usageTypeCode) {
 
-        UsageType usageType = usageTypeSevice.updateUsageType(newUsageType, usageTypeCode);
-        UsageTypeCommand command = usageTypeToUsageTypeCommand.convert(usageType);
+        UsageTypeCommand command = usageTypeToUsageTypeCommand.convert(usageTypeSevice.updateUsageType(newUsageType, usageTypeCode));
         return command;
     }
 }

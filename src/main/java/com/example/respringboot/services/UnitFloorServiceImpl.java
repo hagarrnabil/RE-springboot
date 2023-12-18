@@ -67,7 +67,6 @@ public class UnitFloorServiceImpl implements UnitFloorService{
     }
 
     @Override
-    @Transactional
     public UnitFloor updateUnitFloor(UnitFloor unitFloor, Long l) {
         return unitFloorRepository.findById(l).map(unitFloor1 -> {
             unitFloor1.setUnitFloorCode(unitFloor.getUnitFloorCode());

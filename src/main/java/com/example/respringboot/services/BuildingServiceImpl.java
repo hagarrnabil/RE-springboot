@@ -65,7 +65,6 @@ public class BuildingServiceImpl implements BuildingService{
     }
 
     @Override
-    @Transactional
     public Building updateBuilding(Building building, Long l) {
         return buildingRepository.findById(l).map(building1 -> {
             building1.setBuildingCode(building.getBuildingCode());
@@ -75,6 +74,9 @@ public class BuildingServiceImpl implements BuildingService{
             building1.setNumberOfFloors(building.getNumberOfFloors());
             building1.setOldNumber(building.getOldNumber());
             building1.setValidFrom(building.getValidFrom());
+            building1.getProfitCenter().addBuilding(building);
+            building1.getProject().addBuilding(building);
+            building1.getBuildingType().addBuilding(building);
             return buildingRepository.save(building);
         }).orElseGet(() -> {
             building.setBuildingCode(l);

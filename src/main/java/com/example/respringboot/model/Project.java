@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Data
-//@EqualsAndHashCode(exclude = {"company","profitCenter","buildings"})
+@EqualsAndHashCode(exclude = {"company","profitCenter","buildings"})
 @Entity
 @Table(name = "project")
 public class Project {

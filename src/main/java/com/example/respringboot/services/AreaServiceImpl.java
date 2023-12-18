@@ -67,7 +67,6 @@ public class AreaServiceImpl implements AreaMasterDetailService{
     }
 
     @Override
-    @Transactional
     public AreaMasterDetail updateArea(AreaMasterDetail area, Long l) {
         return areaMasterDetailRepository.findById(l).map(area1 -> {
             area1.setAreaCode(area.getAreaCode());
@@ -76,6 +75,9 @@ public class AreaServiceImpl implements AreaMasterDetailService{
             area1.setBuildingFlag(area.getBuildingFlag());
             area1.setProjectFlag(area.getProjectFlag());
             area1.setUnitFlag(area.getUnitFlag());
+            area1.getProjectArea().addAMD(area);
+            area1.getBuildingArea().addAMD(area);
+            area1.getUnitArea().addAMD(area);
             return areaMasterDetailRepository.save(area);
         }).orElseGet(() -> {
             area.setAreaCode(l);

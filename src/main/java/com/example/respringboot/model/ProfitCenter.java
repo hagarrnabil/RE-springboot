@@ -11,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = {"projects","buildings"})
 @Table(name = "profit_center")
 public class ProfitCenter {
     @Id

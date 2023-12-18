@@ -67,7 +67,6 @@ public class ProjectAreaServiceImpl implements ProjectAreaService{
     }
 
     @Override
-    @Transactional
     public ProjectArea updateProjectArea(ProjectArea projectArea, Long l) {
         return projectAreaRepository.findById(l).map(projectArea1 -> {
             projectArea1.setProjectAreaCode(projectArea.getProjectAreaCode());

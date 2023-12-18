@@ -67,7 +67,6 @@ public class UnitSubtypeServiceImpl implements UnitSubtypeService{
     }
 
     @Override
-    @Transactional
     public UnitSubtype updateUnitSubtype(UnitSubtype unitSubtype, Long l) {
         return unitSubtypeRepository.findById(l).map(unitSubtype1 -> {
             unitSubtype1.setUnitSubtypeCode(unitSubtype.getUnitSubtypeCode());
