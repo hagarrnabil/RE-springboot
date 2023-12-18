@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: recipe
+    kyma-grafana: enabled
+  name: recipe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recipe
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: recipe
+        kyma-grafana: enabled
+    spec:
+      containers:
+        - image: hagarrnabil/newrecipe
+          name: newrecipe
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: recipe
+                optional: true
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: recipe
+  name: recipe
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: recipe
+  type: ClusterIP
+status:
+  loadBalancer: {}
