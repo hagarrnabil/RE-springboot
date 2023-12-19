@@ -27,7 +27,7 @@ public class AreaMasterDetail {
     private String buildingFlag;
     private String unitFlag;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     private UnitOfMeasurement unitOfMeasurement;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaMasterDetail")
     private Set<Unit> units = new HashSet<>();
@@ -37,6 +37,17 @@ public class AreaMasterDetail {
     private BuildingArea buildingArea;
     @ManyToOne
     private UnitArea unitArea;
+
+    public AreaMasterDetail() {
+    }
+    public AreaMasterDetail(String areaMaster, String description, String projectFlag, String buildingFlag, String unitFlag, UnitOfMeasurement unitOfMeasurement) {
+        this.areaMaster = areaMaster;
+        this.description = description;
+        this.projectFlag = projectFlag;
+        this.buildingFlag = buildingFlag;
+        this.unitFlag = unitFlag;
+        this.unitOfMeasurement = unitOfMeasurement;
+    }
 
     public void setUoM(UnitOfMeasurement unitOfMeasurement) {
         if (unitOfMeasurement != null) {

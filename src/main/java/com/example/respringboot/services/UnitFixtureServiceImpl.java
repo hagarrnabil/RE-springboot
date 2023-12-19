@@ -67,9 +67,9 @@ public class UnitFixtureServiceImpl implements UnitFixtureService {
     @Override
     public UnitFixture updateUnitFixture(UnitFixture unitFixture, Long l) {
         return unitFixtureRepository.findById(l).map(unitFixture1 -> {
-            unitFixture1.setUnitFixtureCode(unitFixture.getUnitFixtureCode());
-            unitFixture1.setuFixtureId(unitFixture.getuFixtureId());
-            unitFixture1.setuFixtureDescr(unitFixture.getuFixtureDescr());
+            if (unitFixture.getUnitFixtureCode() != null) unitFixture1.setUnitFixtureCode(unitFixture.getUnitFixtureCode());
+            if (unitFixture.getuFixtureId() != null) unitFixture1.setuFixtureId(unitFixture.getuFixtureId());
+            if (unitFixture.getuFixtureDescr() != null) unitFixture1.setuFixtureDescr(unitFixture.getuFixtureDescr());
             return unitFixtureRepository.save(unitFixture);
         }).orElseGet(() -> {
             unitFixture.setUnitFixtureCode(l);

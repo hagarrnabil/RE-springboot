@@ -67,16 +67,16 @@ public class BuildingServiceImpl implements BuildingService{
     @Override
     public Building updateBuilding(Building building, Long l) {
         return buildingRepository.findById(l).map(building1 -> {
-            building1.setBuildingCode(building.getBuildingCode());
-            building1.setBuildingId(building.getBuildingId());
-            building1.setBuildingDescription(building.getBuildingDescription());
-            building1.setProfit(building.getProfit());
-            building1.setNumberOfFloors(building.getNumberOfFloors());
-            building1.setOldNumber(building.getOldNumber());
-            building1.setValidFrom(building.getValidFrom());
-            building1.getProfitCenter().addBuilding(building);
-            building1.getProject().addBuilding(building);
-            building1.getBuildingType().addBuilding(building);
+            if(building.getBuildingCode() != null) building1.setBuildingCode(building.getBuildingCode());
+            if(building.getBuildingId() != null) building1.setBuildingId(building.getBuildingId());
+            if(building.getBuildingDescription() != null) building1.setBuildingDescription(building.getBuildingDescription());
+            if (building.getProfit() != null) building1.setProfit(building.getProfit());
+            if(building.getNumberOfFloors() != null) building1.setNumberOfFloors(building.getNumberOfFloors());
+            if (building.getOldNumber() != null) building1.setOldNumber(building.getOldNumber());
+            if (building.getValidFrom() != null) building1.setValidFrom(building.getValidFrom());
+            if (building.getProfitCenter() != null) building1.getProfitCenter().addBuilding(building);
+            if (building.getProject() != null) building1.getProject().addBuilding(building);
+            if (building.getBuildingType() != null) building1.getBuildingType().addBuilding(building);
             return buildingRepository.save(building);
         }).orElseGet(() -> {
             building.setBuildingCode(l);

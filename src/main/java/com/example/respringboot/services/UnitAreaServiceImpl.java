@@ -69,9 +69,9 @@ public class UnitAreaServiceImpl implements UnitAreaService{
     @Override
     public UnitArea updateUnitArea(UnitArea unitArea, Long l) {
         return unitAreaRepository.findById(l).map(unitArea1 -> {
-            unitArea1.setUnitAreaCode(unitArea.getUnitAreaCode());
-            unitArea1.setUnitArea(unitArea.getUnitArea());
-            unitArea1.setDescription(unitArea.getDescription());
+            if (unitArea.getUnitAreaCode() != null) unitArea1.setUnitAreaCode(unitArea.getUnitAreaCode());
+            if (unitArea.getUnitArea() != null) unitArea1.setUnitArea(unitArea.getUnitArea());
+            if (unitArea.getDescription() != null) unitArea1.setDescription(unitArea.getDescription());
             return unitAreaRepository.save(unitArea);
         }).orElseGet(() -> {
             unitArea.setUnitAreaCode(l);

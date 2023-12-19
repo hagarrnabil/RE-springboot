@@ -3,6 +3,7 @@ package com.example.respringboot.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
@@ -37,7 +38,7 @@ public class Project {
     @ManyToOne
     private ProfitCenter profitCenter;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Location location;
 
     public Project() {
@@ -68,10 +69,10 @@ public class Project {
         return this;
     }
 
-//    public void setLocation(Location location) {
-//        if (location != null) {
-//            this.location = location;
-//            location.setProject(this);
-//        }
-//    }
+    public void setLocation(Location location) {
+        if (location != null) {
+            this.location = location;
+            location.setProject(this);
+        }
+    }
 }

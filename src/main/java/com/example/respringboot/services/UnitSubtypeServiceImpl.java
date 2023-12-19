@@ -69,9 +69,9 @@ public class UnitSubtypeServiceImpl implements UnitSubtypeService{
     @Override
     public UnitSubtype updateUnitSubtype(UnitSubtype unitSubtype, Long l) {
         return unitSubtypeRepository.findById(l).map(unitSubtype1 -> {
-            unitSubtype1.setUnitSubtypeCode(unitSubtype.getUnitSubtypeCode());
-            unitSubtype1.setuSubtypeId(unitSubtype.getuSubtypeId());
-            unitSubtype1.setuSubtypeDescr(unitSubtype.getuSubtypeDescr());
+            if (unitSubtype.getUnitSubtypeCode() != null) unitSubtype1.setUnitSubtypeCode(unitSubtype.getUnitSubtypeCode());
+            if (unitSubtype.getuSubtypeId() != null) unitSubtype1.setuSubtypeId(unitSubtype.getuSubtypeId());
+            if (unitSubtype.getuSubtypeDescr() != null) unitSubtype1.setuSubtypeDescr(unitSubtype.getuSubtypeDescr());
             return unitSubtypeRepository.save(unitSubtype);
         }).orElseGet(() -> {
             unitSubtype.setUnitSubtypeCode(l);

@@ -22,6 +22,8 @@ public class Location {
     @NotNull
     private String regionalLocation;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Project project;
     public Location() {
     }
 

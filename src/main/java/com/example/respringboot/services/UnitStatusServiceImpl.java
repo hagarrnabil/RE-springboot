@@ -69,9 +69,9 @@ public class UnitStatusServiceImpl implements UnitStatusService{
     @Override
     public UnitStatus updateUnitStatus(UnitStatus unitStatus, Long l) {
         return unitStatusRepository.findById(l).map(unitStatus1 ->{
-            unitStatus1.setUnitStatusCode(unitStatus.getUnitStatusCode());
-            unitStatus1.setuStatusId(unitStatus.getuStatusId());
-            unitStatus1.setuStatusDescr(unitStatus.getuStatusDescr());
+            if (unitStatus.getUnitStatusCode() != null) unitStatus1.setUnitStatusCode(unitStatus.getUnitStatusCode());
+            if (unitStatus.getuStatusId() != null) unitStatus1.setuStatusId(unitStatus.getuStatusId());
+            if (unitStatus.getuStatusDescr() != null) unitStatus1.setuStatusDescr(unitStatus.getuStatusDescr());
             return unitStatusRepository.save(unitStatus);
         }).orElseGet(() -> {
             unitStatus.setUnitStatusCode(l);

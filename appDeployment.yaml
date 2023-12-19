@@ -3,30 +3,30 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: recipe
+    app: dev
     kyma-grafana: enabled
-  name: recipe
+  name: dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: recipe
+      app: dev
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: recipe
+        app: dev
         kyma-grafana: enabled
     spec:
       containers:
-        - image: hagarrnabil/newrecipe
-          name: newrecipe
+        - image: hagarrnabil/dev
+          name: dev
           ports:
             - containerPort: 8080
           envFrom:
             - secretRef:
-                name: recipe
+                name: dev
                 optional: true
 status: {}
 ---
@@ -35,15 +35,15 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: recipe
-  name: recipe
+    app: dev
+  name: dev
 spec:
   ports:
     - port: 8080
       protocol: TCP
       targetPort: 8080
   selector:
-    app: recipe
+    app: dev
   type: ClusterIP
 status:
   loadBalancer: {}

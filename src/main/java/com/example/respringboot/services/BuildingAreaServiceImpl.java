@@ -69,9 +69,9 @@ public class BuildingAreaServiceImpl implements BuildingAreaService{
     @Override
     public BuildingArea updateBuildingArea(BuildingArea buildingArea, Long l) {
         return buildingAreaRepository.findById(l).map(buildingArea1 -> {
-            buildingArea1.setBuildingAreaCode(buildingArea.getBuildingAreaCode());
-            buildingArea1.setBuildingArea(buildingArea.getBuildingArea());
-            buildingArea1.setDescription(buildingArea.getDescription());
+            if (buildingArea.getBuildingAreaCode() != null) buildingArea1.setBuildingAreaCode(buildingArea.getBuildingAreaCode());
+            if (buildingArea.getBuildingArea() != null) buildingArea1.setBuildingArea(buildingArea.getBuildingArea());
+            if (buildingArea.getDescription() != null) buildingArea1.setDescription(buildingArea.getDescription());
             return buildingAreaRepository.save(buildingArea);
         }).orElseGet(() -> {
             buildingArea.setBuildingAreaCode(l);

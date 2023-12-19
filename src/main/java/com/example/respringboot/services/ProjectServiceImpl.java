@@ -3,6 +3,8 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.ProjectCommand;
 import com.example.respringboot.converters.*;
 import com.example.respringboot.model.Company;
+import com.example.respringboot.model.Location;
+import com.example.respringboot.model.ProfitCenter;
 import com.example.respringboot.model.Project;
 import com.example.respringboot.repositories.CompanyRepository;
 import com.example.respringboot.repositories.LocationRepository;
@@ -70,15 +72,19 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project updateProject(Project project, Long l) {
+        ProfitCenter profitCenter = new ProfitCenter();
+        Company company = new Company();
+        Location location = new Location();
 
         return projectRepository.findById(l).map(project1 -> {
-                    project1.setProjectId(project.getProjectId());
-                    project1.setProjectDescription(project.getProjectDescription());
-                    project1.setProfit(project.getProfit());
-                    project1.setValidFrom(project.getValidFrom());
-                    project1.getProfitCenter().addProject(project);
-//                    project1.getLocation().
-                    project1.getCompany().addProject(project);
+                    if (project.getProjectCode() != null) project1.setProjectCode(project.getProjectCode());
+                    if (project.getProjectId() != null) project1.setProjectId(project.getProjectId());
+                    if (project.getProjectDescription() != null) project1.setProjectDescription(project.getProjectDescription());
+                    if (project.getProfit() != null) project1.setProfit(project.getProfit());
+                    if (project.getValidFrom() != null) project1.setValidFrom(project.getValidFrom());
+                    if (profitCenter.addProject(project) != null) profitCenter.addProject(project);
+                    if (project.getLocation() != null) project1.setLocation(project.getLocation());
+                    if (company.addProject(project) != null) company.addProject(project);
                     return projectRepository.save(project);
         }).orElseGet(() -> {
             project.setProjectCode(l);

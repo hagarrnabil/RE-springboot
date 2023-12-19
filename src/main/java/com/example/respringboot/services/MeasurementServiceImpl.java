@@ -68,9 +68,9 @@ public class MeasurementServiceImpl implements MeasurementService{
     @Override
     public UnitOfMeasurement updateUOM(UnitOfMeasurement measurement, Long l) {
         return unitOfMeasurementRepository.findById(l).map(measurement1 -> {
-            measurement1.setMeasurementCode(measurement.getMeasurementCode());
-            measurement1.setUomID(measurement.getUomID());
-            measurement1.setUomDescr(measurement.getUomDescr());
+            if (measurement.getMeasurementCode() != null) measurement1.setMeasurementCode(measurement.getMeasurementCode());
+            if (measurement.getUomID() != null) measurement1.setUomID(measurement.getUomID());
+            if (measurement.getUomDescr() != null) measurement1.setUomDescr(measurement.getUomDescr());
             return unitOfMeasurementRepository.save(measurement);
         }).orElseGet(() -> {
             measurement.setMeasurementCode(l);

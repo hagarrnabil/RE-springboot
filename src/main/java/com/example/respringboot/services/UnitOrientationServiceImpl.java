@@ -69,9 +69,9 @@ public class UnitOrientationServiceImpl implements UnitOrientationService{
     @Override
     public UnitOrientation updateUnitOrientation(UnitOrientation unitOrientation, Long l) {
         return unitOrientationRepository.findById(l).map(unitOrientation1 -> {
-            unitOrientation1.setUnitOrientationCode(unitOrientation.getUnitOrientationCode());
-            unitOrientation1.setuOrientationId(unitOrientation.getuOrientationId());
-            unitOrientation1.setuOrientationDescr(unitOrientation.getuOrientationDescr());
+            if (unitOrientation.getUnitOrientationCode() != null) unitOrientation1.setUnitOrientationCode(unitOrientation.getUnitOrientationCode());
+            if (unitOrientation.getuOrientationId() != null) unitOrientation1.setuOrientationId(unitOrientation.getuOrientationId());
+            if (unitOrientation.getuOrientationDescr() != null) unitOrientation1.setuOrientationDescr(unitOrientation.getuOrientationDescr());
             return unitOrientationRepository.save(unitOrientation);
         }).orElseGet(() -> {
             unitOrientation.setUnitOrientationCode(l);

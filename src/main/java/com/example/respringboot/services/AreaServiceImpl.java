@@ -69,15 +69,16 @@ public class AreaServiceImpl implements AreaMasterDetailService{
     @Override
     public AreaMasterDetail updateArea(AreaMasterDetail area, Long l) {
         return areaMasterDetailRepository.findById(l).map(area1 -> {
-            area1.setAreaCode(area.getAreaCode());
-            area1.setAreaMaster(area.getAreaMaster());
-            area1.setDescription(area.getDescription());
-            area1.setBuildingFlag(area.getBuildingFlag());
-            area1.setProjectFlag(area.getProjectFlag());
-            area1.setUnitFlag(area.getUnitFlag());
-            area1.getProjectArea().addAMD(area);
-            area1.getBuildingArea().addAMD(area);
-            area1.getUnitArea().addAMD(area);
+            if(area.getAreaCode() != null) area1.setAreaCode(area.getAreaCode());
+            if(area.getAreaMaster() != null) area1.setAreaMaster(area.getAreaMaster());
+            if(area.getDescription() != null) area1.setDescription(area.getDescription());
+            if(area.getBuildingFlag() != null) area1.setBuildingFlag(area.getBuildingFlag());
+            if(area.getProjectFlag() != null) area1.setProjectFlag(area.getProjectFlag());
+            if(area.getUnitFlag() != null) area1.setUnitFlag(area.getUnitFlag());
+            if(area.getProjectArea() != null) area1.getProjectArea().addAMD(area);
+            if(area.getBuildingArea() != null) area1.getBuildingArea().addAMD(area);
+            if(area.getUnitArea() != null) area1.getUnitArea().addAMD(area);
+            if(area.getUnitOfMeasurement() != null) area1.getUnitOfMeasurement().setAreaMasterDetail(area);
             return areaMasterDetailRepository.save(area);
         }).orElseGet(() -> {
             area.setAreaCode(l);

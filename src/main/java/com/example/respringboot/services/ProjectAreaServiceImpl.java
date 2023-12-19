@@ -69,9 +69,9 @@ public class ProjectAreaServiceImpl implements ProjectAreaService{
     @Override
     public ProjectArea updateProjectArea(ProjectArea projectArea, Long l) {
         return projectAreaRepository.findById(l).map(projectArea1 -> {
-            projectArea1.setProjectAreaCode(projectArea.getProjectAreaCode());
-            projectArea1.setProjectArea(projectArea.getProjectArea());
-            projectArea1.setDescription(projectArea.getDescription());
+            if (projectArea.getProjectAreaCode() != null) projectArea1.setProjectAreaCode(projectArea.getProjectAreaCode());
+            if (projectArea.getProjectArea() != null) projectArea1.setProjectArea(projectArea.getProjectArea());
+            if (projectArea.getDescription() != null) projectArea1.setDescription(projectArea.getDescription());
             return projectAreaRepository.save(projectArea);
         }).orElseGet(() -> {
             projectArea.setProjectAreaCode(l);

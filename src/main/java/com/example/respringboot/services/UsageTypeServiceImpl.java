@@ -64,9 +64,9 @@ public class UsageTypeServiceImpl implements UsageTypeSevice{
     @Override
     public UsageType updateUsageType(UsageType usageType, Long l) {
         return usageTypeRepository.findById(l).map(usageType1 -> {
-            usageType1.setUsageTypeCode(usageType.getUsageTypeCode());
-            usageType1.setUsageId(usageType.getUsageId());
-            usageType1.setUsageDescr(usageType.getUsageDescr());
+            if (usageType.getUsageTypeCode() != null) usageType1.setUsageTypeCode(usageType.getUsageTypeCode());
+            if (usageType.getUsageId() != null) usageType1.setUsageId(usageType.getUsageId());
+            if (usageType.getUsageDescr() != null) usageType1.setUsageDescr(usageType.getUsageDescr());
             return usageTypeRepository.save(usageType);
         }).orElseGet(() -> {
             usageType.setUsageTypeCode(l);
