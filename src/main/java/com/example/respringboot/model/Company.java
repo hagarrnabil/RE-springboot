@@ -1,10 +1,12 @@
 package com.example.respringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -13,7 +15,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"projects"})
 @Table(name = "company")
-public class Company {
+public class Company implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long companyCode;
@@ -25,7 +27,8 @@ public class Company {
     @NotNull
     private String companyCodeDescription;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "company")
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "company")
+    @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
 

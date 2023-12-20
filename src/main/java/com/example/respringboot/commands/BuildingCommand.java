@@ -1,16 +1,18 @@
 package com.example.respringboot.commands;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BuildingCommand {
+public class BuildingCommand implements Serializable {
     private Long id;
     private Long profitCode;
     private Long projectCode;
@@ -22,6 +24,7 @@ public class BuildingCommand {
     private Integer numberOfFloors;
     private String profit;
 //    private ProjectCommand projectCommand;
+    @JsonIgnore
     private Set<UnitCommand> unitCommands = new HashSet<>();
 //    private BuildingTypeCommand buildingTypeCommand;
 //    private ProfitCenterCommand profitCenterCommand;

@@ -52,10 +52,19 @@ public class ProjectController {
 
     @PutMapping
     @RequestMapping("/projects/{projectCode}")
-    @Transactional
-    ProjectCommand updateProjectCommand(@RequestBody Project newProject, @PathVariable Long projectCode){
+    ProjectCommand updateProjectCommand(@RequestBody ProjectCommand newProjectCommand, @PathVariable Long projectCode) {
 
-        ProjectCommand command = projectToProjectCommand.convert(projectService.updateProject(newProject,projectCode));
-        return command;
+        projectService.findProjectCommandById(projectCode);
+        ProjectCommand savedCommand = projectService.saveProjectCommand(newProjectCommand);
+        return savedCommand;
     }
+
+//    @PutMapping
+//    @RequestMapping("/projects/{projectCode}")
+//    @Transactional
+//    ProjectCommand updateProjectCommand(@RequestBody Project newProject, @PathVariable Long projectCode){
+//
+//        ProjectCommand command = projectToProjectCommand.convert(projectService.updateProject(newProject,projectCode));
+//        return command;
+//    }
 }

@@ -1,17 +1,19 @@
 package com.example.respringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "unit_floor")
-public class UnitFloor {
+public class UnitFloor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long unitFloorCode;
@@ -24,6 +26,7 @@ public class UnitFloor {
     private String uFloorDescr;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitFloor")
+    @JsonIgnore
     private Set<Unit> units = new HashSet<>();
 
     public UnitFloor() {

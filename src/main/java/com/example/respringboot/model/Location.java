@@ -22,7 +22,7 @@ public class Location {
     @NotNull
     private String regionalLocation;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     private Project project;
     public Location() {
     }
@@ -32,11 +32,11 @@ public class Location {
         this.regionalLocation = regionalLocation;
     }
 
-//    public void setProject(Project project) {
-//        if (project != null) {
-//            this.project = project;
-//            project.setLocation(this);
-//        }
-//    }
+    public void setProject(Project project) {
+        if (project != null) {
+            this.project = project;
+            project.setLocation(this);
+        }
+    }
 
 }

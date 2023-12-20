@@ -24,4 +24,11 @@ public class UnitOfMeasurement {
 
     @OneToOne
     private AreaMasterDetail areaMasterDetail;
+
+    public void setArea(AreaMasterDetail area) {
+        if (area != null) {
+            this.areaMasterDetail = area;
+            area.setUnitOfMeasurement(this);
+        }
+    }
 }

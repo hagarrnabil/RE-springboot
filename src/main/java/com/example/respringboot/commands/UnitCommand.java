@@ -5,11 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UnitCommand {
+public class UnitCommand implements Serializable {
     private Long id;
     private Long buildingCode;
     private Long areaCode;

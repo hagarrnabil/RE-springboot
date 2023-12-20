@@ -1,10 +1,12 @@
 package com.example.respringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +14,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"areaMasterDetails"})
 @Table(name = "building_area")
-public class BuildingArea {
+public class BuildingArea implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long buildingAreaCode;
@@ -25,6 +27,7 @@ public class BuildingArea {
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "buildingArea")
+    @JsonIgnore
     private Set<AreaMasterDetail> areaMasterDetails = new HashSet<>();
 
     public BuildingArea addAMD(AreaMasterDetail areaMasterDetail) {

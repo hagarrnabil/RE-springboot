@@ -2,8 +2,10 @@ package com.example.respringboot.converters;
 
 import com.example.respringboot.commands.ProjectCommand;
 import com.example.respringboot.model.Company;
+import com.example.respringboot.model.Location;
 import com.example.respringboot.model.ProfitCenter;
 import com.example.respringboot.model.Project;
+import com.example.respringboot.repositories.ProjectRepository;
 import io.micrometer.common.lang.Nullable;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
@@ -11,15 +13,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProjectCommandToProject implements Converter<ProjectCommand, Project> {
-    private final LocationCommandToLocation locationConverter;
     private final BuildingCommandToBuilding buildingConverter;
+    private final ProjectRepository projectRepository;
 
-    public ProjectCommandToProject(LocationCommandToLocation locationConverter, BuildingCommandToBuilding buildingConverter) {
-        this.locationConverter = locationConverter;
+    public ProjectCommandToProject(BuildingCommandToBuilding buildingConverter, ProjectRepository projectRepository) {
         this.buildingConverter = buildingConverter;
+        this.projectRepository = projectRepository;
     }
 
-//    @Synchronized
+    @Synchronized
     @Nullable
     @Override
     public Project convert(ProjectCommand source) {
@@ -42,11 +44,16 @@ public class ProjectCommandToProject implements Converter<ProjectCommand, Projec
             project.setProfitCenter(profitCenter);
             profitCenter.addProject(project);
         }
+        if (source.getLocationCode() != null) {
+            Location location = new Location();
+            location.setLocationCode(source.getLocationCode());
+            project.setLocation(location);
+            location.setProject(project);
+        }
         project.setProjectId(source.getProjectId());
         project.setProjectDescription(source.getProjectDescription());
         project.setValidFrom(source.getValidFrom());
         project.setProfit(source.getProfit());
-        project.setLocation(locationConverter.convert(source.getLocation()));
         if (source.getBuildingCommands() != null && source.getBuildingCommands().size() > 0) {
             source.getBuildingCommands()
                     .forEach(buildingCommand -> project.getBuildings().add(buildingConverter.convert(buildingCommand)));
@@ -54,4 +61,5 @@ public class ProjectCommandToProject implements Converter<ProjectCommand, Projec
         return project;
 
     }
+
 }

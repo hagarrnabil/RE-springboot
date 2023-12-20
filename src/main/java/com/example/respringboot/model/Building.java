@@ -1,5 +1,6 @@
 package com.example.respringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
@@ -16,7 +18,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"units", "project", "buildingType", "profitCenter"})
 @Table(name = "building")
-public class Building {
+public class Building implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long buildingCode;
@@ -37,6 +39,7 @@ public class Building {
     @ManyToOne
     private Project project;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "building")
+    @JsonIgnore
     private Set<Unit> units = new HashSet<>();
     @ManyToOne
     private BuildingType buildingType;

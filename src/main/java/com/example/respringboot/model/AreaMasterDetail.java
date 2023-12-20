@@ -1,10 +1,12 @@
 package com.example.respringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +14,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"units","projectArea","buildingArea","unitArea"})
 @Table(name = "area_master_detail")
-public class AreaMasterDetail {
+public class AreaMasterDetail implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long areaCode;
@@ -27,9 +29,10 @@ public class AreaMasterDetail {
     private String buildingFlag;
     private String unitFlag;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     private UnitOfMeasurement unitOfMeasurement;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaMasterDetail")
+    @JsonIgnore
     private Set<Unit> units = new HashSet<>();
     @ManyToOne
     private ProjectArea projectArea;
@@ -49,12 +52,6 @@ public class AreaMasterDetail {
         this.unitOfMeasurement = unitOfMeasurement;
     }
 
-    public void setUoM(UnitOfMeasurement unitOfMeasurement) {
-        if (unitOfMeasurement != null) {
-            this.unitOfMeasurement = unitOfMeasurement;
-            unitOfMeasurement.setAreaMasterDetail(this);
-        }
-    }
     public AreaMasterDetail addUnit(Unit unit) {
         unit.setAreaMasterDetail(this);
         this.units.add(unit);

@@ -1,10 +1,12 @@
 package com.example.respringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -13,7 +15,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"projects","buildings"})
 @Table(name = "profit_center")
-public class ProfitCenter {
+public class ProfitCenter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long profitCode;
@@ -25,9 +27,11 @@ public class ProfitCenter {
     @NotNull
     private String profitDescr;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "profitCenter")
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "profitCenter")
+    @JsonIgnore
     private Set<Project> projects = new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "profitCenter")
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "profitCenter")
+    @JsonIgnore
     private Set<Building> buildings = new HashSet<>();
 
     public ProfitCenter addProject(Project project) {

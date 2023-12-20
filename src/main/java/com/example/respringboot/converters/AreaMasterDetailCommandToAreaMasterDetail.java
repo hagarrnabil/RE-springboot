@@ -10,11 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class AreaMasterDetailCommandToAreaMasterDetail implements Converter<AreaMasterDetailCommand, AreaMasterDetail> {
     private final UnitCommandToUnit unitConverter;
-    private final UnitOfMeasurementCommandToUnitOfMeasurement uomConverter;
 
-    public AreaMasterDetailCommandToAreaMasterDetail(UnitCommandToUnit unitConverter, UnitOfMeasurementCommandToUnitOfMeasurement uomConverter) {
+    public AreaMasterDetailCommandToAreaMasterDetail(UnitCommandToUnit unitConverter) {
         this.unitConverter = unitConverter;
-        this.uomConverter = uomConverter;
     }
 
     @Synchronized
@@ -45,12 +43,17 @@ public class AreaMasterDetailCommandToAreaMasterDetail implements Converter<Area
             areaMasterDetail.setUnitArea(unitArea);
             unitArea.addAMD(areaMasterDetail);
         }
+        if (source.getMeasurementCode() != null) {
+            UnitOfMeasurement measurement = new UnitOfMeasurement();
+            measurement.setMeasurementCode(source.getMeasurementCode());
+            areaMasterDetail.setUnitOfMeasurement(measurement);
+            measurement.setArea(areaMasterDetail);
+        }
         areaMasterDetail.setAreaMaster(source.getAreaMaster());
         areaMasterDetail.setDescription(source.getDescription());
         areaMasterDetail.setProjectFlag(source.getProjectFlag());
         areaMasterDetail.setBuildingFlag(source.getBuildingFlag());
         areaMasterDetail.setUnitFlag(source.getUnitFlag());
-        areaMasterDetail.setUnitOfMeasurement(uomConverter.convert(source.getUnitOfMeasurementCommand()));
         if (source.getUnitCommands() != null && source.getUnitCommands().size() > 0){
             source.getUnitCommands()
                     .forEach( unitCommand -> areaMasterDetail.getUnits().add(unitConverter.convert(unitCommand)));

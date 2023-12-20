@@ -35,12 +35,15 @@ public class ProjectToProjectCommand implements Converter<Project, ProjectComman
         if (source.getProfitCenter() != null) {
             projectCommand.setProfitCode(source.getProfitCenter().getProfitCode());
         }
+        if (source.getLocation() != null) {
+            projectCommand.setLocationCode(source.getLocation().getLocationCode());
+        }
         projectCommand.setId(source.getProjectCode());
         projectCommand.setProjectId(source.getProjectId());
         projectCommand.setProjectDescription(source.getProjectDescription());
         projectCommand.setValidFrom(source.getValidFrom());
         projectCommand.setProfit(source.getProfit());
-        projectCommand.setLocation(locationConverter.convert(source.getLocation()));
+//        projectCommand.setLocation(locationConverter.convert(source.getLocation()));
         if (source.getBuildings() != null && source.getBuildings().size() > 0){
             source.getBuildings()
                     .forEach(building -> projectCommand.getBuildingCommands().add(buildingConverter.convert(building)));

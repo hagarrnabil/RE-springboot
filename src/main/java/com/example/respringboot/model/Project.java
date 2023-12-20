@@ -1,23 +1,22 @@
 package com.example.respringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Data
 @EqualsAndHashCode(exclude = {"company","profitCenter","buildings"})
 @Entity
 @Table(name = "project")
-public class Project {
+public class Project implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long projectCode;
@@ -29,16 +28,20 @@ public class Project {
     private String projectDescription;
     private LocalDate validFrom;
     private String profit;
+    private Long companyCode;
+    private Long profitCode;
+    private Long locationCode;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Company company;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "project")
+    @JsonIgnore
     private Set<Building> buildings = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private ProfitCenter profitCenter;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     private Location location;
 
     public Project() {
@@ -67,12 +70,5 @@ public class Project {
         building.setProject(this);
         this.buildings.add(building);
         return this;
-    }
-
-    public void setLocation(Location location) {
-        if (location != null) {
-            this.location = location;
-            location.setProject(this);
-        }
     }
 }

@@ -6,9 +6,10 @@ import com.example.respringboot.model.Company;
 import com.example.respringboot.model.Location;
 import com.example.respringboot.model.ProfitCenter;
 import com.example.respringboot.model.Project;
-import com.example.respringboot.repositories.CompanyRepository;
-import com.example.respringboot.repositories.LocationRepository;
 import com.example.respringboot.repositories.ProjectRepository;
+import io.micrometer.common.lang.Nullable;
+import lombok.Synchronized;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
+@Component
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectToProjectCommand projectToProjectCommand;
     private final ProjectCommandToProject projectCommandToProject;
@@ -31,7 +33,6 @@ public class ProjectServiceImpl implements ProjectService {
         this.projectCommandToProject = projectCommandToProject;
         this.projectRepository = projectRepository;
     }
-
 
 
     @Override
@@ -70,22 +71,33 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
-    @Override
     public Project updateProject(Project project, Long l) {
-        ProfitCenter profitCenter = new ProfitCenter();
-        Company company = new Company();
-        Location location = new Location();
 
         return projectRepository.findById(l).map(project1 -> {
-                    if (project.getProjectCode() != null) project1.setProjectCode(project.getProjectCode());
-                    if (project.getProjectId() != null) project1.setProjectId(project.getProjectId());
-                    if (project.getProjectDescription() != null) project1.setProjectDescription(project.getProjectDescription());
-                    if (project.getProfit() != null) project1.setProfit(project.getProfit());
-                    if (project.getValidFrom() != null) project1.setValidFrom(project.getValidFrom());
-                    if (profitCenter.addProject(project) != null) profitCenter.addProject(project);
-                    if (project.getLocation() != null) project1.setLocation(project.getLocation());
-                    if (company.addProject(project) != null) company.addProject(project);
-                    return projectRepository.save(project);
+            if (project.getProjectCode() != null) project.setProjectCode(project.getProjectCode());
+            if (project.getProjectId() != null) project.setProjectId(project.getProjectId());
+            if (project.getProjectDescription() != null) project.setProjectDescription(project.getProjectDescription());
+            if (project.getProfit() != null) project.setProfit(project.getProfit());
+            if (project.getValidFrom() != null) project.setValidFrom(project.getValidFrom());
+            if (project.getCompanyCode() != null) {
+                Company company = new Company();
+                company.setCompanyCode(project.getCompanyCode());
+                project.setCompany(company);
+                company.addProject(project);
+            }
+            if (project.getProfitCode() != null) {
+                ProfitCenter profitCenter = new ProfitCenter();
+                profitCenter.setProfitCode(project.getProfitCode());
+                project.setProfitCenter(profitCenter);
+                profitCenter.addProject(project);
+            }
+            if (project.getLocationCode() != null) {
+                Location location = new Location();
+                location.setLocationCode(project.getLocationCode());
+                project.setLocation(location);
+                location.setProject(project);
+            }
+            return projectRepository.save(project);
         }).orElseGet(() -> {
             project.setProjectCode(l);
             return projectRepository.save(project);

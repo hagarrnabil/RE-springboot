@@ -1,16 +1,18 @@
 package com.example.respringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "unit_orientation")
-public class UnitOrientation {
+public class UnitOrientation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long unitOrientationCode;
@@ -21,6 +23,7 @@ public class UnitOrientation {
     private String uOrientationDescr;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitOrientation")
+    @JsonIgnore
     private Set<Unit> units = new HashSet<>();
 
     public UnitOrientation() {
