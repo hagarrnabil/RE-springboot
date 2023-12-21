@@ -1,11 +1,6 @@
-#spring:
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/re_local
-#    username: re_local_user
-#    password: re
-#  jpa:
-#    hibernate:
-#      ddl-auto: validate
-#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-#    database: mysql
-#    show-sql: true
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb

@@ -9,6 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = {"project"})
 @Table(name = "location")
 public class Location {
     @Id

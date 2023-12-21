@@ -15,7 +15,7 @@ public class ProfitCenterCommand implements Serializable {
     private Long id;
     private String profitId;
     private String profitDescr;
-    @JsonIgnore
+//    @JsonIgnore
     private Set<ProjectCommand> projectCommands = new HashSet<>();
     @JsonIgnore
     private Set<BuildingCommand> buildingCommands = new HashSet<>();

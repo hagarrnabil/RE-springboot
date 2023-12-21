@@ -12,8 +12,6 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Data
-@EqualsAndHashCode(exclude = {"projects","buildings"})
 @Table(name = "profit_center")
 public class ProfitCenter implements Serializable {
     @Id
@@ -28,7 +26,7 @@ public class ProfitCenter implements Serializable {
     private String profitDescr;
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "profitCenter")
-    @JsonIgnore
+//    @JsonIgnore
     private Set<Project> projects = new HashSet<>();
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "profitCenter")
     @JsonIgnore
@@ -46,4 +44,53 @@ public class ProfitCenter implements Serializable {
         return this;
     }
 
+    public ProfitCenter() {
+    }
+
+    public ProfitCenter(String profitId, String profitDescr, Set<Project> projects, Set<Building> buildings) {
+        this.profitId = profitId;
+        this.profitDescr = profitDescr;
+        this.projects = projects;
+        this.buildings = buildings;
+    }
+
+    public Long getProfitCode() {
+        return profitCode;
+    }
+
+    public void setProfitCode(Long profitCode) {
+        this.profitCode = profitCode;
+    }
+
+    public String getProfitId() {
+        return profitId;
+    }
+
+    public void setProfitId(String profitId) {
+        this.profitId = profitId;
+    }
+
+    public String getProfitDescr() {
+        return profitDescr;
+    }
+
+    public void setProfitDescr(String profitDescr) {
+        this.profitDescr = profitDescr;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
+
+    public Set<Building> getBuildings() {
+        return buildings;
+    }
+
+    public void setBuildings(Set<Building> buildings) {
+        this.buildings = buildings;
+    }
 }

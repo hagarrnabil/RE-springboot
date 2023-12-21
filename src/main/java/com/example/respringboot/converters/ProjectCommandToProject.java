@@ -11,6 +11,8 @@ import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class ProjectCommandToProject implements Converter<ProjectCommand, Project> {
     private final BuildingCommandToBuilding buildingConverter;
@@ -62,4 +64,10 @@ public class ProjectCommandToProject implements Converter<ProjectCommand, Projec
 
     }
 
+    public Project convert(Optional<Project> project) {
+        if (project != null)
+            return project.get();
+        else
+            return null;
+    }
 }

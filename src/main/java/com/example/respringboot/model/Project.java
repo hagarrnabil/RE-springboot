@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(exclude = {"company","profitCenter","buildings"})
+@EqualsAndHashCode(exclude = {"company","profitCenter","buildings","location"})
 @Entity
 @Table(name = "project")
 public class Project implements Serializable {
@@ -28,9 +28,9 @@ public class Project implements Serializable {
     private String projectDescription;
     private LocalDate validFrom;
     private String profit;
-    private Long companyCode;
-    private Long profitCode;
-    private Long locationCode;
+//    private Long companyCode;
+//    private Long profitCode;
+//    private Long locationCode;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     private Company company;

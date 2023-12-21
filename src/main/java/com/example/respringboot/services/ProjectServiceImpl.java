@@ -71,38 +71,50 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
-    public Project updateProject(Project project, Long l) {
+    @Override
+    @Transactional
+    public ProjectCommand updatePC(Optional<Project> project, Long l) {
 
-        return projectRepository.findById(l).map(project1 -> {
-            if (project.getProjectCode() != null) project.setProjectCode(project.getProjectCode());
-            if (project.getProjectId() != null) project.setProjectId(project.getProjectId());
-            if (project.getProjectDescription() != null) project.setProjectDescription(project.getProjectDescription());
-            if (project.getProfit() != null) project.setProfit(project.getProfit());
-            if (project.getValidFrom() != null) project.setValidFrom(project.getValidFrom());
-            if (project.getCompanyCode() != null) {
-                Company company = new Company();
-                company.setCompanyCode(project.getCompanyCode());
-                project.setCompany(company);
-                company.addProject(project);
-            }
-            if (project.getProfitCode() != null) {
-                ProfitCenter profitCenter = new ProfitCenter();
-                profitCenter.setProfitCode(project.getProfitCode());
-                project.setProfitCenter(profitCenter);
-                profitCenter.addProject(project);
-            }
-            if (project.getLocationCode() != null) {
-                Location location = new Location();
-                location.setLocationCode(project.getLocationCode());
-                project.setLocation(location);
-                location.setProject(project);
-            }
-            return projectRepository.save(project);
-        }).orElseGet(() -> {
-            project.setProjectCode(l);
-            return projectRepository.save(project);
-        });
+        project = projectRepository.findById(l);
+        Project detachedProject = projectCommandToProject.convert(project);
+        Project savedProject = projectRepository.save(detachedProject);
+        return projectToProjectCommand.convert(savedProject);
+
     }
+
+    @Override
+    @Synchronized
+    @Nullable
+    @Transactional
+    public Project updateProject(ProjectCommand newProjectCommand, Long l) {
+        return projectRepository.findById(l).map(oldProject -> {
+//            if (newProjectCommand.getId() != oldProject.getProjectCode()) oldProject.setProjectCode(newProjectCommand.getId());
+            if (newProjectCommand.getProjectId() != oldProject.getProjectId()) oldProject.setProjectId(newProjectCommand.getProjectId());
+            if (newProjectCommand.getProjectDescription() != oldProject.getProjectDescription()) oldProject.setProjectDescription(newProjectCommand.getProjectDescription());
+            if (newProjectCommand.getProfit() != oldProject.getProfit()) oldProject.setProfit(newProjectCommand.getProfit());
+            if (newProjectCommand.getValidFrom() != oldProject.getValidFrom()) oldProject.setValidFrom(newProjectCommand.getValidFrom());
+            if ((newProjectCommand.getCompanyCode() != null)) {
+                Company company = new Company();
+                company.setCompanyCode(newProjectCommand.getCompanyCode());
+                oldProject.setCompany(company);
+                company.addProject(oldProject);
+            }
+            if ((newProjectCommand.getProfitCode() != null)) {
+                ProfitCenter profitCenter = new ProfitCenter();
+                profitCenter.setProfitCode(newProjectCommand.getProfitCode());
+                oldProject.setProfitCenter(profitCenter);
+                profitCenter.addProject(oldProject);
+            }
+            if ((newProjectCommand.getLocationCode() != null)) {
+                Location location = new Location();
+                location.setLocationCode(newProjectCommand.getLocationCode());
+                oldProject.setLocation(location);
+                location.setProject(oldProject);
+            }
+            return projectRepository.save(oldProject);
+        }).orElseThrow(() -> new RuntimeException("Project not found"));
+    }
+
 
     @Override
     @Transactional
