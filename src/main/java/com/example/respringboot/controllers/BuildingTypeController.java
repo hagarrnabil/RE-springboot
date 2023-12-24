@@ -55,9 +55,9 @@ public class BuildingTypeController {
     @PutMapping
     @RequestMapping("/buildingtypes/{buildingTypeCode}")
     @Transactional
-    BuildingTypeCommand updateBuildingTypeCommand(@RequestBody BuildingType newBuildingType, @PathVariable Long buildingTypeCode) {
+    BuildingTypeCommand updateBuildingTypeCommand(@RequestBody BuildingTypeCommand newBuildingTypeCommand, @PathVariable Long buildingTypeCode) {
 
-        BuildingTypeCommand command = buildingTypeToBuildingTypeCommand.convert(buildingTypeService.updateBuildingType(newBuildingType, buildingTypeCode));
+        BuildingTypeCommand command = buildingTypeToBuildingTypeCommand.convert(buildingTypeService.updateBuildingType(newBuildingTypeCommand, buildingTypeCode));
         return command;
     }
 }

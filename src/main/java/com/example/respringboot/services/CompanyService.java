@@ -14,7 +14,8 @@ public interface CompanyService {
     void deleteById(Long idToDelete);
 
     CompanyCommand saveCompanyCommand(CompanyCommand command);
-    Company updateCompany(Company company, Long l);
+
+    Company updateCompany(CompanyCommand newCompanyCommand, Long l);
 
     CompanyCommand findCompanyCommandById(Long l);
 

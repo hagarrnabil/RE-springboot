@@ -3,6 +3,7 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.CompanyCommand;
 import com.example.respringboot.converters.CompanyCommandToCompany;
 import com.example.respringboot.converters.CompanyToCompanyCommand;
+import com.example.respringboot.converters.ProjectCommandToProject;
 import com.example.respringboot.model.Company;
 import com.example.respringboot.repositories.CompanyRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,15 +17,17 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
-public class CompanyServiceImpl implements CompanyService {
+public class  CompanyServiceImpl implements CompanyService {
     private final CompanyCommandToCompany companyCommandToCompany;
     private final CompanyToCompanyCommand companyToCompanyCommand;
+    private final ProjectCommandToProject projectConverter;
     private final CompanyRepository companyRepository;
 
-    public CompanyServiceImpl(CompanyCommandToCompany companyCommandToCompany, CompanyToCompanyCommand companyToCompanyCommand,
+    public CompanyServiceImpl(CompanyCommandToCompany companyCommandToCompany, CompanyToCompanyCommand companyToCompanyCommand, ProjectCommandToProject projectConverter,
                               CompanyRepository companyRepository) {
         this.companyCommandToCompany = companyCommandToCompany;
         this.companyToCompanyCommand = companyToCompanyCommand;
+        this.projectConverter = projectConverter;
         this.companyRepository = companyRepository;
     }
 
@@ -65,16 +68,16 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company updateCompany(Company company, Long l) {
-        return companyRepository.findById(l).map(company1 -> {
-            if (company.getCompanyCode() != null) company1.setCompanyCode(company.getCompanyCode());
-            if (company.getCompanyCodeId() != null) company1.setCompanyCodeId(company.getCompanyCodeId());
-            if (company.getCompanyCodeDescription() != null) company1.setCompanyCodeDescription(company.getCompanyCodeDescription());
-            return companyRepository.save(company);
-        }).orElseGet(() -> {
-            company.setCompanyCode(l);
-            return companyRepository.save(company);
-        });
+    public Company updateCompany(CompanyCommand newCompanyCommand, Long l) {
+        return companyRepository.findById(l).map(oldCompany -> {
+            if (newCompanyCommand.getCompanyCodeId() != oldCompany.getCompanyCodeId()) oldCompany.setCompanyCodeId(newCompanyCommand.getCompanyCodeId());
+            if (newCompanyCommand.getCompanyCodeDescription() != oldCompany.getCompanyCodeDescription()) oldCompany.setCompanyCodeDescription(newCompanyCommand.getCompanyCodeDescription());
+            if (newCompanyCommand.getProjectCommands() != null && newCompanyCommand.getProjectCommands().size() > 0){
+                newCompanyCommand.getProjectCommands()
+                        .forEach( projectCommand -> oldCompany.getProjects().add(projectConverter.convert(projectCommand)));
+            }
+            return companyRepository.save(oldCompany);
+        }).orElseThrow(() -> new RuntimeException("Company not found"));
     }
 
 

@@ -58,9 +58,9 @@ public class UnitViewController {
     @PutMapping
     @RequestMapping("/unitviews/{unitViewCode}")
     @Transactional
-    UnitViewCommand updateUnitViewCommand(@RequestBody UnitView newUnitView, @PathVariable Long unitViewCode) {
+    UnitViewCommand updateUnitViewCommand(@RequestBody UnitViewCommand newUnitViewCommand, @PathVariable Long unitViewCode) {
 
-        UnitViewCommand command = unitViewToUnitViewCommand.convert(unitViewService.updateUnitView(newUnitView, unitViewCode));
+        UnitViewCommand command = unitViewToUnitViewCommand.convert(unitViewService.updateUnitView(newUnitViewCommand, unitViewCode));
         return command;
     }
 }

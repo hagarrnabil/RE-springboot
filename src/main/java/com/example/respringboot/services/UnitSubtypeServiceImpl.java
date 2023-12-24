@@ -67,16 +67,12 @@ public class UnitSubtypeServiceImpl implements UnitSubtypeService{
     }
 
     @Override
-    public UnitSubtype updateUnitSubtype(UnitSubtype unitSubtype, Long l) {
-        return unitSubtypeRepository.findById(l).map(unitSubtype1 -> {
-            if (unitSubtype.getUnitSubtypeCode() != null) unitSubtype1.setUnitSubtypeCode(unitSubtype.getUnitSubtypeCode());
-            if (unitSubtype.getuSubtypeId() != null) unitSubtype1.setuSubtypeId(unitSubtype.getuSubtypeId());
-            if (unitSubtype.getuSubtypeDescr() != null) unitSubtype1.setuSubtypeDescr(unitSubtype.getuSubtypeDescr());
-            return unitSubtypeRepository.save(unitSubtype);
-        }).orElseGet(() -> {
-            unitSubtype.setUnitSubtypeCode(l);
-            return unitSubtypeRepository.save(unitSubtype);
-        });
+    public UnitSubtype updateUnitSubtype(UnitSubtypeCommand newUnitSubtypeCommand, Long l) {
+        return unitSubtypeRepository.findById(l).map(oldUnitSubtype -> {
+            if (newUnitSubtypeCommand.getUSubtypeId() != oldUnitSubtype.getuSubtypeId()) oldUnitSubtype.setuSubtypeId(newUnitSubtypeCommand.getUSubtypeId());
+            if (newUnitSubtypeCommand.getUSubtypeDescr() != oldUnitSubtype.getuSubtypeDescr()) oldUnitSubtype.setuSubtypeDescr(newUnitSubtypeCommand.getUSubtypeDescr());
+            return unitSubtypeRepository.save(oldUnitSubtype);
+        }).orElseThrow(() -> new RuntimeException("Unit Subtype not found"));
     }
 
     @Override

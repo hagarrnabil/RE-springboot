@@ -53,9 +53,9 @@ public class UnitFixtureController {
     @PutMapping
     @RequestMapping("/unitfixture/{unitFixtureCode}")
     @Transactional
-    UnitFixtureCommand updateUnitFixtureCommand(@RequestBody UnitFixture newUnitFixture, @PathVariable Long unitFixtureCode) {
+    UnitFixtureCommand updateUnitFixtureCommand(@RequestBody UnitFixtureCommand newUnitFixtureCmmand, @PathVariable Long unitFixtureCode) {
 
-        UnitFixtureCommand command = unitFixtureToUnitFixtureCommand.convert(unitFixtureService.updateUnitFixture(newUnitFixture, unitFixtureCode));
+        UnitFixtureCommand command = unitFixtureToUnitFixtureCommand.convert(unitFixtureService.updateUnitFixture(newUnitFixtureCmmand, unitFixtureCode));
         return command;
     }
 

@@ -64,38 +64,34 @@ public class UnitServiceImpl implements UnitService{
     }
 
     @Override
-    public Unit updateUnit(Unit unit, Long l) {
-        return unitRepository.findById(l).map(unit1 -> {
-            if (unit.getUnitCode() != null) unit1.setUnitCode(unit.getUnitCode());
-            if (unit.getUnitKey() != null) unit1.setUnitKey(unit.getUnitKey());
-            if (unit.getDescription() != null) unit1.setDescription(unit.getDescription());
-            if (unit.getOldNumber() != null) unit1.setOldNumber(unit.getOldNumber());
-            if (unit.getBlockingDate() != null) unit1.setBlockingDate(unit.getBlockingDate());
-            if (unit.getBlockingReason() != null) unit1.setBlockingReason(unit.getBlockingReason());
-            if (unit.getSalesPhase() != null) unit1.setSalesPhase(unit.getSalesPhase());
-            if (unit.getConstructionDate() != null) unit1.setConstructionDate(unit.getConstructionDate());
-            if (unit.getUnitDeliveryDate() != null) unit1.setUnitDeliveryDate(unit.getUnitDeliveryDate());
-            if (unit.getArea() != null) unit1.setArea(unit.getArea());
-            if (unit.getAreaValue() != null) unit1.setAreaValue(unit.getAreaValue());
-            if (unit.getPrice() != null) unit1.setPrice(unit.getPrice());
-            if (unit.getNoOfRooms() != null) unit1.setNoOfRooms(unit.getNoOfRooms());
-            if (unit.getValidFrom() != null) unit1.setValidFrom(unit.getValidFrom());
-            if (unit.getFromFloor() != null) unit1.setFromFloor(unit.getFromFloor());
-            if (unit.getToFloor() != null) unit1.setToFloor(unit.getToFloor());
-            if (unit.getBuilding() != null) unit1.getBuilding().addUnit(unit);
-            if (unit.getUnitFloor() != null) unit1.getUnitFloor().addUnit(unit);
-            if (unit.getUnitOrientation() != null) unit1.getUnitOrientation().addUnit(unit);
-            if (unit.getUnitFixture() != null) unit1.getUnitFixture().addUnit(unit);
-            if (unit.getUnitStatus() != null) unit1.getUnitStatus().addUnit(unit);
-            if (unit.getUnitView() != null) unit1.getUnitView().addUnit(unit);
-            if (unit.getUnitSubtype() != null) unit1.getUnitSubtype().addUnit(unit);
-            if (unit.getUsageType() != null) unit1.getUsageType().addUnit(unit);
-            if (unit.getAreaMasterDetail() != null) unit1.getAreaMasterDetail().addUnit(unit);
-            return unitRepository.save(unit);
-        }).orElseGet(() -> {
-            unit.setUnitCode(l);
-            return unitRepository.save(unit);
-        });
+    public Unit updateUnit(UnitCommand newUnitCommand, Long l) {
+        return unitRepository.findById(l).map(oldUnit -> {
+            if (newUnitCommand.getUnitKey() != oldUnit.getUnitKey()) oldUnit.setUnitKey(newUnitCommand.getUnitKey());
+            if (newUnitCommand.getDescription() != oldUnit.getDescription()) oldUnit.setDescription(newUnitCommand.getDescription());
+            if (newUnitCommand.getOldNumber() != oldUnit.getOldNumber()) oldUnit.setOldNumber(newUnitCommand.getOldNumber());
+            if (newUnitCommand.getBlockingDate() != oldUnit.getBlockingDate()) oldUnit.setBlockingDate(newUnitCommand.getBlockingDate());
+            if (newUnitCommand.getBlockingReason() != oldUnit.getBlockingReason()) oldUnit.setBlockingReason(newUnitCommand.getBlockingReason());
+            if (newUnitCommand.getSalesPhase() != oldUnit.getSalesPhase()) oldUnit.setSalesPhase(newUnitCommand.getSalesPhase());
+            if (newUnitCommand.getConstructionDate() != oldUnit.getConstructionDate()) oldUnit.setConstructionDate(newUnitCommand.getConstructionDate());
+            if (newUnitCommand.getUnitDeliveryDate() != oldUnit.getUnitDeliveryDate()) oldUnit.setUnitDeliveryDate(newUnitCommand.getUnitDeliveryDate());
+            if (newUnitCommand.getArea() != oldUnit.getArea()) oldUnit.setArea(newUnitCommand.getArea());
+            if (newUnitCommand.getAreaValue() != oldUnit.getAreaValue()) oldUnit.setAreaValue(newUnitCommand.getAreaValue());
+            if (newUnitCommand.getPrice() != oldUnit.getPrice()) oldUnit.setPrice(newUnitCommand.getPrice());
+            if (newUnitCommand.getNoOfRooms() != oldUnit.getNoOfRooms()) oldUnit.setNoOfRooms(newUnitCommand.getNoOfRooms());
+            if (newUnitCommand.getValidFrom() != oldUnit.getValidFrom()) oldUnit.setValidFrom(newUnitCommand.getValidFrom());
+            if (newUnitCommand.getFromFloor() != oldUnit.getFromFloor()) oldUnit.setFromFloor(newUnitCommand.getFromFloor());
+            if (newUnitCommand.getToFloor() != oldUnit.getToFloor()) oldUnit.setToFloor(newUnitCommand.getToFloor());
+//            if (newUnitCommand.getBuilding() != null) oldUnit.getBuilding().addUnit(newUnitCommand);
+//            if (newUnitCommand.getUnitFloor() != null) oldUnit.getUnitFloor().addUnit(newUnitCommand);
+//            if (newUnitCommand.getUnitOrientation() != null) oldUnit.getUnitOrientation().addUnit(newUnitCommand);
+//            if (newUnitCommand.getUnitFixture() != null) oldUnit.getUnitFixture().addUnit(newUnitCommand);
+//            if (newUnitCommand.getUnitStatus() != null) oldUnit.getUnitStatus().addUnit(newUnitCommand);
+//            if (newUnitCommand.getUnitView() != null) oldUnit.getUnitView().addUnit(newUnitCommand);
+//            if (newUnitCommand.getUnitSubtype() != null) oldUnit.getUnitSubtype().addUnit(newUnitCommand);
+//            if (newUnitCommand.getUsageType() != null) oldUnit.getUsageType().addUnit(newUnitCommand);
+//            if (newUnitCommand.getAreaMasterDetail() != null) oldUnit.getAreaMasterDetail().addUnit(newUnitCommand);
+            return unitRepository.save(oldUnit);
+        }).orElseThrow(() -> new RuntimeException("Unit not found"));
     }
 
     @Override

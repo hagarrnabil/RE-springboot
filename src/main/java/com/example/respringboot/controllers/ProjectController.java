@@ -6,6 +6,7 @@ import com.example.respringboot.model.Project;
 import com.example.respringboot.repositories.ProjectRepository;
 import com.example.respringboot.services.ProjectService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.Set;
 @RestController
 public class ProjectController {
     private final ProjectRepository projectRepository;
+    @Autowired
     private final ProjectService projectService;
     private final ProjectToProjectCommand projectToProjectCommand;
 

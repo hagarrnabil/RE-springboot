@@ -64,10 +64,17 @@ public class ProjectCommandToProject implements Converter<ProjectCommand, Projec
 
     }
 
-    public Project convert(Optional<Project> project) {
-        if (project != null)
-            return project.get();
-        else
-            return null;
-    }
+//    public Project convert(Optional<Project> project) {
+//        if (project != null)
+//            return project.get();
+//        else
+//            return null;
+//    }
+
+//    public ProjectCommand convert(Optional<ProjectCommand> projectCommand) {
+//        if (projectCommand != null)
+//            return projectCommand.get();
+//        else
+//            return null;
+//    }
 }

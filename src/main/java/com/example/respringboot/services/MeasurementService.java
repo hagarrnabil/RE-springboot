@@ -14,7 +14,7 @@ public interface MeasurementService {
     void deleteById(Long idToDelete);
 
     UnitOfMeasurementCommand saveUOMCommand(UnitOfMeasurementCommand command);
-    UnitOfMeasurement updateUOM(UnitOfMeasurement measurement, Long l);
+    UnitOfMeasurement updateUOM(UnitOfMeasurementCommand newMeasurementCommand, Long l);
 
     UnitOfMeasurementCommand findUOMCommandById(Long l);
 }

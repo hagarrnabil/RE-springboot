@@ -67,16 +67,12 @@ public class ProjectAreaServiceImpl implements ProjectAreaService{
     }
 
     @Override
-    public ProjectArea updateProjectArea(ProjectArea projectArea, Long l) {
-        return projectAreaRepository.findById(l).map(projectArea1 -> {
-            if (projectArea.getProjectAreaCode() != null) projectArea1.setProjectAreaCode(projectArea.getProjectAreaCode());
-            if (projectArea.getProjectArea() != null) projectArea1.setProjectArea(projectArea.getProjectArea());
-            if (projectArea.getDescription() != null) projectArea1.setDescription(projectArea.getDescription());
-            return projectAreaRepository.save(projectArea);
-        }).orElseGet(() -> {
-            projectArea.setProjectAreaCode(l);
-            return projectAreaRepository.save(projectArea);
-        });
+    public ProjectArea updateProjectArea(ProjectAreaCommand newProjectAreaCommand, Long l) {
+        return projectAreaRepository.findById(l).map(oldProjectArea -> {
+            if (newProjectAreaCommand.getProjectArea() != oldProjectArea.getProjectArea()) oldProjectArea.setProjectArea(newProjectAreaCommand.getProjectArea());
+            if (newProjectAreaCommand.getDescription() != oldProjectArea.getDescription()) oldProjectArea.setDescription(newProjectAreaCommand.getDescription());
+            return projectAreaRepository.save(oldProjectArea);
+        }).orElseThrow(() -> new RuntimeException("Project Area not found"));
     }
 
     @Override

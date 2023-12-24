@@ -51,9 +51,9 @@ public class AreaDetailController {
     @PutMapping
     @RequestMapping("/areas/{areaCode}")
     @Transactional
-    AreaMasterDetailCommand updateAreaDetailCommand(@RequestBody AreaMasterDetail newAreaDetail, @PathVariable Long areaCode) {
+    AreaMasterDetailCommand updateAreaDetailCommand(@RequestBody AreaMasterDetailCommand newAreaDetailCommand, @PathVariable Long areaCode) {
 
-        AreaMasterDetailCommand command = areaMasterDetailToAreaMasterDetailCommand.convert(areaMasterDetailService.updateArea(newAreaDetail, areaCode));
+        AreaMasterDetailCommand command = areaMasterDetailToAreaMasterDetailCommand.convert(areaMasterDetailService.updateArea(newAreaDetailCommand, areaCode));
         return command;
     }
 }

@@ -12,8 +12,8 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Data
-@EqualsAndHashCode(exclude = {"projects"})
+//@Data
+//@EqualsAndHashCode(exclude = {"projects"})
 @Table(name = "company")
 public class Company implements Serializable {
     @Id
@@ -28,7 +28,7 @@ public class Company implements Serializable {
     private String companyCodeDescription;
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "company")
-    @JsonIgnore
+//    @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
 
@@ -38,4 +38,35 @@ public class Company implements Serializable {
         return this;
     }
 
+    public Long getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(Long companyCode) {
+        this.companyCode = companyCode;
+    }
+
+    public String getCompanyCodeId() {
+        return companyCodeId;
+    }
+
+    public void setCompanyCodeId(String companyCodeId) {
+        this.companyCodeId = companyCodeId;
+    }
+
+    public String getCompanyCodeDescription() {
+        return companyCodeDescription;
+    }
+
+    public void setCompanyCodeDescription(String companyCodeDescription) {
+        this.companyCodeDescription = companyCodeDescription;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
 }

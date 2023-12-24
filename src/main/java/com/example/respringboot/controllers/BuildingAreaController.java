@@ -50,9 +50,9 @@ public class BuildingAreaController {
     @PutMapping
     @RequestMapping("/buildingareas/{buildingAreaCode}")
     @Transactional
-    BuildingAreaCommand updateBuildingAreaCommand(@RequestBody BuildingArea newBuildingArea, @PathVariable Long buildingAreaCode) {
+    BuildingAreaCommand updateBuildingAreaCommand(@RequestBody BuildingAreaCommand newBuildingAreaCommand, @PathVariable Long buildingAreaCode) {
 
-        BuildingAreaCommand command = buildingAreaToBuildingAreaCommand.convert(buildingAreaService.updateBuildingArea(newBuildingArea, buildingAreaCode));
+        BuildingAreaCommand command = buildingAreaToBuildingAreaCommand.convert(buildingAreaService.updateBuildingArea(newBuildingAreaCommand, buildingAreaCode));
         return command;
     }
 }

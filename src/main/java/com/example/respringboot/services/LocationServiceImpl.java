@@ -63,17 +63,14 @@ public class LocationServiceImpl implements LocationService{
     }
 
     @Override
-    public Location updateLocation(Location location, Long l) {
-        return locationRepository.findById(l).map(location1 -> {
-            if (location.getLocationCode() != null) location1.setLocationCode(location.getLocationCode());
-            if (location.getLocationId() != null) location1.setLocationId(location.getLocationId());
-            if (location.getRegionalLocation() != null) location1.setRegionalLocation(location.getRegionalLocation());
-            return locationRepository.save(location);
-        }).orElseGet(() -> {
-            location.setLocationCode(l);
-            return locationRepository.save(location);
-        });
+    public Location updateLocation(LocationCommand newLocationCommand, Long l) {
+        return locationRepository.findById(l).map(oldLocation -> {
+            if (newLocationCommand.getLocationId() != oldLocation.getLocationId()) oldLocation.setLocationId(newLocationCommand.getLocationId());
+            if (newLocationCommand.getRegionalLocation() != oldLocation.getRegionalLocation()) oldLocation.setRegionalLocation(newLocationCommand.getRegionalLocation());
+            return locationRepository.save(oldLocation);
+        }).orElseThrow(() -> new RuntimeException("Location not found"));
     }
+
 
     @Override
     @Transactional

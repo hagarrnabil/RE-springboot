@@ -12,12 +12,12 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode(exclude = {"buildings"})
+//@Getter
+//@Setter
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Builder
+//@EqualsAndHashCode(exclude = {"buildings"})
 @Table(name = "building_types")
 public class BuildingType implements Serializable {
     @Id
@@ -31,8 +31,8 @@ public class BuildingType implements Serializable {
     @NotNull
     private String buildingTypeDescr;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "buildingType")
-    @JsonIgnore
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "buildingType")
+//    @JsonIgnore
     private Set<Building> buildings = new HashSet<>();
 
     public BuildingType addBuilding(Building building) {
@@ -41,4 +41,35 @@ public class BuildingType implements Serializable {
         return this;
     }
 
+    public Long getBuildingTypeCode() {
+        return buildingTypeCode;
+    }
+
+    public void setBuildingTypeCode(Long buildingTypeCode) {
+        this.buildingTypeCode = buildingTypeCode;
+    }
+
+    public String getBuildingTypeId() {
+        return buildingTypeId;
+    }
+
+    public void setBuildingTypeId(String buildingTypeId) {
+        this.buildingTypeId = buildingTypeId;
+    }
+
+    public String getBuildingTypeDescr() {
+        return buildingTypeDescr;
+    }
+
+    public void setBuildingTypeDescr(String buildingTypeDescr) {
+        this.buildingTypeDescr = buildingTypeDescr;
+    }
+
+    public Set<Building> getBuildings() {
+        return buildings;
+    }
+
+    public void setBuildings(Set<Building> buildings) {
+        this.buildings = buildings;
+    }
 }

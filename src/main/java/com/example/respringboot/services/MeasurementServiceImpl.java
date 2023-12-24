@@ -3,7 +3,6 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.UnitOfMeasurementCommand;
 import com.example.respringboot.converters.UnitOfMeasurementCommandToUnitOfMeasurement;
 import com.example.respringboot.converters.UnitOfMeasurementToUnitOfMeasurementCommand;
-import com.example.respringboot.model.BuildingType;
 import com.example.respringboot.model.UnitOfMeasurement;
 import com.example.respringboot.repositories.UnitOfMeasurementRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -66,16 +65,12 @@ public class MeasurementServiceImpl implements MeasurementService{
     }
 
     @Override
-    public UnitOfMeasurement updateUOM(UnitOfMeasurement measurement, Long l) {
-        return unitOfMeasurementRepository.findById(l).map(measurement1 -> {
-            if (measurement.getMeasurementCode() != null) measurement1.setMeasurementCode(measurement.getMeasurementCode());
-            if (measurement.getUomID() != null) measurement1.setUomID(measurement.getUomID());
-            if (measurement.getUomDescr() != null) measurement1.setUomDescr(measurement.getUomDescr());
-            return unitOfMeasurementRepository.save(measurement);
-        }).orElseGet(() -> {
-            measurement.setMeasurementCode(l);
-            return unitOfMeasurementRepository.save(measurement);
-        });
+    public UnitOfMeasurement updateUOM(UnitOfMeasurementCommand newMeasurementCommand, Long l) {
+        return unitOfMeasurementRepository.findById(l).map(oldMeasurement -> {
+           if (newMeasurementCommand.getUomID() != oldMeasurement.getUomID()) oldMeasurement.setUomID(newMeasurementCommand.getUomID());
+            if (newMeasurementCommand.getUomDescr() != oldMeasurement.getUomDescr()) oldMeasurement.setUomDescr(newMeasurementCommand.getUomDescr());
+            return unitOfMeasurementRepository.save(oldMeasurement);
+        }).orElseThrow(() -> new RuntimeException("Measurement not found"));
     }
 
     @Override

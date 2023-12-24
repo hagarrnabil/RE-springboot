@@ -57,9 +57,9 @@ public class UnitOrientationController {
     @PutMapping
     @RequestMapping("/unitorientations/{unitOrientationCode}")
     @Transactional
-    UnitOrientationCommand updateUnitOrientationCommand(@RequestBody UnitOrientation newUnitOrientation, @PathVariable Long unitOrientationCode) {
+    UnitOrientationCommand updateUnitOrientationCommand(@RequestBody UnitOrientationCommand newUnitOrientationCommand, @PathVariable Long unitOrientationCode) {
 
-        UnitOrientationCommand command = unitOrientationToUnitOrientationCommand.convert(unitOrientationService.updateUnitOrientation(newUnitOrientation, unitOrientationCode));
+        UnitOrientationCommand command = unitOrientationToUnitOrientationCommand.convert(unitOrientationService.updateUnitOrientation(newUnitOrientationCommand, unitOrientationCode));
         return command;
     }
 

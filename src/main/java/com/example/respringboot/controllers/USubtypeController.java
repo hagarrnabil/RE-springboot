@@ -57,9 +57,9 @@ public class USubtypeController {
     @PutMapping
     @RequestMapping("/unitsubtypes/{unitSubtypeCode}")
     @Transactional
-    UnitSubtypeCommand updateUnitSubtypeCommand(@RequestBody UnitSubtype newUnitSubtype, @PathVariable Long unitSubtypeCode) {
+    UnitSubtypeCommand updateUnitSubtypeCommand(@RequestBody UnitSubtypeCommand newUnitSubtypeCommand, @PathVariable Long unitSubtypeCode) {
 
-        UnitSubtypeCommand command = unitSubtypeToUnitSubtypeCommand.convert(unitSubtypeService.updateUnitSubtype(newUnitSubtype, unitSubtypeCode));
+        UnitSubtypeCommand command = unitSubtypeToUnitSubtypeCommand.convert(unitSubtypeService.updateUnitSubtype(newUnitSubtypeCommand, unitSubtypeCode));
         return command;
     }
 

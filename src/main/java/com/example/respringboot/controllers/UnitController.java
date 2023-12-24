@@ -56,9 +56,9 @@ public class UnitController {
     @PutMapping
     @RequestMapping("/units/{unitCode}")
     @Transactional
-    UnitCommand updateUnitCommand(@RequestBody Unit newUnit, @PathVariable Long unitCode) {
+    UnitCommand updateUnitCommand(@RequestBody UnitCommand newUnitCommand, @PathVariable Long unitCode) {
 
-        UnitCommand command = unitToUnitCommand.convert(unitService.updateUnit(newUnit, unitCode));
+        UnitCommand command = unitToUnitCommand.convert(unitService.updateUnit(newUnitCommand, unitCode));
         return command;
     }
 }

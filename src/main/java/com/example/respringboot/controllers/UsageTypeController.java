@@ -56,9 +56,9 @@ public class UsageTypeController {
     @PutMapping
     @RequestMapping("/usagetype/{usageTypeCode}")
     @Transactional
-    UsageTypeCommand updateUsageTypeCommand(@RequestBody UsageType newUsageType, @PathVariable Long usageTypeCode) {
+    UsageTypeCommand updateUsageTypeCommand(@RequestBody UsageTypeCommand newUsageTypeCommand, @PathVariable Long usageTypeCode) {
 
-        UsageTypeCommand command = usageTypeToUsageTypeCommand.convert(usageTypeSevice.updateUsageType(newUsageType, usageTypeCode));
+        UsageTypeCommand command = usageTypeToUsageTypeCommand.convert(usageTypeSevice.updateUsageType(newUsageTypeCommand, usageTypeCode));
         return command;
     }
 }

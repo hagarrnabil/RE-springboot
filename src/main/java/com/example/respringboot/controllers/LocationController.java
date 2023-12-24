@@ -55,9 +55,9 @@ public class LocationController {
     @PutMapping
     @RequestMapping("/locations/{locationCode}")
     @Transactional
-    LocationCommand updateLocationCommand(@RequestBody Location newLocation, @PathVariable Long locationCode) {
+    LocationCommand updateLocationCommand(@RequestBody LocationCommand newLocationCommand, @PathVariable Long locationCode) {
 
-        LocationCommand command = locationToLocationCommand.convert(locationService.updateLocation(newLocation, locationCode));
+        LocationCommand command = locationToLocationCommand.convert(locationService.updateLocation(newLocationCommand, locationCode));
         return command;
     }
 }

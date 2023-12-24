@@ -62,16 +62,12 @@ public class UsageTypeServiceImpl implements UsageTypeSevice{
     }
 
     @Override
-    public UsageType updateUsageType(UsageType usageType, Long l) {
-        return usageTypeRepository.findById(l).map(usageType1 -> {
-            if (usageType.getUsageTypeCode() != null) usageType1.setUsageTypeCode(usageType.getUsageTypeCode());
-            if (usageType.getUsageId() != null) usageType1.setUsageId(usageType.getUsageId());
-            if (usageType.getUsageDescr() != null) usageType1.setUsageDescr(usageType.getUsageDescr());
-            return usageTypeRepository.save(usageType);
-        }).orElseGet(() -> {
-            usageType.setUsageTypeCode(l);
-            return usageTypeRepository.save(usageType);
-        });
+    public UsageType updateUsageType(UsageTypeCommand newUsageTypeCommand, Long l) {
+        return usageTypeRepository.findById(l).map(oldUsageType -> {
+            if (newUsageTypeCommand.getUsageId() != oldUsageType.getUsageId()) oldUsageType.setUsageId(newUsageTypeCommand.getUsageId());
+            if (newUsageTypeCommand.getUsageDescr() != oldUsageType.getUsageDescr()) oldUsageType.setUsageDescr(newUsageTypeCommand.getUsageDescr());
+            return usageTypeRepository.save(oldUsageType);
+        }).orElseThrow(() -> new RuntimeException("Usage Type not found"));
     }
 
     @Override

@@ -8,8 +8,8 @@ import org.hibernate.validator.constraints.Length;
 import java.util.Objects;
 
 @Entity
-@Data
-@EqualsAndHashCode(exclude = {"project"})
+//@Data
+//@EqualsAndHashCode(exclude = {"project"})
 @Table(name = "location")
 public class Location {
     @Id
@@ -40,4 +40,31 @@ public class Location {
         }
     }
 
+    public Long getLocationCode() {
+        return locationCode;
+    }
+
+    public void setLocationCode(Long locationCode) {
+        this.locationCode = locationCode;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getRegionalLocation() {
+        return regionalLocation;
+    }
+
+    public void setRegionalLocation(String regionalLocation) {
+        this.regionalLocation = regionalLocation;
+    }
+
+    public Project getProject() {
+        return project;
+    }
 }

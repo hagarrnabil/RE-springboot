@@ -67,16 +67,12 @@ public class UnitAreaServiceImpl implements UnitAreaService{
     }
 
     @Override
-    public UnitArea updateUnitArea(UnitArea unitArea, Long l) {
-        return unitAreaRepository.findById(l).map(unitArea1 -> {
-            if (unitArea.getUnitAreaCode() != null) unitArea1.setUnitAreaCode(unitArea.getUnitAreaCode());
-            if (unitArea.getUnitArea() != null) unitArea1.setUnitArea(unitArea.getUnitArea());
-            if (unitArea.getDescription() != null) unitArea1.setDescription(unitArea.getDescription());
-            return unitAreaRepository.save(unitArea);
-        }).orElseGet(() -> {
-            unitArea.setUnitAreaCode(l);
-            return unitAreaRepository.save(unitArea);
-        });
+    public UnitArea updateUnitArea(UnitAreaCommand newUnitAreaCommand, Long l) {
+        return unitAreaRepository.findById(l).map(oldUnitArea -> {
+            if (newUnitAreaCommand.getUnitArea() != oldUnitArea.getUnitArea()) oldUnitArea.setUnitArea(newUnitAreaCommand.getUnitArea());
+            if (newUnitAreaCommand.getDescription() != oldUnitArea.getDescription()) oldUnitArea.setDescription(newUnitAreaCommand.getDescription());
+            return unitAreaRepository.save(oldUnitArea);
+        }).orElseThrow(() -> new RuntimeException("Unit Area not found"));
     }
 
     @Override

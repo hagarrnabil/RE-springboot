@@ -65,16 +65,12 @@ public class UnitFixtureServiceImpl implements UnitFixtureService {
     }
 
     @Override
-    public UnitFixture updateUnitFixture(UnitFixture unitFixture, Long l) {
-        return unitFixtureRepository.findById(l).map(unitFixture1 -> {
-            if (unitFixture.getUnitFixtureCode() != null) unitFixture1.setUnitFixtureCode(unitFixture.getUnitFixtureCode());
-            if (unitFixture.getuFixtureId() != null) unitFixture1.setuFixtureId(unitFixture.getuFixtureId());
-            if (unitFixture.getuFixtureDescr() != null) unitFixture1.setuFixtureDescr(unitFixture.getuFixtureDescr());
-            return unitFixtureRepository.save(unitFixture);
-        }).orElseGet(() -> {
-            unitFixture.setUnitFixtureCode(l);
-            return unitFixtureRepository.save(unitFixture);
-        });
+    public UnitFixture updateUnitFixture(UnitFixtureCommand newUnitFixtureCommand, Long l) {
+        return unitFixtureRepository.findById(l).map(oldUnitFixture -> {
+            if (newUnitFixtureCommand.getUFixtureId() != oldUnitFixture.getuFixtureId()) oldUnitFixture.setuFixtureId(newUnitFixtureCommand.getUFixtureId());
+            if (newUnitFixtureCommand.getUFixtureDescr() != oldUnitFixture.getuFixtureDescr()) oldUnitFixture.setuFixtureDescr(newUnitFixtureCommand.getUFixtureDescr());
+            return unitFixtureRepository.save(oldUnitFixture);
+        }).orElseThrow(() -> new RuntimeException("Unit Fixture not found"));
     }
 
 

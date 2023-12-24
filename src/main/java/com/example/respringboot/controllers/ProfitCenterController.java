@@ -55,9 +55,9 @@ public class ProfitCenterController {
     @PutMapping
     @RequestMapping("/profits/{profitCode}")
     @Transactional
-    ProfitCenterCommand updateProfitCommand(@RequestBody ProfitCenter newProfit, @PathVariable Long profitCode) {
+    ProfitCenterCommand updateProfitCommand(@RequestBody ProfitCenterCommand newProfitCommand, @PathVariable Long profitCode) {
 
-        ProfitCenterCommand command = profitToProfitCommand.convert(profitService.updateProfit(newProfit, profitCode));
+        ProfitCenterCommand command = profitToProfitCommand.convert(profitService.updateProfit(newProfitCommand, profitCode));
         return command;
     }
 }

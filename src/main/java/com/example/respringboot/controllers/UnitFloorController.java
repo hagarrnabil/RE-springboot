@@ -58,9 +58,9 @@ public class UnitFloorController {
     @PutMapping
     @RequestMapping("/unitfloors/{unitFloorCode}")
     @Transactional
-    UnitFloorCommand updateUnitFloorCommand(@RequestBody UnitFloor newUnitFloor, @PathVariable Long unitFloorCode) {
+    UnitFloorCommand updateUnitFloorCommand(@RequestBody UnitFloorCommand newUnitFloorCommand, @PathVariable Long unitFloorCode) {
 
-        UnitFloorCommand command = unitFloorToUnitFloorCommand.convert(unitFloorService.updateUnitFloor(newUnitFloor, unitFloorCode));
+        UnitFloorCommand command = unitFloorToUnitFloorCommand.convert(unitFloorService.updateUnitFloor(newUnitFloorCommand, unitFloorCode));
         return command;
     }
 

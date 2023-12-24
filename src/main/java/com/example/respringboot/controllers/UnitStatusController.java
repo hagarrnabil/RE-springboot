@@ -57,9 +57,9 @@ public class UnitStatusController {
     @PutMapping
     @RequestMapping("/unitstatuses/{unitStatusCode}")
     @Transactional
-    UnitStatusCommand updateUnitStatusCommand(@RequestBody UnitStatus newUnitStatus, @PathVariable Long unitStatusCode) {
+    UnitStatusCommand updateUnitStatusCommand(@RequestBody UnitStatusCommand newUnitStatusCommand, @PathVariable Long unitStatusCode) {
 
-        UnitStatusCommand command = unitStatusToUnitStatusCommand.convert(unitStatusService.updateUnitStatus(newUnitStatus, unitStatusCode));
+        UnitStatusCommand command = unitStatusToUnitStatusCommand.convert(unitStatusService.updateUnitStatus(newUnitStatusCommand, unitStatusCode));
         return command;
     }
 

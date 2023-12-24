@@ -51,9 +51,9 @@ public class ProjectAreaController {
     @PutMapping
     @RequestMapping("/projectareas/{projectAreaCode}")
     @Transactional
-    ProjectAreaCommand updateProjectAreaCommand(@RequestBody ProjectArea newProjectArea, @PathVariable Long projectAreaCode) {
+    ProjectAreaCommand updateProjectAreaCommand(@RequestBody ProjectAreaCommand newProjectAreaCommand, @PathVariable Long projectAreaCode) {
 
-        ProjectAreaCommand command = projectAreaToProjectAreaCommand.convert(projectAreaService.updateProjectArea(newProjectArea, projectAreaCode));
+        ProjectAreaCommand command = projectAreaToProjectAreaCommand.convert(projectAreaService.updateProjectArea(newProjectAreaCommand, projectAreaCode));
         return command;
     }
 }

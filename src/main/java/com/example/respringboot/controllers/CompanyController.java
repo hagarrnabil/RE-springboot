@@ -56,9 +56,9 @@ public class CompanyController {
     @PutMapping
     @RequestMapping("/companies/{companyCode}")
     @Transactional
-    CompanyCommand updateCompany(@RequestBody Company newCompany, @PathVariable Long companyCode) {
+    CompanyCommand updateCompany(@RequestBody CompanyCommand newCompanyCommand, @PathVariable Long companyCode) {
 
-        CompanyCommand command = companyToCompanyCommand.convert(companyService.updateCompany(newCompany, companyCode));
+        CompanyCommand command = companyToCompanyCommand.convert(companyService.updateCompany(newCompanyCommand, companyCode));
         return command;
     }
 }

@@ -19,7 +19,7 @@ public class ProfitCenter implements Serializable {
     private Long profitCode;
 
 
-    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Column(unique = true, length = 8, columnDefinition = "char(8)")
     @Length(max = 8)
     private String profitId;
     @NotNull
@@ -29,7 +29,7 @@ public class ProfitCenter implements Serializable {
 //    @JsonIgnore
     private Set<Project> projects = new HashSet<>();
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "profitCenter")
-    @JsonIgnore
+//    @JsonIgnore
     private Set<Building> buildings = new HashSet<>();
 
     public ProfitCenter addProject(Project project) {

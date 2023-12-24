@@ -15,8 +15,8 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Data
-@EqualsAndHashCode(exclude = {"units", "project", "buildingType", "profitCenter"})
+//@Data
+//@EqualsAndHashCode(exclude = {"units", "project", "buildingType", "profitCenter"})
 @Table(name = "building")
 public class Building implements Serializable {
     @Id
@@ -38,8 +38,8 @@ public class Building implements Serializable {
 
     @ManyToOne
     private Project project;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "building")
-    @JsonIgnore
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "building")
+//    @JsonIgnore
     private Set<Unit> units = new HashSet<>();
     @ManyToOne
     private BuildingType buildingType;
@@ -76,5 +76,93 @@ public class Building implements Serializable {
         unit.setBuilding(this);
         this.units.add(unit);
         return this;
+    }
+
+    public Long getBuildingCode() {
+        return buildingCode;
+    }
+
+    public void setBuildingCode(Long buildingCode) {
+        this.buildingCode = buildingCode;
+    }
+
+    public String getBuildingId() {
+        return buildingId;
+    }
+
+    public void setBuildingId(String buildingId) {
+        this.buildingId = buildingId;
+    }
+
+    public String getBuildingDescription() {
+        return buildingDescription;
+    }
+
+    public void setBuildingDescription(String buildingDescription) {
+        this.buildingDescription = buildingDescription;
+    }
+
+    public String getOldNumber() {
+        return oldNumber;
+    }
+
+    public void setOldNumber(String oldNumber) {
+        this.oldNumber = oldNumber;
+    }
+
+    public LocalDate getValidFrom() {
+        return validFrom;
+    }
+
+    public void setValidFrom(LocalDate validFrom) {
+        this.validFrom = validFrom;
+    }
+
+    public Integer getNumberOfFloors() {
+        return numberOfFloors;
+    }
+
+    public void setNumberOfFloors(Integer numberOfFloors) {
+        this.numberOfFloors = numberOfFloors;
+    }
+
+    public String getProfit() {
+        return profit;
+    }
+
+    public void setProfit(String profit) {
+        this.profit = profit;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Set<Unit> getUnits() {
+        return units;
+    }
+
+    public void setUnits(Set<Unit> units) {
+        this.units = units;
+    }
+
+    public BuildingType getBuildingType() {
+        return buildingType;
+    }
+
+    public void setBuildingType(BuildingType buildingType) {
+        this.buildingType = buildingType;
+    }
+
+    public ProfitCenter getProfitCenter() {
+        return profitCenter;
+    }
+
+    public void setProfitCenter(ProfitCenter profitCenter) {
+        this.profitCenter = profitCenter;
     }
 }

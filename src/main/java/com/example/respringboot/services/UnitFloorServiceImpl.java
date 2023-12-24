@@ -67,16 +67,12 @@ public class UnitFloorServiceImpl implements UnitFloorService{
     }
 
     @Override
-    public UnitFloor updateUnitFloor(UnitFloor unitFloor, Long l) {
-        return unitFloorRepository.findById(l).map(unitFloor1 -> {
-            if (unitFloor.getUnitFloorCode() != null) unitFloor1.setUnitFloorCode(unitFloor.getUnitFloorCode());
-            if (unitFloor.getuFloorId() != null) unitFloor1.setuFloorId(unitFloor.getuFloorId());
-            if (unitFloor.getuFloorDescr() != null) unitFloor1.setuFloorDescr(unitFloor.getuFloorDescr());
-            return unitFloorRepository.save(unitFloor);
-        }).orElseGet(() -> {
-            unitFloor.setUnitFloorCode(l);
-            return unitFloorRepository.save(unitFloor);
-        });
+    public UnitFloor updateUnitFloor(UnitFloorCommand newUnitFloorCommand, Long l) {
+        return unitFloorRepository.findById(l).map(oldUnitFloor -> {
+            if (newUnitFloorCommand.getUFloorId() != oldUnitFloor.getuFloorId()) oldUnitFloor.setuFloorId(newUnitFloorCommand.getUFloorId());
+            if (newUnitFloorCommand.getUFloorDescr() != oldUnitFloor.getuFloorDescr()) oldUnitFloor.setuFloorDescr(newUnitFloorCommand.getUFloorDescr());
+            return unitFloorRepository.save(oldUnitFloor);
+        }).orElseThrow(() -> new RuntimeException("Unit Floor not found"));
     }
 
     @Override

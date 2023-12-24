@@ -68,16 +68,12 @@ BuildingTypeServiceImpl implements BuildingTypeService{
     }
 
     @Override
-    public BuildingType updateBuildingType(BuildingType buildingType, Long l) {
-        return buildingTypeRepository.findById(l).map(buildingType1 -> {
-            if(buildingType.getBuildingTypeCode() != null) buildingType1.setBuildingTypeCode(buildingType.getBuildingTypeCode());
-            if(buildingType.getBuildingTypeId() != null) buildingType1.setBuildingTypeId(buildingType.getBuildingTypeId());
-            if(buildingType.getBuildingTypeDescr() != null) buildingType1.setBuildingTypeDescr(buildingType.getBuildingTypeDescr());
-            return buildingTypeRepository.save(buildingType);
-        }).orElseGet(() -> {
-            buildingType.setBuildingTypeCode(l);
-            return buildingTypeRepository.save(buildingType);
-        });
+    public BuildingType updateBuildingType(BuildingTypeCommand newBuildingTypeCommand, Long l) {
+        return buildingTypeRepository.findById(l).map(oldBuildingType -> {
+            if(newBuildingTypeCommand.getBuildingTypeId() != oldBuildingType.getBuildingTypeId()) oldBuildingType.setBuildingTypeId(newBuildingTypeCommand.getBuildingTypeId());
+            if(newBuildingTypeCommand.getBuildingTypeDescr() != oldBuildingType.getBuildingTypeDescr()) oldBuildingType.setBuildingTypeDescr(newBuildingTypeCommand.getBuildingTypeDescr());
+            return buildingTypeRepository.save(oldBuildingType);
+        }).orElseThrow(() -> new RuntimeException("Building Type not found"));
     }
 
     @Override

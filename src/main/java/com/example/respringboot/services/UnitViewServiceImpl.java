@@ -4,7 +4,6 @@ import com.example.respringboot.commands.UnitViewCommand;
 import com.example.respringboot.converters.UnitViewCommandToUnitView;
 import com.example.respringboot.converters.UnitViewToUnitViewCommand;
 import com.example.respringboot.model.UnitView;
-import com.example.respringboot.model.UsageType;
 import com.example.respringboot.repositories.UnitViewRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -66,16 +65,13 @@ public class UnitViewServiceImpl implements UnitViewService{
     }
 
     @Override
-    public UnitView updateUnitView(UnitView unitView, Long l) {
-        return unitViewRepository.findById(l).map(unitView1 -> {
-            if (unitView.getUnitViewCode() != null) unitView1.setUnitViewCode(unitView.getUnitViewCode());
-            if (unitView.getuViewId() != null) unitView1.setuViewId(unitView.getuViewId());
-            if (unitView.getuViewDescr() != null) unitView1.setuViewDescr(unitView.getuViewDescr());
-            return unitViewRepository.save(unitView);
-        }).orElseGet(() -> {
-            unitView.setUnitViewCode(l);
-            return unitViewRepository.save(unitView);
-        });    }
+    public UnitView updateUnitView(UnitViewCommand newUnitViewCommand, Long l) {
+        return unitViewRepository.findById(l).map(oldUnitView -> {
+            if (newUnitViewCommand.getUViewId() != oldUnitView.getuViewId()) oldUnitView.setuViewId(newUnitViewCommand.getUViewId());
+            if (newUnitViewCommand.getUViewDescr() != oldUnitView.getuViewDescr()) oldUnitView.setuViewDescr(newUnitViewCommand.getUViewDescr());
+            return unitViewRepository.save(oldUnitView);
+        }).orElseThrow(() -> new RuntimeException("Unit View not found"));
+    }
 
     @Override
     @Transactional

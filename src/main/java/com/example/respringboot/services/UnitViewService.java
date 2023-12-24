@@ -2,7 +2,6 @@ package com.example.respringboot.services;
 
 
 import com.example.respringboot.commands.UnitViewCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.model.UnitView;
 
 import java.util.Set;
@@ -16,7 +15,7 @@ public interface UnitViewService {
 
     UnitViewCommand saveUnitViewCommand(UnitViewCommand command);
 
-    UnitView updateUnitView(UnitView unitView, Long l);
+    UnitView updateUnitView(UnitViewCommand newUnitViewCommand, Long l);
 
     UnitViewCommand findUnitViewCommandById(Long l);
 }

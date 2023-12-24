@@ -67,16 +67,12 @@ public class BuildingAreaServiceImpl implements BuildingAreaService{
     }
 
     @Override
-    public BuildingArea updateBuildingArea(BuildingArea buildingArea, Long l) {
-        return buildingAreaRepository.findById(l).map(buildingArea1 -> {
-            if (buildingArea.getBuildingAreaCode() != null) buildingArea1.setBuildingAreaCode(buildingArea.getBuildingAreaCode());
-            if (buildingArea.getBuildingArea() != null) buildingArea1.setBuildingArea(buildingArea.getBuildingArea());
-            if (buildingArea.getDescription() != null) buildingArea1.setDescription(buildingArea.getDescription());
-            return buildingAreaRepository.save(buildingArea);
-        }).orElseGet(() -> {
-            buildingArea.setBuildingAreaCode(l);
-            return buildingAreaRepository.save(buildingArea);
-        });
+    public BuildingArea updateBuildingArea(BuildingAreaCommand newBuildingAreaCommand, Long l) {
+        return buildingAreaRepository.findById(l).map(oldBuildingArea -> {
+            if (newBuildingAreaCommand.getBuildingArea() != oldBuildingArea.getBuildingArea()) oldBuildingArea.setBuildingArea(newBuildingAreaCommand.getBuildingArea());
+            if (newBuildingAreaCommand.getDescription() != oldBuildingArea.getDescription()) oldBuildingArea.setDescription(newBuildingAreaCommand.getDescription());
+            return buildingAreaRepository.save(oldBuildingArea);
+        }).orElseThrow(() -> new RuntimeException("Building Area not found"));
     }
 
     @Override

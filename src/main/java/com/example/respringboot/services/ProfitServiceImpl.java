@@ -64,16 +64,12 @@ public class ProfitServiceImpl implements ProfitService{
     }
 
     @Override
-    public ProfitCenter updateProfit(ProfitCenter profitCenter, Long l) {
-        return profitCenterRepository.findById(l).map(profitCenter1 -> {
-            if (profitCenter.getProfitCode() != null) profitCenter1.setProfitCode(profitCenter.getProfitCode());
-            if (profitCenter.getProfitId() != null) profitCenter1.setProfitId(profitCenter.getProfitId());
-            if (profitCenter.getProfitDescr() != null) profitCenter1.setProfitDescr(profitCenter.getProfitDescr());
-            return profitCenterRepository.save(profitCenter);
-        }).orElseGet(() -> {
-            profitCenter.setProfitCode(l);
-            return profitCenterRepository.save(profitCenter);
-        });
+    public ProfitCenter updateProfit(ProfitCenterCommand newProfitCommand, Long l) {
+        return profitCenterRepository.findById(l).map(oldProfit -> {
+            if (newProfitCommand.getProfitId() != oldProfit.getProfitId()) oldProfit.setProfitId(newProfitCommand.getProfitId());
+            if (newProfitCommand.getProfitDescr() != oldProfit.getProfitDescr()) oldProfit.setProfitDescr(newProfitCommand.getProfitDescr());
+            return profitCenterRepository.save(oldProfit);
+        }).orElseThrow(() -> new RuntimeException("Profit not found"));
     }
 
     @Override

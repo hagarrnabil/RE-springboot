@@ -51,9 +51,9 @@ public class UnitAreaController {
     @PutMapping
     @RequestMapping("/unitareas/{unitAreaCode}")
     @Transactional
-    UnitAreaCommand updateUnitAreaCommand(@RequestBody UnitArea newUnitArea, @PathVariable Long unitAreaCode) {
+    UnitAreaCommand updateUnitAreaCommand(@RequestBody UnitAreaCommand newUnitAreaCommand, @PathVariable Long unitAreaCode) {
 
-        UnitAreaCommand command = unitAreaToUnitAreaCommand.convert(unitAreaService.updateUnitArea(newUnitArea, unitAreaCode));
+        UnitAreaCommand command = unitAreaToUnitAreaCommand.convert(unitAreaService.updateUnitArea(newUnitAreaCommand, unitAreaCode));
         return command;
     }
 }

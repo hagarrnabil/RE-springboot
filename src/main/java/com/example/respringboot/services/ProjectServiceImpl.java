@@ -7,9 +7,6 @@ import com.example.respringboot.model.Location;
 import com.example.respringboot.model.ProfitCenter;
 import com.example.respringboot.model.Project;
 import com.example.respringboot.repositories.ProjectRepository;
-import io.micrometer.common.lang.Nullable;
-import lombok.Synchronized;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +18,6 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
-@Component
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectToProjectCommand projectToProjectCommand;
     private final ProjectCommandToProject projectCommandToProject;
@@ -76,27 +72,30 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectCommand updatePC(Optional<Project> project, Long l) {
 
         project = projectRepository.findById(l);
-        Project detachedProject = projectCommandToProject.convert(project);
-        Project savedProject = projectRepository.save(detachedProject);
+        Project updatedProject = projectToProjectCommand.convert(project);
+        Project savedProject = projectRepository.save(updatedProject);
         return projectToProjectCommand.convert(savedProject);
 
     }
 
     @Override
-    @Synchronized
-    @Nullable
-    @Transactional
     public Project updateProject(ProjectCommand newProjectCommand, Long l) {
         return projectRepository.findById(l).map(oldProject -> {
-//            if (newProjectCommand.getId() != oldProject.getProjectCode()) oldProject.setProjectCode(newProjectCommand.getId());
             if (newProjectCommand.getProjectId() != oldProject.getProjectId()) oldProject.setProjectId(newProjectCommand.getProjectId());
             if (newProjectCommand.getProjectDescription() != oldProject.getProjectDescription()) oldProject.setProjectDescription(newProjectCommand.getProjectDescription());
             if (newProjectCommand.getProfit() != oldProject.getProfit()) oldProject.setProfit(newProjectCommand.getProfit());
             if (newProjectCommand.getValidFrom() != oldProject.getValidFrom()) oldProject.setValidFrom(newProjectCommand.getValidFrom());
             if ((newProjectCommand.getCompanyCode() != null)) {
+                log.debug("new project company details"+ newProjectCommand.getCompany());
                 Company company = new Company();
                 company.setCompanyCode(newProjectCommand.getCompanyCode());
+//                company.setCompanyCodeId(newProjectCommand.getCompany().getCompanyCodeId());
+//                company.setCompanyCodeDescription(newProjectCommand.getCompany().getCompanyCodeDescription());
+                log.debug("new project company code"+ newProjectCommand.getCompanyCode());
                 oldProject.setCompany(company);
+                log.debug("company code"+ company.getCompanyCode());
+                log.debug("company id"+ company.getCompanyCodeId());
+                log.debug("company descr"+ company.getCompanyCodeDescription());
                 company.addProject(oldProject);
             }
             if ((newProjectCommand.getProfitCode() != null)) {

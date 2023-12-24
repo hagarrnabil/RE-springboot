@@ -55,9 +55,9 @@ public class UnitOfMeasurementController {
     @PutMapping
     @RequestMapping("/measurements/{measurementCode}")
     @Transactional
-    UnitOfMeasurementCommand updateUOMCommand(@RequestBody UnitOfMeasurement newUOM, @PathVariable Long measurementCode) {
+    UnitOfMeasurementCommand updateUOMCommand(@RequestBody UnitOfMeasurementCommand newUOMCommand, @PathVariable Long measurementCode) {
 
-        UnitOfMeasurementCommand command = unitOfMeasurementToUnitOfMeasurementCommand.convert(measurementService.updateUOM(newUOM, measurementCode));
+        UnitOfMeasurementCommand command = unitOfMeasurementToUnitOfMeasurementCommand.convert(measurementService.updateUOM(newUOMCommand, measurementCode));
         return command;
     }
 }

@@ -65,23 +65,19 @@ public class BuildingServiceImpl implements BuildingService{
     }
 
     @Override
-    public Building updateBuilding(Building building, Long l) {
-        return buildingRepository.findById(l).map(building1 -> {
-            if(building.getBuildingCode() != null) building1.setBuildingCode(building.getBuildingCode());
-            if(building.getBuildingId() != null) building1.setBuildingId(building.getBuildingId());
-            if(building.getBuildingDescription() != null) building1.setBuildingDescription(building.getBuildingDescription());
-            if (building.getProfit() != null) building1.setProfit(building.getProfit());
-            if(building.getNumberOfFloors() != null) building1.setNumberOfFloors(building.getNumberOfFloors());
-            if (building.getOldNumber() != null) building1.setOldNumber(building.getOldNumber());
-            if (building.getValidFrom() != null) building1.setValidFrom(building.getValidFrom());
-            if (building.getProfitCenter() != null) building1.getProfitCenter().addBuilding(building);
-            if (building.getProject() != null) building1.getProject().addBuilding(building);
-            if (building.getBuildingType() != null) building1.getBuildingType().addBuilding(building);
-            return buildingRepository.save(building);
-        }).orElseGet(() -> {
-            building.setBuildingCode(l);
-            return buildingRepository.save(building);
-        });
+    public Building updateBuilding(BuildingCommand newBuildingCommand, Long l) {
+        return buildingRepository.findById(l).map(oldBuilding -> {
+            if(newBuildingCommand.getBuildingId() != oldBuilding.getBuildingId()) oldBuilding.setBuildingId(newBuildingCommand.getBuildingId());
+            if(newBuildingCommand.getBuildingDescription() != oldBuilding.getBuildingDescription()) oldBuilding.setBuildingDescription(newBuildingCommand.getBuildingDescription());
+            if (newBuildingCommand.getProfit() != oldBuilding.getProfit()) oldBuilding.setProfit(newBuildingCommand.getProfit());
+            if(newBuildingCommand.getNumberOfFloors() != oldBuilding.getNumberOfFloors()) oldBuilding.setNumberOfFloors(newBuildingCommand.getNumberOfFloors());
+            if (newBuildingCommand.getOldNumber() != oldBuilding.getOldNumber()) oldBuilding.setOldNumber(newBuildingCommand.getOldNumber());
+            if (newBuildingCommand.getValidFrom() != oldBuilding.getValidFrom()) oldBuilding.setValidFrom(newBuildingCommand.getValidFrom());
+//            if (newBuildingCommand.getProfitCenter() != null) oldBuilding.getProfitCenter().addBuilding(newBuildingCommand);
+//            if (newBuildingCommand.getProject() != null) oldBuilding.getProject().addBuilding(newBuildingCommand);
+//            if (newBuildingCommand.getBuildingType() != null) oldBuilding.getBuildingType().addBuilding(newBuildingCommand);
+            return buildingRepository.save(oldBuilding);
+        }).orElseThrow(() -> new RuntimeException("Building not found"));
     }
 
     @Override

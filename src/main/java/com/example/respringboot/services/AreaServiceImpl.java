@@ -67,23 +67,19 @@ public class AreaServiceImpl implements AreaMasterDetailService{
     }
 
     @Override
-    public AreaMasterDetail updateArea(AreaMasterDetail area, Long l) {
-        return areaMasterDetailRepository.findById(l).map(area1 -> {
-            if(area.getAreaCode() != null) area1.setAreaCode(area.getAreaCode());
-            if(area.getAreaMaster() != null) area1.setAreaMaster(area.getAreaMaster());
-            if(area.getDescription() != null) area1.setDescription(area.getDescription());
-            if(area.getBuildingFlag() != null) area1.setBuildingFlag(area.getBuildingFlag());
-            if(area.getProjectFlag() != null) area1.setProjectFlag(area.getProjectFlag());
-            if(area.getUnitFlag() != null) area1.setUnitFlag(area.getUnitFlag());
-            if(area.getProjectArea() != null) area1.getProjectArea().addAMD(area);
-            if(area.getBuildingArea() != null) area1.getBuildingArea().addAMD(area);
-            if(area.getUnitArea() != null) area1.getUnitArea().addAMD(area);
-            if(area.getUnitOfMeasurement() != null) area1.getUnitOfMeasurement().setAreaMasterDetail(area);
-            return areaMasterDetailRepository.save(area);
-        }).orElseGet(() -> {
-            area.setAreaCode(l);
-            return areaMasterDetailRepository.save(area);
-        });
+    public AreaMasterDetail updateArea(AreaMasterDetailCommand newAreaCommand, Long l) {
+        return areaMasterDetailRepository.findById(l).map(oldArea -> {
+            if(newAreaCommand.getAreaMaster() != oldArea.getAreaMaster()) oldArea.setAreaMaster(newAreaCommand.getAreaMaster());
+            if(newAreaCommand.getDescription() != oldArea.getDescription()) oldArea.setDescription(newAreaCommand.getDescription());
+            if(newAreaCommand.getBuildingFlag() != oldArea.getBuildingFlag()) oldArea.setBuildingFlag(newAreaCommand.getBuildingFlag());
+            if(newAreaCommand.getProjectFlag() != oldArea.getProjectFlag()) oldArea.setProjectFlag(newAreaCommand.getProjectFlag());
+            if(newAreaCommand.getUnitFlag() != oldArea.getUnitFlag()) oldArea.setUnitFlag(newAreaCommand.getUnitFlag());
+//            if(newAreaCommand.getProjectArea() != null) oldArea.getProjectArea().addAMD(newAreaCommand);
+//            if(newAreaCommand.getBuildingArea() != null) oldArea.getBuildingArea().addAMD(newAreaCommand);
+//            if(newAreaCommand.getUnitArea() != null) oldArea.getUnitArea().addAMD(newAreaCommand);
+//            if(newAreaCommand.getUnitOfMeasurement() != null) oldArea.getUnitOfMeasurement().setAreaMasterDetail(newAreaCommand);
+            return areaMasterDetailRepository.save(oldArea);
+        }).orElseThrow(() -> new RuntimeException("Area not found"));
     }
 
     @Override

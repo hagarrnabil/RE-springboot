@@ -7,6 +7,8 @@ import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class ProjectToProjectCommand implements Converter<Project, ProjectCommand> {
     private final LocationToLocationCommand locationConverter;
@@ -50,5 +52,13 @@ public class ProjectToProjectCommand implements Converter<Project, ProjectComman
         }
         return projectCommand;
 
+    }
+
+
+    public Project convert(Optional<Project> project) {
+        if (project != null)
+            return project.get();
+        else
+            return null;
     }
 }
