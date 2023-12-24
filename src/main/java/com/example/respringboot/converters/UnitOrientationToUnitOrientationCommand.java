@@ -26,8 +26,8 @@ public class UnitOrientationToUnitOrientationCommand implements Converter<UnitOr
 
         final UnitOrientationCommand unitOrientationCommand = new UnitOrientationCommand();
         unitOrientationCommand.setId(source.getUnitOrientationCode());
-        unitOrientationCommand.setUOrientationId(source.getuOrientationId());
-        unitOrientationCommand.setUOrientationDescr(source.getuOrientationDescr());
+        unitOrientationCommand.setuOrientationId(source.getuOrientationId());
+        unitOrientationCommand.setuOrientationDescr(source.getuOrientationDescr());
         if (source.getUnits() != null && source.getUnits().size() > 0){
             source.getUnits()
                     .forEach(unit -> unitOrientationCommand.getUnitCommands().add(unitConverter.convert(unit)));

@@ -52,21 +52,21 @@ public class ProjectController {
         projectService.deleteById(projectCode);
     }
 
-    @PutMapping
-    @RequestMapping("/projects/{projectCode}")
-    ProjectCommand updateProjectCommand(@RequestBody Project newProject, @PathVariable Long projectCode) {
-
-//        projectService.findProjectCommandById(projectCode);
-        ProjectCommand savedCommand = projectService.updatePC(Optional.ofNullable(newProject), projectCode);
-        return savedCommand;
-    }
-
 //    @PutMapping
 //    @RequestMapping("/projects/{projectCode}")
-//    @Transactional
-//    ProjectCommand updateProjectCommand(@RequestBody ProjectCommand newProjectCommand, @PathVariable Long projectCode){
+//    ProjectCommand updateProjectCommand(@RequestBody Project newProject, @PathVariable Long projectCode) {
 //
-//        ProjectCommand command = projectToProjectCommand.convert(projectService.updateProject(newProjectCommand,projectCode));
-//        return command;
+////        projectService.findProjectCommandById(projectCode);
+//        ProjectCommand savedCommand = projectService.updatePC(Optional.ofNullable(newProject), projectCode);
+//        return savedCommand;
 //    }
+
+    @PutMapping
+    @RequestMapping("/projects/{projectCode}")
+    @Transactional
+    ProjectCommand updateProjectCommand(@RequestBody ProjectCommand newProjectCommand, @PathVariable Long projectCode){
+
+        ProjectCommand command = projectToProjectCommand.convert(projectService.updateProject(newProjectCommand,projectCode));
+        return command;
+    }
 }

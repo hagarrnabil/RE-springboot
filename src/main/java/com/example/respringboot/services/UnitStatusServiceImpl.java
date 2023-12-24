@@ -69,8 +69,8 @@ public class UnitStatusServiceImpl implements UnitStatusService{
     @Override
     public UnitStatus updateUnitStatus(UnitStatusCommand newUnitStatusCommand, Long l) {
         return unitStatusRepository.findById(l).map(oldUnitStatus ->{
-            if (newUnitStatusCommand.getUStatusId() != oldUnitStatus.getuStatusId()) oldUnitStatus.setuStatusId(newUnitStatusCommand.getUStatusId());
-            if (newUnitStatusCommand.getUStatusDescr() != oldUnitStatus.getuStatusDescr()) oldUnitStatus.setuStatusDescr(newUnitStatusCommand.getUStatusDescr());
+            if (newUnitStatusCommand.getuStatusId() != oldUnitStatus.getuStatusId()) oldUnitStatus.setuStatusId(newUnitStatusCommand.getuStatusId());
+            if (newUnitStatusCommand.getuStatusDescr() != oldUnitStatus.getuStatusDescr()) oldUnitStatus.setuStatusDescr(newUnitStatusCommand.getuStatusDescr());
             return unitStatusRepository.save(oldUnitStatus);
         }).orElseThrow(() -> new RuntimeException("Unit Status not found"));
     }

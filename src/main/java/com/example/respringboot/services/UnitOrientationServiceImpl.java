@@ -69,8 +69,8 @@ public class UnitOrientationServiceImpl implements UnitOrientationService{
     @Override
     public UnitOrientation updateUnitOrientation(UnitOrientationCommand newUnitOrientationCommand, Long l) {
         return unitOrientationRepository.findById(l).map(oldUnitOrientation -> {
-            if (newUnitOrientationCommand.getUOrientationId() != oldUnitOrientation.getuOrientationId()) oldUnitOrientation.setuOrientationId(newUnitOrientationCommand.getUOrientationId());
-            if (newUnitOrientationCommand.getUOrientationDescr() != oldUnitOrientation.getuOrientationDescr()) oldUnitOrientation.setuOrientationDescr(newUnitOrientationCommand.getUOrientationDescr());
+            if (newUnitOrientationCommand.getuOrientationId() != oldUnitOrientation.getuOrientationId()) oldUnitOrientation.setuOrientationId(newUnitOrientationCommand.getuOrientationId());
+            if (newUnitOrientationCommand.getuOrientationDescr() != oldUnitOrientation.getuOrientationDescr()) oldUnitOrientation.setuOrientationDescr(newUnitOrientationCommand.getuOrientationDescr());
             return unitOrientationRepository.save(oldUnitOrientation);
         }).orElseThrow(() -> new RuntimeException("Unit Orientation not found"));
     }

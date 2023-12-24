@@ -11,8 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
-@EqualsAndHashCode(exclude = {"areaMasterDetails"})
+//@Data
+//@EqualsAndHashCode(exclude = {"areaMasterDetails"})
 @Table(name = "building_area")
 public class BuildingArea implements Serializable {
     @Id
@@ -26,7 +26,7 @@ public class BuildingArea implements Serializable {
     @NotNull
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "buildingArea")
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "buildingArea")
     @JsonIgnore
     private Set<AreaMasterDetail> areaMasterDetails = new HashSet<>();
 
@@ -34,5 +34,37 @@ public class BuildingArea implements Serializable {
         areaMasterDetail.setBuildingArea(this);
         this.areaMasterDetails.add(areaMasterDetail);
         return this;
+    }
+
+    public Long getBuildingAreaCode() {
+        return buildingAreaCode;
+    }
+
+    public void setBuildingAreaCode(Long buildingAreaCode) {
+        this.buildingAreaCode = buildingAreaCode;
+    }
+
+    public String getBuildingArea() {
+        return buildingArea;
+    }
+
+    public void setBuildingArea(String buildingArea) {
+        this.buildingArea = buildingArea;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<AreaMasterDetail> getAreaMasterDetails() {
+        return areaMasterDetails;
+    }
+
+    public void setAreaMasterDetails(Set<AreaMasterDetail> areaMasterDetails) {
+        this.areaMasterDetails = areaMasterDetails;
     }
 }

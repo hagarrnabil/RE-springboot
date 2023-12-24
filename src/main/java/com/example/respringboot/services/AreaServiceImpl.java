@@ -71,9 +71,9 @@ public class AreaServiceImpl implements AreaMasterDetailService{
         return areaMasterDetailRepository.findById(l).map(oldArea -> {
             if(newAreaCommand.getAreaMaster() != oldArea.getAreaMaster()) oldArea.setAreaMaster(newAreaCommand.getAreaMaster());
             if(newAreaCommand.getDescription() != oldArea.getDescription()) oldArea.setDescription(newAreaCommand.getDescription());
-            if(newAreaCommand.getBuildingFlag() != oldArea.getBuildingFlag()) oldArea.setBuildingFlag(newAreaCommand.getBuildingFlag());
-            if(newAreaCommand.getProjectFlag() != oldArea.getProjectFlag()) oldArea.setProjectFlag(newAreaCommand.getProjectFlag());
-            if(newAreaCommand.getUnitFlag() != oldArea.getUnitFlag()) oldArea.setUnitFlag(newAreaCommand.getUnitFlag());
+//            if(newAreaCommand.getBuildingFlag() != oldArea.getBuildingFlag()) oldArea.setBuildingFlag(newAreaCommand.getBuildingFlag());
+//            if(newAreaCommand.getProjectFlag() != oldArea.getProjectFlag()) oldArea.setProjectFlag(newAreaCommand.getProjectFlag());
+//            if(newAreaCommand.getUnitFlag() != oldArea.getUnitFlag()) oldArea.setUnitFlag(newAreaCommand.getUnitFlag());
 //            if(newAreaCommand.getProjectArea() != null) oldArea.getProjectArea().addAMD(newAreaCommand);
 //            if(newAreaCommand.getBuildingArea() != null) oldArea.getBuildingArea().addAMD(newAreaCommand);
 //            if(newAreaCommand.getUnitArea() != null) oldArea.getUnitArea().addAMD(newAreaCommand);

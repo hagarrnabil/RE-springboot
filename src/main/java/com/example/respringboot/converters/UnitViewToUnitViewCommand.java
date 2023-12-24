@@ -26,8 +26,8 @@ public class UnitViewToUnitViewCommand implements Converter<UnitView, UnitViewCo
 
         final UnitViewCommand unitViewCommand = new UnitViewCommand();
         unitViewCommand.setId(source.getUnitViewCode());
-        unitViewCommand.setUViewId(source.getuViewId());
-        unitViewCommand.setUViewDescr(source.getuViewDescr());
+        unitViewCommand.setuViewId(source.getuViewId());
+        unitViewCommand.setuViewDescr(source.getuViewDescr());
         if (source.getUnits() != null && source.getUnits().size() > 0){
             source.getUnits()
                     .forEach(unit -> unitViewCommand.getUnitCommands().add(unitConverter.convert(unit)));

@@ -67,8 +67,8 @@ public class UnitViewServiceImpl implements UnitViewService{
     @Override
     public UnitView updateUnitView(UnitViewCommand newUnitViewCommand, Long l) {
         return unitViewRepository.findById(l).map(oldUnitView -> {
-            if (newUnitViewCommand.getUViewId() != oldUnitView.getuViewId()) oldUnitView.setuViewId(newUnitViewCommand.getUViewId());
-            if (newUnitViewCommand.getUViewDescr() != oldUnitView.getuViewDescr()) oldUnitView.setuViewDescr(newUnitViewCommand.getUViewDescr());
+            if (newUnitViewCommand.getuViewId() != oldUnitView.getuViewId()) oldUnitView.setuViewId(newUnitViewCommand.getuViewId());
+            if (newUnitViewCommand.getuViewDescr() != oldUnitView.getuViewDescr()) oldUnitView.setuViewDescr(newUnitViewCommand.getuViewDescr());
             return unitViewRepository.save(oldUnitView);
         }).orElseThrow(() -> new RuntimeException("Unit View not found"));
     }

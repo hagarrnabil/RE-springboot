@@ -69,8 +69,8 @@ public class UnitFloorServiceImpl implements UnitFloorService{
     @Override
     public UnitFloor updateUnitFloor(UnitFloorCommand newUnitFloorCommand, Long l) {
         return unitFloorRepository.findById(l).map(oldUnitFloor -> {
-            if (newUnitFloorCommand.getUFloorId() != oldUnitFloor.getuFloorId()) oldUnitFloor.setuFloorId(newUnitFloorCommand.getUFloorId());
-            if (newUnitFloorCommand.getUFloorDescr() != oldUnitFloor.getuFloorDescr()) oldUnitFloor.setuFloorDescr(newUnitFloorCommand.getUFloorDescr());
+            if (newUnitFloorCommand.getuFloorId() != oldUnitFloor.getuFloorId()) oldUnitFloor.setuFloorId(newUnitFloorCommand.getuFloorId());
+            if (newUnitFloorCommand.getuFloorDescr() != oldUnitFloor.getuFloorDescr()) oldUnitFloor.setuFloorDescr(newUnitFloorCommand.getuFloorDescr());
             return unitFloorRepository.save(oldUnitFloor);
         }).orElseThrow(() -> new RuntimeException("Unit Floor not found"));
     }
