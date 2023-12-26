@@ -7,7 +7,7 @@
 
 ### [Companies] https://dev.c15b19b.kyma.ondemand.com/companies               : This is a link to all the available companies in our RE project.
 ### [Profits] https://dev.c15b19b.kyma.ondemand.com/profits                   : This is a link to all the available profits related to projects and buildings in our RE project.
-### [Locations] https://dev.c15b19b.kyma.ondemand.com/locations               : This is a link to all the available locations in our RE project.
+### [Locations] https://dev.c15b19b.kyma.ondemand.com/locations               : This is a link to all the available locations in our RE project. 
 ### [Projects] https://dev.c15b19b.kyma.ondemand.com/projects                 : This is a link to all the available projects in our RE project.
 ### [BuildingTypes] https://dev.c15b19b.kyma.ondemand.com/buildingtypes       : This is a link to all the available building types in our RE project.
 ### [Buildings] https://dev.c15b19b.kyma.ondemand.com/buildings               : This is a link to all the available buildings in our RE project.

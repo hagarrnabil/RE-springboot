@@ -24,7 +24,7 @@ public class BuildingType implements Serializable {
     @Column(unique = true, length = 8, columnDefinition = "char(8)")
     @Length(max = 8)
     private String buildingTypeId;
-//    @NotNull
+    //    @NotNull
     private String buildingTypeDescr;
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "buildingType")
