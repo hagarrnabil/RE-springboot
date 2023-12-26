@@ -1,10 +1,7 @@
 package com.example.respringboot.controllers;
 
 import com.example.respringboot.commands.BuildingTypeCommand;
-import com.example.respringboot.commands.CompanyCommand;
 import com.example.respringboot.converters.BuildingTypeToBuildingTypeCommand;
-import com.example.respringboot.model.BuildingType;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.repositories.BuildingTypeRepository;
 import com.example.respringboot.services.BuildingTypeService;
 import jakarta.validation.constraints.NotNull;

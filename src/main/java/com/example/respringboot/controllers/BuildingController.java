@@ -1,17 +1,14 @@
 package com.example.respringboot.controllers;
 
 import com.example.respringboot.commands.BuildingCommand;
-import com.example.respringboot.commands.CompanyCommand;
 import com.example.respringboot.converters.BuildingToBuildingCommand;
 import com.example.respringboot.model.Building;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.repositories.BuildingRepository;
 import com.example.respringboot.services.BuildingService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 

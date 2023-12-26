@@ -1,13 +1,11 @@
 package com.example.respringboot.controllers;
 
 import com.example.respringboot.commands.CompanyCommand;
-import com.example.respringboot.converters.CompanyCommandToCompany;
 import com.example.respringboot.converters.CompanyToCompanyCommand;
-import com.example.respringboot.model.Company;
 import com.example.respringboot.repositories.CompanyRepository;
 import com.example.respringboot.services.CompanyService;
-import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;

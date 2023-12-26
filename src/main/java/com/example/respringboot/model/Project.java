@@ -21,10 +21,10 @@ public class Project implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long projectCode;
 
-    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Column(unique = true, length = 8, columnDefinition = "char(8)")
     @Length(max = 8)
     private String projectId;
-    @NotNull
+//    @NotNull
     private String projectDescription;
     private LocalDate validFrom;
     private String profit;
@@ -32,16 +32,16 @@ public class Project implements Serializable {
     private Long profitCode;
     private Long locationCode;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     private Company company;
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "project")
     @JsonIgnore
     private Set<Building> buildings = new HashSet<>();
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     private ProfitCenter profitCenter;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne
     private Location location;
 
     public Project() {

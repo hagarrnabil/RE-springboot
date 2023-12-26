@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 import java.util.Set;
@@ -21,8 +23,7 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
-@Component
-public class ProjectServiceImpl implements ProjectService {
+public class ProjectServiceImpl implements ProjectService{
     private final ProjectToProjectCommand projectToProjectCommand;
     private final ProjectCommandToProject projectCommandToProject;
     private final ProjectRepository projectRepository;
@@ -83,11 +84,9 @@ public class ProjectServiceImpl implements ProjectService {
 //    }
 
     @Override
-    @Synchronized
-    @Nullable
-    @Transactional
-    public Project updateProject(Project newProject, Long l) {
-        return projectRepository.findById(l).map(oldProject -> {
+    public Project updateProject(Project newProject, Long projectCode){
+
+        return projectRepository.findById(projectCode).map(oldProject -> {
             if (newProject.getProjectId() != oldProject.getProjectId()) oldProject.setProjectId(newProject.getProjectId());
             if (newProject.getProjectDescription() != oldProject.getProjectDescription()) oldProject.setProjectDescription(newProject.getProjectDescription());
             if (newProject.getProfit() != oldProject.getProfit()) oldProject.setProfit(newProject.getProfit());

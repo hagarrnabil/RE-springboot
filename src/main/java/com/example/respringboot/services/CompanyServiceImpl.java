@@ -72,10 +72,6 @@ public class  CompanyServiceImpl implements CompanyService {
         return companyRepository.findById(l).map(oldCompany -> {
             if (newCompanyCommand.getCompanyCodeId() != oldCompany.getCompanyCodeId()) oldCompany.setCompanyCodeId(newCompanyCommand.getCompanyCodeId());
             if (newCompanyCommand.getCompanyCodeDescription() != oldCompany.getCompanyCodeDescription()) oldCompany.setCompanyCodeDescription(newCompanyCommand.getCompanyCodeDescription());
-            if (newCompanyCommand.getProjectCommands() != null && newCompanyCommand.getProjectCommands().size() > 0){
-                newCompanyCommand.getProjectCommands()
-                        .forEach( projectCommand -> oldCompany.getProjects().add(projectConverter.convert(projectCommand)));
-            }
             return companyRepository.save(oldCompany);
         }).orElseThrow(() -> new RuntimeException("Company not found"));
     }

@@ -30,6 +30,14 @@ public class Company implements Serializable {
     @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
+    public Company() {
+    }
+
+    public Company(String companyCodeId, String companyCodeDescription, Set<Project> projects) {
+        this.companyCodeId = companyCodeId;
+        this.companyCodeDescription = companyCodeDescription;
+        this.projects = projects;
+    }
 
     public Company addProject(Project project){
         project.setCompany(this);
