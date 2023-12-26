@@ -4,7 +4,6 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.ProjectCommand;
 import com.example.respringboot.model.Project;
 
-import java.util.Optional;
 import java.util.Set;
 
 public interface ProjectService {
@@ -16,9 +15,10 @@ public interface ProjectService {
 
     ProjectCommand saveProjectCommand(ProjectCommand command);
 
-    ProjectCommand updatePC(Optional<Project> project, Long l);
 
-    Project updateProject(ProjectCommand newProjectCommand, Long l);
+    ProjectCommand updatePC( Long l);
+
+    Project updateProject(Project newProject, Long l);
 
     ProjectCommand findProjectCommandById(Long l);
 }

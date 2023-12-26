@@ -25,7 +25,7 @@ public class CompanyCommandToCompany implements Converter<CompanyCommand, Compan
         }
 
         final Company company = new Company();
-        company.setCompanyCode(source.getId());
+        company.setCompanyCode(source.getCompanyCode());
         company.setCompanyCodeId(source.getCompanyCodeId());
         company.setCompanyCodeDescription(source.getCompanyCodeDescription());
         if (source.getProjectCommands() != null && source.getProjectCommands().size() > 0){

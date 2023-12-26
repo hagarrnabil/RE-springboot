@@ -12,6 +12,8 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Data
+@EqualsAndHashCode(exclude = {"units"})
 @Table(name = "unit_subtypes")
 public class UnitSubtype implements Serializable {
     @Id
@@ -19,11 +21,11 @@ public class UnitSubtype implements Serializable {
     private Long unitSubtypeCode;
 
 
-    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Column(unique = true, length = 8, columnDefinition = "char(8)")
     @Length(max = 8)
-    private String uSubtypeId;
-    @NotNull
-    private String uSubtypeDescr;
+    private String subtypeId;
+//    @NotNull
+    private String subtypeDescr;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitSubtype")
     @JsonIgnore
@@ -32,10 +34,10 @@ public class UnitSubtype implements Serializable {
     public UnitSubtype() {
     }
 
-    public UnitSubtype(Long unitSubtypeCode, String uSubtypeId, String uSubtypeDescr, Set<Unit> units) {
+    public UnitSubtype(Long unitSubtypeCode, String subtypeId, String subtypeDescr, Set<Unit> units) {
         this.unitSubtypeCode = unitSubtypeCode;
-        this.uSubtypeId = uSubtypeId;
-        this.uSubtypeDescr = uSubtypeDescr;
+        this.subtypeId = subtypeId;
+        this.subtypeDescr = subtypeDescr;
         this.units = units;
     }
 
@@ -43,37 +45,5 @@ public class UnitSubtype implements Serializable {
         unit.setUnitSubtype(this);
         this.units.add(unit);
         return this;
-    }
-
-    public Long getUnitSubtypeCode() {
-        return unitSubtypeCode;
-    }
-
-    public void setUnitSubtypeCode(Long unitSubtypeCode) {
-        this.unitSubtypeCode = unitSubtypeCode;
-    }
-
-    public String getuSubtypeId() {
-        return uSubtypeId;
-    }
-
-    public void setuSubtypeId(String uSubtypeId) {
-        this.uSubtypeId = uSubtypeId;
-    }
-
-    public String getuSubtypeDescr() {
-        return uSubtypeDescr;
-    }
-
-    public void setuSubtypeDescr(String uSubtypeDescr) {
-        this.uSubtypeDescr = uSubtypeDescr;
-    }
-
-    public Set<Unit> getUnits() {
-        return units;
-    }
-
-    public void setUnits(Set<Unit> units) {
-        this.units = units;
     }
 }

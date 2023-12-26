@@ -24,7 +24,7 @@ public class BuildingAreaCommandToBuildingArea implements Converter<BuildingArea
         }
 
         final BuildingArea buildingArea = new BuildingArea();
-        buildingArea.setBuildingAreaCode(source.getId());
+        buildingArea.setBuildingAreaCode(source.getBuildingAreaCode());
         buildingArea.setBuildingArea(source.getBuildingArea());
         buildingArea.setDescription(source.getDescription());
         if (source.getAreaMasterDetailCommands() != null && source.getAreaMasterDetailCommands().size() > 0){

@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import java.util.Objects;
 
 @Entity
-//@Data
+@Data
 @Table(name = "unit_of_measurement")
 public class UnitOfMeasurement {
     @Id
@@ -16,10 +16,10 @@ public class UnitOfMeasurement {
     private Long measurementCode;
 
 
-    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Column(unique = true, length = 8, columnDefinition = "char(8)")
     @Length(max = 8)
     private String uomID;
-    @NotNull
+//    @NotNull
     private String uomDescr;
 
     @OneToOne
@@ -30,37 +30,5 @@ public class UnitOfMeasurement {
             this.areaMasterDetail = area;
             area.setUnitOfMeasurement(this);
         }
-    }
-
-    public Long getMeasurementCode() {
-        return measurementCode;
-    }
-
-    public void setMeasurementCode(Long measurementCode) {
-        this.measurementCode = measurementCode;
-    }
-
-    public String getUomID() {
-        return uomID;
-    }
-
-    public void setUomID(String uomID) {
-        this.uomID = uomID;
-    }
-
-    public String getUomDescr() {
-        return uomDescr;
-    }
-
-    public void setUomDescr(String uomDescr) {
-        this.uomDescr = uomDescr;
-    }
-
-    public AreaMasterDetail getAreaMasterDetail() {
-        return areaMasterDetail;
-    }
-
-    public void setAreaMasterDetail(AreaMasterDetail areaMasterDetail) {
-        this.areaMasterDetail = areaMasterDetail;
     }
 }

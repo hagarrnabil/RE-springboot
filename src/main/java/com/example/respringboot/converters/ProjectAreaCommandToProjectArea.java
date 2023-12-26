@@ -23,7 +23,7 @@ public class ProjectAreaCommandToProjectArea implements Converter<ProjectAreaCom
         }
 
         final ProjectArea projectArea = new ProjectArea();
-        projectArea.setProjectAreaCode(source.getId());
+        projectArea.setProjectAreaCode(source.getProjectAreaCode());
         projectArea.setProjectArea(source.getProjectArea());
         projectArea.setDescription(source.getDescription());
         if (source.getAreaMasterDetailCommands() != null && source.getAreaMasterDetailCommands().size() > 0){

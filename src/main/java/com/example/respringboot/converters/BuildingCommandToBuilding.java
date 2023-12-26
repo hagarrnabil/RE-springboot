@@ -24,7 +24,7 @@ public class BuildingCommandToBuilding implements Converter<BuildingCommand, Bui
         }
 
         final Building building = new Building();
-        building.setBuildingCode(source.getId());
+        building.setBuildingCode(source.getBuildingCode());
         if (source.getProjectCode() != null) {
             Project project = new Project();
             project.setProjectCode(source.getProjectCode());

@@ -14,7 +14,7 @@ public interface UnitService {
     void deleteById(Long idToDelete);
 
     UnitCommand saveUnitCommand(UnitCommand command);
-    Unit updateUnit(UnitCommand newUnitCommand, Long l);
+    Unit updateUnit(Unit newUnit, Long l);
 
     UnitCommand findUnitCommandById(Long l);
 }

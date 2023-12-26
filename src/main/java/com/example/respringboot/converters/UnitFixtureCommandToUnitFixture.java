@@ -27,9 +27,9 @@ public class UnitFixtureCommandToUnitFixture implements Converter<UnitFixtureCom
         }
 
         final UnitFixture unitFixture = new UnitFixture();
-        unitFixture.setUnitFixtureCode(source.getId());
-        unitFixture.setuFixtureId(source.getuFixtureId());
-        unitFixture.setuFixtureDescr(source.getuFixtureDescr());
+        unitFixture.setUnitFixtureCode(source.getUnitFixtureCode());
+        unitFixture.setFixtureId(source.getFixtureId());
+        unitFixture.setFixtureDescr(source.getFixtureDescr());
         if (source.getUnitCommands() != null && source.getUnitCommands().size() > 0){
             source.getUnitCommands()
                     .forEach( unitCommand -> unitFixture.getUnits().add(unitConverter.convert(unitCommand)));

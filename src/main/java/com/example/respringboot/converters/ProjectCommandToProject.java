@@ -33,7 +33,7 @@ public class ProjectCommandToProject implements Converter<ProjectCommand, Projec
         }
 
         final Project project = new Project();
-        project.setProjectCode(source.getId());
+        project.setProjectCode(source.getProjectCode());
         if (source.getCompanyCode() != null) {
             Company company = new Company();
             company.setCompanyCode(source.getCompanyCode());
@@ -64,6 +64,42 @@ public class ProjectCommandToProject implements Converter<ProjectCommand, Projec
 
     }
 
+    public Optional<ProjectCommand> convert(Optional<ProjectCommand> projectCommand) {
+        if (projectCommand == null)
+            return null;
+        final Project project = new Project();
+        project.setProjectCode(projectCommand.get().getProjectCode());
+        if (projectCommand.get().getCompanyCode() != null) {
+            Company company = new Company();
+            company.setCompanyCode(projectCommand.get().getCompanyCode());
+            project.setCompany(company);
+            company.addProject(project);
+        }
+        if (projectCommand.get().getProfitCode() != null) {
+            ProfitCenter profitCenter = new ProfitCenter();
+            profitCenter.setProfitCode(projectCommand.get().getProfitCode());
+            project.setProfitCenter(profitCenter);
+            profitCenter.addProject(project);
+        }
+        if (projectCommand.get().getLocationCode() != null) {
+            Location location = new Location();
+            location.setLocationCode(projectCommand.get().getLocationCode());
+            project.setLocation(location);
+            location.setProject(project);
+        }
+        project.setProjectId(projectCommand.get().getProjectId());
+        project.setProjectDescription(projectCommand.get().getProjectDescription());
+        project.setValidFrom(projectCommand.get().getValidFrom());
+        project.setProfit(projectCommand.get().getProfit());
+        if (projectCommand.get().getBuildingCommands() != null && projectCommand.get().getBuildingCommands().size() > 0) {
+            projectCommand.get().getBuildingCommands()
+                    .forEach(buildingCommand -> project.getBuildings().add(buildingConverter.convert(buildingCommand)));
+        }
+        return projectCommand;
+
+    }
+
+
 //    public Project convert(Optional<Project> project) {
 //        if (project != null)
 //            return project.get();
@@ -71,9 +107,9 @@ public class ProjectCommandToProject implements Converter<ProjectCommand, Projec
 //            return null;
 //    }
 
-//    public ProjectCommand convert(Optional<ProjectCommand> projectCommand) {
-//        if (projectCommand != null)
-//            return projectCommand.get();
+//    public ProjectCommand convert(ProjectCommand projectCommand) {
+//        if (projectCommand == null)
+//            return null;
 //        else
 //            return null;
 //    }

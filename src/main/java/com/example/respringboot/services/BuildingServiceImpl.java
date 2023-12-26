@@ -4,6 +4,9 @@ import com.example.respringboot.commands.BuildingCommand;
 import com.example.respringboot.converters.BuildingCommandToBuilding;
 import com.example.respringboot.converters.BuildingToBuildingCommand;
 import com.example.respringboot.model.Building;
+import com.example.respringboot.model.BuildingType;
+import com.example.respringboot.model.ProfitCenter;
+import com.example.respringboot.model.Project;
 import com.example.respringboot.repositories.BuildingRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -65,17 +68,32 @@ public class BuildingServiceImpl implements BuildingService{
     }
 
     @Override
-    public Building updateBuilding(BuildingCommand newBuildingCommand, Long l) {
+    public Building updateBuilding(Building newBuilding, Long l) {
         return buildingRepository.findById(l).map(oldBuilding -> {
-            if(newBuildingCommand.getBuildingId() != oldBuilding.getBuildingId()) oldBuilding.setBuildingId(newBuildingCommand.getBuildingId());
-            if(newBuildingCommand.getBuildingDescription() != oldBuilding.getBuildingDescription()) oldBuilding.setBuildingDescription(newBuildingCommand.getBuildingDescription());
-            if (newBuildingCommand.getProfit() != oldBuilding.getProfit()) oldBuilding.setProfit(newBuildingCommand.getProfit());
-            if(newBuildingCommand.getNumberOfFloors() != oldBuilding.getNumberOfFloors()) oldBuilding.setNumberOfFloors(newBuildingCommand.getNumberOfFloors());
-            if (newBuildingCommand.getOldNumber() != oldBuilding.getOldNumber()) oldBuilding.setOldNumber(newBuildingCommand.getOldNumber());
-            if (newBuildingCommand.getValidFrom() != oldBuilding.getValidFrom()) oldBuilding.setValidFrom(newBuildingCommand.getValidFrom());
-//            if (newBuildingCommand.getProfitCenter() != null) oldBuilding.getProfitCenter().addBuilding(newBuildingCommand);
-//            if (newBuildingCommand.getProject() != null) oldBuilding.getProject().addBuilding(newBuildingCommand);
-//            if (newBuildingCommand.getBuildingType() != null) oldBuilding.getBuildingType().addBuilding(newBuildingCommand);
+            if(newBuilding.getBuildingId() != oldBuilding.getBuildingId()) oldBuilding.setBuildingId(newBuilding.getBuildingId());
+            if(newBuilding.getBuildingDescription() != oldBuilding.getBuildingDescription()) oldBuilding.setBuildingDescription(newBuilding.getBuildingDescription());
+            if (newBuilding.getProfit() != oldBuilding.getProfit()) oldBuilding.setProfit(newBuilding.getProfit());
+            if(newBuilding.getNumberOfFloors() != oldBuilding.getNumberOfFloors()) oldBuilding.setNumberOfFloors(newBuilding.getNumberOfFloors());
+            if (newBuilding.getOldNumber() != oldBuilding.getOldNumber()) oldBuilding.setOldNumber(newBuilding.getOldNumber());
+            if (newBuilding.getValidFrom() != oldBuilding.getValidFrom()) oldBuilding.setValidFrom(newBuilding.getValidFrom());
+            if (newBuilding.getProfitCode() != null) {
+                ProfitCenter profitCenter = new ProfitCenter();
+                profitCenter.setProfitCode(newBuilding.getProfitCode());
+                oldBuilding.setProfitCenter(profitCenter);
+                profitCenter.addBuilding(oldBuilding);
+            }
+            if (newBuilding.getProjectCode() != null) {
+                Project project = new Project();
+                project.setProjectCode(newBuilding.getProjectCode());
+                oldBuilding.setProject(project);
+                project.addBuilding(oldBuilding);
+            }
+            if (newBuilding.getBuildingTypeCode() != null) {
+                BuildingType buildingType = new BuildingType();
+                buildingType.setBuildingTypeCode(newBuilding.getBuildingTypeCode());
+                oldBuilding.setBuildingType(buildingType);
+                buildingType.addBuilding(oldBuilding);
+            }
             return buildingRepository.save(oldBuilding);
         }).orElseThrow(() -> new RuntimeException("Building not found"));
     }

@@ -19,7 +19,7 @@ public class LocationCommandToLocation implements Converter<LocationCommand, Loc
         }
 
         final Location location = new Location();
-        location.setLocationCode(source.getId());
+        location.setLocationCode(source.getLocationCode());
         location.setLocationId(source.getLocationId());
         location.setRegionalLocation(source.getRegionalLocation());
         return location;

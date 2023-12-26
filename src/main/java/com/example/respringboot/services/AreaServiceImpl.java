@@ -3,7 +3,7 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.AreaMasterDetailCommand;
 import com.example.respringboot.converters.AreaMasterDetailCommandToAreaMasterDetail;
 import com.example.respringboot.converters.AreaMasterDetailToAreaMasterDetailCommand;
-import com.example.respringboot.model.AreaMasterDetail;
+import com.example.respringboot.model.*;
 import com.example.respringboot.repositories.AreaMasterDetailRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -67,17 +67,37 @@ public class AreaServiceImpl implements AreaMasterDetailService{
     }
 
     @Override
-    public AreaMasterDetail updateArea(AreaMasterDetailCommand newAreaCommand, Long l) {
+    public AreaMasterDetail updateArea(AreaMasterDetail newArea, Long l) {
         return areaMasterDetailRepository.findById(l).map(oldArea -> {
-            if(newAreaCommand.getAreaMaster() != oldArea.getAreaMaster()) oldArea.setAreaMaster(newAreaCommand.getAreaMaster());
-            if(newAreaCommand.getDescription() != oldArea.getDescription()) oldArea.setDescription(newAreaCommand.getDescription());
-//            if(newAreaCommand.getBuildingFlag() != oldArea.getBuildingFlag()) oldArea.setBuildingFlag(newAreaCommand.getBuildingFlag());
-//            if(newAreaCommand.getProjectFlag() != oldArea.getProjectFlag()) oldArea.setProjectFlag(newAreaCommand.getProjectFlag());
-//            if(newAreaCommand.getUnitFlag() != oldArea.getUnitFlag()) oldArea.setUnitFlag(newAreaCommand.getUnitFlag());
-//            if(newAreaCommand.getProjectArea() != null) oldArea.getProjectArea().addAMD(newAreaCommand);
-//            if(newAreaCommand.getBuildingArea() != null) oldArea.getBuildingArea().addAMD(newAreaCommand);
-//            if(newAreaCommand.getUnitArea() != null) oldArea.getUnitArea().addAMD(newAreaCommand);
-//            if(newAreaCommand.getUnitOfMeasurement() != null) oldArea.getUnitOfMeasurement().setAreaMasterDetail(newAreaCommand);
+            if(newArea.getAreaMaster() != oldArea.getAreaMaster()) oldArea.setAreaMaster(newArea.getAreaMaster());
+            if(newArea.getDescription() != oldArea.getDescription()) oldArea.setDescription(newArea.getDescription());
+            if(newArea.getBuildingFlag() != oldArea.getBuildingFlag()) oldArea.setBuildingFlag(newArea.getBuildingFlag());
+            if(newArea.getProjectFlag() != oldArea.getProjectFlag()) oldArea.setProjectFlag(newArea.getProjectFlag());
+            if(newArea.getUnitFlag() != oldArea.getUnitFlag()) oldArea.setUnitFlag(newArea.getUnitFlag());
+            if (newArea.getProjectAreaCode() != null) {
+                ProjectArea projectArea = new ProjectArea();
+                projectArea.setProjectAreaCode(newArea.getProjectAreaCode());
+                oldArea.setProjectArea(projectArea);
+                projectArea.addAMD(oldArea);
+            }
+            if (newArea.getBuildingAreaCode() != null) {
+                BuildingArea buildingArea = new BuildingArea();
+                buildingArea.setBuildingAreaCode(newArea.getBuildingAreaCode());
+                oldArea.setBuildingArea(buildingArea);
+                buildingArea.addAMD(oldArea);
+            }
+            if (newArea.getUnitAreaCode() != null) {
+                UnitArea unitArea = new UnitArea();
+                unitArea.setUnitAreaCode(newArea.getUnitAreaCode());
+                oldArea.setUnitArea(unitArea);
+                unitArea.addAMD(oldArea);
+            }
+            if (newArea.getMeasurementCode() != null) {
+                UnitOfMeasurement measurement = new UnitOfMeasurement();
+                measurement.setMeasurementCode(newArea.getMeasurementCode());
+                oldArea.setUnitOfMeasurement(measurement);
+                measurement.setArea(oldArea);
+            }
             return areaMasterDetailRepository.save(oldArea);
         }).orElseThrow(() -> new RuntimeException("Area not found"));
     }

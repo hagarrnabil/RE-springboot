@@ -12,8 +12,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-//@Data
-//@EqualsAndHashCode(exclude = {"company","profitCenter","buildings","location"})
+@Data
+@EqualsAndHashCode(exclude = {"company","profitCenter","buildings","location"})
 @Entity
 @Table(name = "project")
 public class Project implements Serializable {
@@ -28,11 +28,14 @@ public class Project implements Serializable {
     private String projectDescription;
     private LocalDate validFrom;
     private String profit;
+    private Long companyCode;
+    private Long profitCode;
+    private Long locationCode;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     private Company company;
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "project")
-//    @JsonIgnore
+    @JsonIgnore
     private Set<Building> buildings = new HashSet<>();
 
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -67,77 +70,5 @@ public class Project implements Serializable {
         building.setProject(this);
         this.buildings.add(building);
         return this;
-    }
-
-    public Long getProjectCode() {
-        return projectCode;
-    }
-
-    public void setProjectCode(Long projectCode) {
-        this.projectCode = projectCode;
-    }
-
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
-    }
-
-    public String getProjectDescription() {
-        return projectDescription;
-    }
-
-    public void setProjectDescription(String projectDescription) {
-        this.projectDescription = projectDescription;
-    }
-
-    public LocalDate getValidFrom() {
-        return validFrom;
-    }
-
-    public void setValidFrom(LocalDate validFrom) {
-        this.validFrom = validFrom;
-    }
-
-    public String getProfit() {
-        return profit;
-    }
-
-    public void setProfit(String profit) {
-        this.profit = profit;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public Set<Building> getBuildings() {
-        return buildings;
-    }
-
-    public void setBuildings(Set<Building> buildings) {
-        this.buildings = buildings;
-    }
-
-    public ProfitCenter getProfitCenter() {
-        return profitCenter;
-    }
-
-    public void setProfitCenter(ProfitCenter profitCenter) {
-        this.profitCenter = profitCenter;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
     }
 }

@@ -14,7 +14,7 @@ public interface BuildingService {
     void deleteById(Long idToDelete);
 
     BuildingCommand saveBuildingCommand(BuildingCommand command);
-    Building updateBuilding(BuildingCommand newBuildingCommand, Long l);
+    Building updateBuilding(Building newBuilding, Long l);
 
     BuildingCommand findBuildingCommandById(Long l);
 }

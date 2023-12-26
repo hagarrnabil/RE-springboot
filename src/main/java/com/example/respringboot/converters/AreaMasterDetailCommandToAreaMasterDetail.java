@@ -24,7 +24,7 @@ public class AreaMasterDetailCommandToAreaMasterDetail implements Converter<Area
         }
 
         final AreaMasterDetail areaMasterDetail = new AreaMasterDetail();
-        areaMasterDetail.setAreaCode(source.getId());
+        areaMasterDetail.setAreaCode(source.getAreaCode());
         if (source.getProjectAreaCode() != null) {
             ProjectArea projectArea = new ProjectArea();
             projectArea.setProjectAreaCode(source.getProjectAreaCode());
@@ -51,9 +51,9 @@ public class AreaMasterDetailCommandToAreaMasterDetail implements Converter<Area
         }
         areaMasterDetail.setAreaMaster(source.getAreaMaster());
         areaMasterDetail.setDescription(source.getDescription());
-        areaMasterDetail.setProjectFlag(source.equals(source.getProjectFlag()));
-        areaMasterDetail.setBuildingFlag(source.equals(source.getBuildingFlag()));
-        areaMasterDetail.setUnitFlag(source.equals(source.getUnitFlag()));
+        areaMasterDetail.setProjectFlag(source.getProjectFlag());
+        areaMasterDetail.setBuildingFlag(source.getBuildingFlag());
+        areaMasterDetail.setUnitFlag(source.getUnitFlag());
         if (source.getUnitCommands() != null && source.getUnitCommands().size() > 0){
             source.getUnitCommands()
                     .forEach( unitCommand -> areaMasterDetail.getUnits().add(unitConverter.convert(unitCommand)));

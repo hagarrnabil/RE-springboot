@@ -30,7 +30,7 @@ public class ProjectToProjectCommand implements Converter<Project, ProjectComman
         }
 
         final ProjectCommand projectCommand = new ProjectCommand();
-        projectCommand.setId(source.getProjectCode());
+        projectCommand.setProjectCode(source.getProjectCode());
         if (source.getCompany() != null) {
             projectCommand.setCompanyCode(source.getCompany().getCompanyCode());
         }
@@ -40,7 +40,6 @@ public class ProjectToProjectCommand implements Converter<Project, ProjectComman
         if (source.getLocation() != null) {
             projectCommand.setLocationCode(source.getLocation().getLocationCode());
         }
-        projectCommand.setId(source.getProjectCode());
         projectCommand.setProjectId(source.getProjectId());
         projectCommand.setProjectDescription(source.getProjectDescription());
         projectCommand.setValidFrom(source.getValidFrom());

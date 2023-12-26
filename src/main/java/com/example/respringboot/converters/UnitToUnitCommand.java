@@ -19,7 +19,7 @@ public class UnitToUnitCommand implements Converter<Unit, UnitCommand> {
         }
 
         final UnitCommand unitCommand = new UnitCommand();
-        unitCommand.setId(source.getUnitCode());
+        unitCommand.setUnitCode(source.getUnitCode());
         if (source.getBuilding() != null) {
             unitCommand.setBuildingCode(source.getBuilding().getBuildingCode());
         }

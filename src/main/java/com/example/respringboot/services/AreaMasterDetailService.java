@@ -13,7 +13,7 @@ public interface AreaMasterDetailService {
     void deleteById(Long idToDelete);
 
     AreaMasterDetailCommand saveAreaCommand(AreaMasterDetailCommand command);
-    AreaMasterDetail updateArea(AreaMasterDetailCommand newAreaCommand, Long l);
+    AreaMasterDetail updateArea(AreaMasterDetail newArea, Long l);
 
     AreaMasterDetailCommand findAreaCommandById(Long l);
 }

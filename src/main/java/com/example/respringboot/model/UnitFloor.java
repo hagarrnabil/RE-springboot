@@ -12,6 +12,8 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Data
+@EqualsAndHashCode(exclude = {"units"})
 @Table(name = "unit_floor")
 public class UnitFloor implements Serializable {
     @Id
@@ -19,11 +21,11 @@ public class UnitFloor implements Serializable {
     private Long unitFloorCode;
 
 
-    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Column(unique = true, length = 8, columnDefinition = "char(8)")
     @Length(max = 8)
-    private String uFloorId;
-    @NotNull
-    private String uFloorDescr;
+    private String floorId;
+//    @NotNull
+    private String floorDescr;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitFloor")
     @JsonIgnore
@@ -32,10 +34,10 @@ public class UnitFloor implements Serializable {
     public UnitFloor() {
     }
 
-    public UnitFloor(Long unitFloorCode, String uFloorId, String uFloorDescr, Set<Unit> units) {
+    public UnitFloor(Long unitFloorCode, String floorId, String floorDescr, Set<Unit> units) {
         this.unitFloorCode = unitFloorCode;
-        this.uFloorId = uFloorId;
-        this.uFloorDescr = uFloorDescr;
+        this.floorId = floorId;
+        this.floorDescr = floorDescr;
         this.units = units;
     }
 
@@ -43,37 +45,5 @@ public class UnitFloor implements Serializable {
         unit.setUnitFloor(this);
         this.units.add(unit);
         return this;
-    }
-
-    public Long getUnitFloorCode() {
-        return unitFloorCode;
-    }
-
-    public void setUnitFloorCode(Long unitFloorCode) {
-        this.unitFloorCode = unitFloorCode;
-    }
-
-    public String getuFloorId() {
-        return uFloorId;
-    }
-
-    public void setuFloorId(String uFloorId) {
-        this.uFloorId = uFloorId;
-    }
-
-    public String getuFloorDescr() {
-        return uFloorDescr;
-    }
-
-    public void setuFloorDescr(String uFloorDescr) {
-        this.uFloorDescr = uFloorDescr;
-    }
-
-    public Set<Unit> getUnits() {
-        return units;
-    }
-
-    public void setUnits(Set<Unit> units) {
-        this.units = units;
     }
 }

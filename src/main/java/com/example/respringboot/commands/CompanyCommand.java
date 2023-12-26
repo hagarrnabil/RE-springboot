@@ -9,46 +9,15 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-//@Setter
-//@Getter
-//@NoArgsConstructor
+@Setter
+@Getter
+@NoArgsConstructor
 public class CompanyCommand implements Serializable {
 
-    private Long id;
+    private Long companyCode;
     private String companyCodeId;
     private String companyCodeDescription;
-//    @JsonIgnore
+    @JsonIgnore
     private Set<ProjectCommand> projectCommands = new HashSet<>();
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCompanyCodeId() {
-        return companyCodeId;
-    }
-
-    public void setCompanyCodeId(String companyCodeId) {
-        this.companyCodeId = companyCodeId;
-    }
-
-    public String getCompanyCodeDescription() {
-        return companyCodeDescription;
-    }
-
-    public void setCompanyCodeDescription(String companyCodeDescription) {
-        this.companyCodeDescription = companyCodeDescription;
-    }
-
-    public Set<ProjectCommand> getProjectCommands() {
-        return projectCommands;
-    }
-
-    public void setProjectCommands(Set<ProjectCommand> projectCommands) {
-        this.projectCommands = projectCommands;
-    }
 }

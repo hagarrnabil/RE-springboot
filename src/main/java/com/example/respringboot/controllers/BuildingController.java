@@ -55,9 +55,9 @@ public class BuildingController {
     @PutMapping
     @RequestMapping("/buildings/{buildingCode}")
     @Transactional
-    BuildingCommand updateBuildingCommand(@RequestBody BuildingCommand newBuildingCommand, @PathVariable Long buildingCode) {
+    BuildingCommand updateBuildingCommand(@RequestBody Building newBuilding, @PathVariable Long buildingCode) {
 
-        BuildingCommand command = buildingToBuildingCommand.convert(buildingService.updateBuilding(newBuildingCommand, buildingCode));
+        BuildingCommand command = buildingToBuildingCommand.convert(buildingService.updateBuilding(newBuilding, buildingCode));
         return command;
     }
 }

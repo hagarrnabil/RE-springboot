@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Data
+@EqualsAndHashCode(exclude = {"units"})
 @Table(name = "unit_fixture")
 public class UnitFixture implements Serializable {
     @Id
@@ -18,11 +20,11 @@ public class UnitFixture implements Serializable {
     private Long unitFixtureCode;
 
 
-    @Column(unique = true, length = 8, columnDefinition = "char(8)", nullable = false)
+    @Column(unique = true, length = 8, columnDefinition = "char(8)")
     @Length(max = 8)
-    private String uFixtureId;
-    @NotNull
-    private String uFixtureDescr;
+    private String fixtureId;
+//    @NotNull
+    private String fixtureDescr;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unitFixture")
     @JsonIgnore
     private Set<Unit> units = new HashSet<>();
@@ -36,42 +38,10 @@ public class UnitFixture implements Serializable {
     public UnitFixture() {
     }
 
-    public UnitFixture(Long unitFixtureCode, String uFixtureId, String uFixtureDescr, Set<Unit> units) {
+    public UnitFixture(Long unitFixtureCode, String fixtureId, String fixtureDescr, Set<Unit> units) {
         this.unitFixtureCode = unitFixtureCode;
-        this.uFixtureId = uFixtureId;
-        this.uFixtureDescr = uFixtureDescr;
-        this.units = units;
-    }
-
-    public Long getUnitFixtureCode() {
-        return unitFixtureCode;
-    }
-
-    public void setUnitFixtureCode(Long unitFixtureCode) {
-        this.unitFixtureCode = unitFixtureCode;
-    }
-
-    public String getuFixtureId() {
-        return uFixtureId;
-    }
-
-    public void setuFixtureId(String uFixtureId) {
-        this.uFixtureId = uFixtureId;
-    }
-
-    public String getuFixtureDescr() {
-        return uFixtureDescr;
-    }
-
-    public void setuFixtureDescr(String uFixtureDescr) {
-        this.uFixtureDescr = uFixtureDescr;
-    }
-
-    public Set<Unit> getUnits() {
-        return units;
-    }
-
-    public void setUnits(Set<Unit> units) {
+        this.fixtureId = fixtureId;
+        this.fixtureDescr = fixtureDescr;
         this.units = units;
     }
 }

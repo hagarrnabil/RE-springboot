@@ -27,7 +27,7 @@ public class BuildingTypeCommandToBuildingType implements Converter<BuildingType
         }
 
         final BuildingType buildingType = new BuildingType();
-        buildingType.setBuildingTypeCode(source.getId());
+        buildingType.setBuildingTypeCode(source.getBuildingTypeCode());
         buildingType.setBuildingTypeId(source.getBuildingTypeId());
         buildingType.setBuildingTypeDescr(source.getBuildingTypeDescr());
         if (source.getBuildingCommands() != null && source.getBuildingCommands().size() > 0){

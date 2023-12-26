@@ -3,7 +3,7 @@ package com.example.respringboot.services;
 import com.example.respringboot.commands.UnitCommand;
 import com.example.respringboot.converters.UnitCommandToUnit;
 import com.example.respringboot.converters.UnitToUnitCommand;
-import com.example.respringboot.model.Unit;
+import com.example.respringboot.model.*;
 import com.example.respringboot.repositories.UnitRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -64,32 +64,77 @@ public class UnitServiceImpl implements UnitService{
     }
 
     @Override
-    public Unit updateUnit(UnitCommand newUnitCommand, Long l) {
+    public Unit updateUnit(Unit newUnit, Long l) {
         return unitRepository.findById(l).map(oldUnit -> {
-            if (newUnitCommand.getUnitKey() != oldUnit.getUnitKey()) oldUnit.setUnitKey(newUnitCommand.getUnitKey());
-            if (newUnitCommand.getDescription() != oldUnit.getDescription()) oldUnit.setDescription(newUnitCommand.getDescription());
-            if (newUnitCommand.getOldNumber() != oldUnit.getOldNumber()) oldUnit.setOldNumber(newUnitCommand.getOldNumber());
-            if (newUnitCommand.getBlockingDate() != oldUnit.getBlockingDate()) oldUnit.setBlockingDate(newUnitCommand.getBlockingDate());
-            if (newUnitCommand.getBlockingReason() != oldUnit.getBlockingReason()) oldUnit.setBlockingReason(newUnitCommand.getBlockingReason());
-            if (newUnitCommand.getSalesPhase() != oldUnit.getSalesPhase()) oldUnit.setSalesPhase(newUnitCommand.getSalesPhase());
-            if (newUnitCommand.getConstructionDate() != oldUnit.getConstructionDate()) oldUnit.setConstructionDate(newUnitCommand.getConstructionDate());
-            if (newUnitCommand.getUnitDeliveryDate() != oldUnit.getUnitDeliveryDate()) oldUnit.setUnitDeliveryDate(newUnitCommand.getUnitDeliveryDate());
-            if (newUnitCommand.getArea() != oldUnit.getArea()) oldUnit.setArea(newUnitCommand.getArea());
-            if (newUnitCommand.getAreaValue() != oldUnit.getAreaValue()) oldUnit.setAreaValue(newUnitCommand.getAreaValue());
-            if (newUnitCommand.getPrice() != oldUnit.getPrice()) oldUnit.setPrice(newUnitCommand.getPrice());
-            if (newUnitCommand.getNoOfRooms() != oldUnit.getNoOfRooms()) oldUnit.setNoOfRooms(newUnitCommand.getNoOfRooms());
-            if (newUnitCommand.getValidFrom() != oldUnit.getValidFrom()) oldUnit.setValidFrom(newUnitCommand.getValidFrom());
-            if (newUnitCommand.getFromFloor() != oldUnit.getFromFloor()) oldUnit.setFromFloor(newUnitCommand.getFromFloor());
-            if (newUnitCommand.getToFloor() != oldUnit.getToFloor()) oldUnit.setToFloor(newUnitCommand.getToFloor());
-//            if (newUnitCommand.getBuilding() != null) oldUnit.getBuilding().addUnit(newUnitCommand);
-//            if (newUnitCommand.getUnitFloor() != null) oldUnit.getUnitFloor().addUnit(newUnitCommand);
-//            if (newUnitCommand.getUnitOrientation() != null) oldUnit.getUnitOrientation().addUnit(newUnitCommand);
-//            if (newUnitCommand.getUnitFixture() != null) oldUnit.getUnitFixture().addUnit(newUnitCommand);
-//            if (newUnitCommand.getUnitStatus() != null) oldUnit.getUnitStatus().addUnit(newUnitCommand);
-//            if (newUnitCommand.getUnitView() != null) oldUnit.getUnitView().addUnit(newUnitCommand);
-//            if (newUnitCommand.getUnitSubtype() != null) oldUnit.getUnitSubtype().addUnit(newUnitCommand);
-//            if (newUnitCommand.getUsageType() != null) oldUnit.getUsageType().addUnit(newUnitCommand);
-//            if (newUnitCommand.getAreaMasterDetail() != null) oldUnit.getAreaMasterDetail().addUnit(newUnitCommand);
+            if (newUnit.getUnitKey() != oldUnit.getUnitKey()) oldUnit.setUnitKey(newUnit.getUnitKey());
+            if (newUnit.getDescription() != oldUnit.getDescription()) oldUnit.setDescription(newUnit.getDescription());
+            if (newUnit.getOldNumber() != oldUnit.getOldNumber()) oldUnit.setOldNumber(newUnit.getOldNumber());
+            if (newUnit.getBlockingDate() != oldUnit.getBlockingDate()) oldUnit.setBlockingDate(newUnit.getBlockingDate());
+            if (newUnit.getBlockingReason() != oldUnit.getBlockingReason()) oldUnit.setBlockingReason(newUnit.getBlockingReason());
+            if (newUnit.getSalesPhase() != oldUnit.getSalesPhase()) oldUnit.setSalesPhase(newUnit.getSalesPhase());
+            if (newUnit.getConstructionDate() != oldUnit.getConstructionDate()) oldUnit.setConstructionDate(newUnit.getConstructionDate());
+            if (newUnit.getUnitDeliveryDate() != oldUnit.getUnitDeliveryDate()) oldUnit.setUnitDeliveryDate(newUnit.getUnitDeliveryDate());
+            if (newUnit.getArea() != oldUnit.getArea()) oldUnit.setArea(newUnit.getArea());
+            if (newUnit.getAreaValue() != oldUnit.getAreaValue()) oldUnit.setAreaValue(newUnit.getAreaValue());
+            if (newUnit.getPrice() != oldUnit.getPrice()) oldUnit.setPrice(newUnit.getPrice());
+            if (newUnit.getNoOfRooms() != oldUnit.getNoOfRooms()) oldUnit.setNoOfRooms(newUnit.getNoOfRooms());
+            if (newUnit.getValidFrom() != oldUnit.getValidFrom()) oldUnit.setValidFrom(newUnit.getValidFrom());
+            if (newUnit.getFromFloor() != oldUnit.getFromFloor()) oldUnit.setFromFloor(newUnit.getFromFloor());
+            if (newUnit.getToFloor() != oldUnit.getToFloor()) oldUnit.setToFloor(newUnit.getToFloor());
+            if (newUnit.getBuildingCode() != null) {
+                Building building = new Building();
+                building.setBuildingCode(newUnit.getBuildingCode());
+                oldUnit.setBuilding(building);
+                building.addUnit(oldUnit);
+            }
+            if (newUnit.getUnitFloorCode() != null) {
+                UnitFloor unitFloor = new UnitFloor();
+                unitFloor.setUnitFloorCode(newUnit.getUnitFloorCode());
+                oldUnit.setUnitFloor(unitFloor);
+                unitFloor.addUnit(oldUnit);
+            }
+            if (newUnit.getUnitOrientationCode() != null) {
+                UnitOrientation unitOrientation = new UnitOrientation();
+                unitOrientation.setUnitOrientationCode(newUnit.getUnitOrientationCode());
+                oldUnit.setUnitOrientation(unitOrientation);
+                unitOrientation.addUnit(oldUnit);
+            }
+            if (newUnit.getUnitFixtureCode() != null) {
+                UnitFixture unitFixture = new UnitFixture();
+                unitFixture.setUnitFixtureCode(newUnit.getUnitFixtureCode());
+                oldUnit.setUnitFixture(unitFixture);
+                unitFixture.addUnit(oldUnit);
+            }
+            if (newUnit.getUnitStatusCode() != null) {
+                UnitStatus unitStatus = new UnitStatus();
+                unitStatus.setUnitStatusCode(newUnit.getUnitStatusCode());
+                oldUnit.setUnitStatus(unitStatus);
+                unitStatus.addUnit(oldUnit);
+            }
+            if (newUnit.getUnitViewCode() != null) {
+                UnitView unitView = new UnitView();
+                unitView.setUnitViewCode(newUnit.getUnitViewCode());
+                oldUnit.setUnitView(unitView);
+                unitView.addUnit(oldUnit);
+            }
+            if (newUnit.getUsageTypeCode() != null) {
+                UsageType usageType = new UsageType();
+                usageType.setUsageTypeCode(newUnit.getUsageTypeCode());
+                oldUnit.setUsageType(usageType);
+                usageType.addUnit(oldUnit);
+            }
+            if (newUnit.getUnitSubtypeCode() != null) {
+                UnitSubtype unitSubtype = new UnitSubtype();
+                unitSubtype.setUnitSubtypeCode(newUnit.getUnitSubtypeCode());
+                oldUnit.setUnitSubtype(unitSubtype);
+                unitSubtype.addUnit(oldUnit);
+            }
+            if (newUnit.getAreaCode() != null) {
+                AreaMasterDetail areaMasterDetail = new AreaMasterDetail();
+                areaMasterDetail.setAreaCode(newUnit.getAreaCode());
+                oldUnit.setAreaMasterDetail(areaMasterDetail);
+                areaMasterDetail.addUnit(oldUnit);
+            }
             return unitRepository.save(oldUnit);
         }).orElseThrow(() -> new RuntimeException("Unit not found"));
     }
