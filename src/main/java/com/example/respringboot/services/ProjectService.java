@@ -16,7 +16,7 @@ public interface ProjectService {
     ProjectCommand saveProjectCommand(ProjectCommand command);
 
 
-    ProjectCommand updatePC( Long l);
+//    ProjectCommand updatePC( Long l);
 
     Project updateProject(Project newProject, Long l);
 

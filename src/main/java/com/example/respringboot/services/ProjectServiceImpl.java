@@ -71,16 +71,16 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
-    @Override
-    @Transactional
-    public ProjectCommand updatePC(Long l) {
-
-        ProjectCommand projectCommand = findProjectCommandById(l);
-        log.debug(projectCommand.getProjectDescription());
-        Project detachedProject = projectCommandToProject.convert(projectCommand);
-        Project savedProject = projectRepository.save(detachedProject);
-        return projectToProjectCommand.convert(savedProject);
-    }
+//    @Override
+//    @Transactional
+//    public ProjectCommand updatePC(Long l) {
+//
+//        ProjectCommand projectCommand = findProjectCommandById(l);
+//        log.debug(projectCommand.getProjectDescription());
+//        Project detachedProject = projectCommandToProject.convert(projectCommand);
+//        Project savedProject = projectRepository.save(detachedProject);
+//        return projectToProjectCommand.convert(savedProject);
+//    }
 
     @Override
     @Synchronized
