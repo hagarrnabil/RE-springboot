@@ -23,7 +23,7 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
-public class ProjectServiceImpl implements ProjectService{
+public class ProjectServiceImpl implements ProjectService {
     private final ProjectToProjectCommand projectToProjectCommand;
     private final ProjectCommandToProject projectCommandToProject;
     private final ProjectRepository projectRepository;
@@ -72,25 +72,18 @@ public class ProjectServiceImpl implements ProjectService{
 
     }
 
-//    @Override
-//    @Transactional
-//    public ProjectCommand updatePC(Long l) {
-//
-//        ProjectCommand projectCommand = findProjectCommandById(l);
-//        log.debug(projectCommand.getProjectDescription());
-//        Project detachedProject = projectCommandToProject.convert(projectCommand);
-//        Project savedProject = projectRepository.save(detachedProject);
-//        return projectToProjectCommand.convert(savedProject);
-//    }
 
     @Override
-    public Project updateProject(Project newProject, Long projectCode){
+    public Project updateProject(Project newProject, Long projectCode) {
 
         return projectRepository.findById(projectCode).map(oldProject -> {
-            if (newProject.getProjectId() != oldProject.getProjectId()) oldProject.setProjectId(newProject.getProjectId());
-            if (newProject.getProjectDescription() != oldProject.getProjectDescription()) oldProject.setProjectDescription(newProject.getProjectDescription());
+            if (newProject.getProjectId() != oldProject.getProjectId())
+                oldProject.setProjectId(newProject.getProjectId());
+            if (newProject.getProjectDescription() != oldProject.getProjectDescription())
+                oldProject.setProjectDescription(newProject.getProjectDescription());
             if (newProject.getProfit() != oldProject.getProfit()) oldProject.setProfit(newProject.getProfit());
-            if (newProject.getValidFrom() != oldProject.getValidFrom()) oldProject.setValidFrom(newProject.getValidFrom());
+            if (newProject.getValidFrom() != oldProject.getValidFrom())
+                oldProject.setValidFrom(newProject.getValidFrom());
             if ((newProject.getCompanyCode() != null)) {
                 Company company = new Company();
                 company.setCompanyCode(newProject.getCompanyCode());
