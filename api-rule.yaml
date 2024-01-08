@@ -7,7 +7,7 @@ metadata:
   namespace: dev
 spec:
   gateway: kyma-gateway.kyma-system.svc.cluster.local
-  host: dev.c15b19b.kyma.ondemand.com
+  host: dev.c-8339c63.kyma.ondemand.com
   service:
     name: dev
     port: 8080
